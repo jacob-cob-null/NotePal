@@ -5,12 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
   </head>
-  <body class="bg-blue-100 flex justify-center items-center h-screen">
+  <body class="bg-gray-400 flex justify-center items-center h-screen">
     <div
-      class="bg-amber-100 border-3 border-black rounded-3xl shadow-2xl p-4 flex h-200 w-200 flex-col justify-center items-center"
+      class="bg-white rounded-3xl shadow-2xl p-4 flex justify-center items-center h-[500px] w-[500px]"
     >
-      <h1 class="text-4xl">Login</h1>
+      <form class="flex flex-col w-full max-w-sm justify-center gap-4">
+        <h1 class="text-6xl font-bold text-center">Login</h1>
+
+        <label for="email">Username</label>
+        <input
+          class="bg-gray-100 p-2 border-2 border-gray-300 rounded-[10px] hover:brightness-95"
+          type="email"
+          placeholder="Type your email"
+          id="email"
+          name="email"
+          required
+        />
+
+        <label for="password">Password</label>
+        <input
+          class="bg-gray-100 p-2 border-2 border-gray-300 rounded-[10px] hover:brightness-95"
+          type="password"
+          placeholder="Type your password"
+          id="password"
+          name="password"
+          required
+        />
+        <button id="submit" class="bg-orange-600 h-14 text-white rounded-lg">
+          Sign In
+        </button>
+        <h1 class="text-[20px] mt-4 text-center">New User? Register Here</h1>
+
+        <div class="flex flex-row p-2 gap-4">
+          <button class="bg-blue-600 h-10 flex-1 text-white rounded-lg">
+            Google
+          </button>
+          <button class="bg-blue-600 h-10 flex-1 text-white rounded-lg">
+            Facebook
+          </button>
+        </div>
+      </form>
     </div>
+
     <script type="module" src="/src/login/login.js"></script>
   </body>
 </html>
