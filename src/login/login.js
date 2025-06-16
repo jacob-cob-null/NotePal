@@ -5,6 +5,10 @@ import { auth } from '../Firebase/setup.js'; // ✅ Import the auth instance
 
 const submitBtn = document.getElementById('submit');
 
+//TO DO:::: refactor and transfer to auth.js
+//TO DO:::: add create account logic
+//TO DO:::: add dynamic content for sign up and registration function
+
 submitBtn.addEventListener('click', function (event) {
   event.preventDefault();
 
@@ -20,19 +24,3 @@ submitBtn.addEventListener('click', function (event) {
       alert(`Login failed: ${error.message}`);
     });
 });
-
-//create account
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-
-const auth = getAuth();
-createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed up
-    const user = userCredential.user;
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // ..
-  });
