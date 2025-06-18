@@ -26,7 +26,7 @@ function updateHeader(text) {
   header.innerHTML = '';
   const h = document.createElement('div');
   h.textContent = text;
-  h.className = 'text-5xl font-bold font-head mb-4';
+  h.className = 'text-5xl font-bold font-head mb-4  motion-translate-x-in-[0%] motion-translate-y-in-[50%] motion-blur-in-[10px]';
   header.classList.add('p-12', 'gap-2');
   header.appendChild(h);
 }
@@ -42,7 +42,7 @@ function addForm(btnName) {
       <input class=" h-12 w-90 bg-gray-100 p-2 border-2 border-gray-300 rounded-[10px] hover:brightness-95"
              type="password" placeholder="Type your password" id="password" name="password" required />
 
-      <button id="submit" class="bg-white outline-1 rounded-[10px] shadow-md h-12 mb-5 hover:brightness-95 transition">
+      <button id="submit" class="bg-white outline-1 rounded-[10px] shadow-md h-12 mb-5 hover:brightness-95 active:scale-95 active:translate-y-[2px] transition">
         ${btnName}
       </button>
     </form>
