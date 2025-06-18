@@ -1,40 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-  </head>
-  <body class="bg-gray-400 flex justify-center items-center h-screen">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+  <title>NotePal</title>
+</head>
+
+<body>
+  <div
+    class="flex justify-center items-center absolute inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
     <div
-      class="bg-white rounded-3xl shadow-2xl p-4 flex justify-center items-center h-[500px] w-[500px]"
-    >
-      <form class="flex flex-col w-full max-w-sm justify-center gap-4">
-        <h1 class="text-6xl font-bold text-center">Login</h1>
+      class="bg-[url(/loginBG.gif)] bg-contain rounded-3xl shadow-2xl p-0 grid grid-cols-3 h-[500px] w-[800px] overflow-clip">
+      <div class="bg-white rounded-r-3xl col-span-2  flex justify-center items-center" >
+        <div class="flex flex-col justify-center items-center p-5 gap-3" id="header">
+          <span class="flex gap-2 items-center">
+          <h1 class="text-7xl font-bold font-head">NotePal</h1>
+          <i class='bx  bx-edit-alt text-6xl' style='color:#000000'></i>
+        </span>
 
-        <label for="email">Username</label>
-        <input
-          class="bg-gray-100 p-2 border-2 border-gray-300 rounded-[10px] hover:brightness-95"
-          type="email"
-          placeholder="Type your email"
-          id="email"
-          name="email"
-          required
-        />
-
-        <label for="password">Password</label>
-        <input
-          class="bg-gray-100 p-2 border-2 border-gray-300 rounded-[10px] hover:brightness-95"
-          type="password"
-          placeholder="Type your password"
-          id="password"
-          name="password"
-          required
-        />
-        <button id="submit" class="bg-orange-600 h-14 text-white rounded-lg">
-          Sign In
+        <h3 class="text-2xl font-body m-2.5 pb-12">Note taking made easy</h3>
+        <button class="bg-white outline-1 rounded-[10px] shadow-md h-[50px] w-[150px] mt-10 hover:brightness-95 transition">
+          <h2 class="text-black text-2xl font-body" id="signin">Sign In</h2>
         </button>
-        <h1 class="text-[20px] mt-4 text-center">New User? Register Here</h1>
+           <h2>New to NotePal? <span id="register">Register Here </span></h2>
+      </div>
+        </div>
+        
+      <div class="bg-none"></div>
+
+      <!-- <h1 class="text-[20px] mt-4 text-center">New User? Register Here</h1>
 
         <div class="flex flex-row p-2 gap-4">
           <button class="bg-blue-600 h-10 flex-1 text-white rounded-lg">
@@ -42,11 +38,12 @@
           </button>
           <button class="bg-blue-600 h-10 flex-1 text-white rounded-lg">
             Facebook
-          </button>
-        </div>
-      </form>
-    </div>
+          </button> -->
+    <!-- </div>
+    </form> -->
+  </div>
+  </div>
+  <script type="module" src="/src/login/login.js" defer></script>
+</body>
 
-    <script type="module" src="/src/login/login.js"></script>
-  </body>
 </html>

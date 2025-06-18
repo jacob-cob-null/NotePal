@@ -1,6 +1,7 @@
+// src/Firebase/setup.js
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-import { getAuth } from 'firebase/auth'; // ✅ Add this line
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB-xggrQxhX8FxJ5dLMyqCYCWN3YtNINtA',
@@ -12,11 +13,9 @@ const firebaseConfig = {
   measurementId: 'G-S3FCXYRXCH',
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-
-// ✅ Initialize Auth and export it
 const auth = getAuth(app);
 
-export { auth }; // ✅ Export the auth instance
+// ✅ Use named exports instead of default
+export { app, analytics, auth };

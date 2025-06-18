@@ -1,4 +1,4 @@
 import './style.css';
-import app from './Firebase/setup.js';
 
-console.log('Firebase App:', app);
+window.location.href = './src/login/login.html';
+
