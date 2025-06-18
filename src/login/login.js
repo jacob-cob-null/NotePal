@@ -6,17 +6,20 @@ const submitBtn = document.getElementById('submit');
 const signin = document.getElementById('signin');
 const header = document.getElementById('header');
 const register = document.getElementById('register');
+
 //change to sign in
 signin.addEventListener('click', () => {
   updateHeader('Sign In');
   addForm('Sign In');
-  submitElement(loginWithEmail, 'Successfuly Signed In')
+  submitElement(loginWithEmail, 'Successfuly Signed In');
+  updateAuthTip(false)
 });
 //change to registration
 register.addEventListener('click', () => {
   updateHeader('Create Account');
   addForm('Register Account');
-  submitElement(createAccount, 'Account Created Successfuly')
+  submitElement(createAccount, 'Account Created Successfuly');
+  updateAuthTip(true);
 });
 
 function updateHeader(text) {
@@ -24,7 +27,7 @@ function updateHeader(text) {
   const h = document.createElement('div');
   h.textContent = text;
   h.className = 'text-5xl font-bold font-head mb-4';
-  header.classList.add('p-12','gap-2');
+  header.classList.add('p-12', 'gap-2');
   header.appendChild(h);
 }
 function addForm(btnName) {
@@ -43,7 +46,7 @@ function addForm(btnName) {
         ${btnName}
       </button>
     </form>
-    <h2 class="mt-2">New to NotePal? <span id="register">Register Here </span></h2>
+   
   `;
   header.appendChild(form);
 
@@ -65,4 +68,29 @@ function submitElement(callback, msg) {
     }
   });
 }
-//register element
+function updateAuthTip(isRegistering) {
+  const prompt = document.createElement('h2');
+  prompt.className = 'mt-2';
+
+  const isLogin = !isRegistering;
+  const actionText = isLogin ? 'Register here' : 'Sign in here';
+  const toggleId = isLogin ? 'register' : 'signin';
+  const message = isLogin
+    ? 'New to NotePal?'
+    : 'Already have an account?';
+
+  prompt.innerHTML = `${message} <span id="${toggleId}" class="text-orange-600 cursor-pointer">${actionText}</span>`;
+  header.append(prompt);
+
+  // Set listener
+  document.getElementById(toggleId)?.addEventListener('click', () => {
+    const isNowRegistering = isLogin;
+    updateHeader(isNowRegistering ? 'Create Account' : 'Sign In');
+    addForm(isNowRegistering ? 'Register Account' : 'Sign In');
+    submitElement(
+      isNowRegistering ? createAccount : loginWithEmail,
+      isNowRegistering ? 'Account Created Successfully' : 'Successfully Signed In'
+    );
+    updateAuthTip(isNowRegistering);
+  });
+}
