@@ -1,27 +1,33 @@
 import '../style.css';
-import { loginWithEmail } from '../Firebase/auth';
+import { loginWithEmail, createAccount } from '../Firebase/auth';
 
 // Elements
 const submitBtn = document.getElementById('submit');
 const signin = document.getElementById('signin');
 const header = document.getElementById('header');
-
+const register = document.getElementById('register');
 //change to sign in
 signin.addEventListener('click', () => {
   updateHeader('Sign In');
-  addForm();
+  addForm('Sign In');
+  submitElement(loginWithEmail, 'Successfuly Signed In')
 });
-
+//change to registration
+register.addEventListener('click', () => {
+  updateHeader('Create Account');
+  addForm('Register Account');
+  submitElement(createAccount, 'Account Created Successfuly')
+});
 
 function updateHeader(text) {
   header.innerHTML = '';
   const h = document.createElement('div');
   h.textContent = text;
-  h.className = 'text-6xl font-bold font-head mb-4';
+  h.className = 'text-5xl font-bold font-head mb-4';
   header.classList.add('p-12','gap-2');
   header.appendChild(h);
 }
-function addForm() {
+function addForm(btnName) {
   const form = document.createElement('div');
   form.innerHTML = `
     <form class="flex flex-col w-full max-w-sm justify-center gap-4" id="login-form">
@@ -34,16 +40,15 @@ function addForm() {
              type="password" placeholder="Type your password" id="password" name="password" required />
 
       <button id="submit" class="bg-white outline-1 rounded-[10px] shadow-md h-12 mb-5 hover:brightness-95 transition">
-        Sign In
+        ${btnName}
       </button>
     </form>
     <h2 class="mt-2">New to NotePal? <span id="register">Register Here </span></h2>
   `;
   header.appendChild(form);
-  submitElement()
 
 }
-function submitElement() {
+function submitElement(callback, msg) {
   const submitBtn = document.getElementById('submit');
   submitBtn.addEventListener('click', async (e) => {
     e.preventDefault();
@@ -52,11 +57,12 @@ function submitElement() {
     const password = document.getElementById('password').value;
 
     try {
-      await loginWithEmail(email, password);
-      alert('Logged in!');
+      await callback(email, password);
+      alert(msg);
       window.location.href = '../dashboard/dashboard.html';
     } catch (err) {
       alert(`Login failed: ${err.message}`);
     }
   });
 }
+//register element
