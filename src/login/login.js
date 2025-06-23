@@ -62,6 +62,7 @@ function submitElement(callback, msg) {
 
     try {
       const user = await callback(email, password); //returns user
+      userStore.setUser(user)
       alert(`${msg}, Welcome ${user.uid}`);
       window.location.href = '../dashboard/dashboard.html';
     } catch (err) {
@@ -69,6 +70,28 @@ function submitElement(callback, msg) {
     }
   });
 }
+//set and get user
+export const userStore = (() => {
+  let user = null;
+
+  function setUser(userCredential) {
+    user = userCredential;
+    sessionStorage.setItem('userUID', userCredential.uid);
+  }
+
+  function getUser() {
+   if (!user) {
+      const uid = sessionStorage.getItem('userUID');
+      if (uid) {
+        user = { uid };
+      }
+    }
+    return user;
+  }
+  return { setUser, getUser }
+
+})();
+
 
 function updateAuthTip(isRegistering) {
   const prompt = document.createElement('h2');
