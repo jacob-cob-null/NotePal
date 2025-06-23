@@ -51,6 +51,7 @@ function addForm(btnName) {
   header.appendChild(form);
 
 }
+//takes login or register method as param
 function submitElement(callback, msg) {
   const submitBtn = document.getElementById('submit');
   submitBtn.addEventListener('click', async (e) => {
@@ -60,14 +61,15 @@ function submitElement(callback, msg) {
     const password = document.getElementById('password').value;
 
     try {
-      await callback(email, password);
-      alert(msg);
+      const user = await callback(email, password); //returns user
+      alert(`${msg}, Welcome ${user.uid}`);
       window.location.href = '../dashboard/dashboard.html';
     } catch (err) {
       alert(`Login failed: ${err.message}`);
     }
   });
 }
+
 function updateAuthTip(isRegistering) {
   const prompt = document.createElement('h2');
   prompt.className = 'mt-2';
