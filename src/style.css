@@ -2,16 +2,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap');
 @import 'tailwindcss';
 
-
 @plugin "tailwindcss-motion";
 
 @layer components {
-    
+}
+@layer utilities {
+  .collapsed {
+    @apply grid-cols-[90px_1fr];
+  }
+  .uncollapsed {
+    @apply grid-cols-[280px_1fr];
+  }
 }
 @theme {
-    --font-head: Poppins, "sans-serif";
-    --font-body: Sofia Sans, "sans-serif";
-    --color-main: #0D3B66;
-    --color-secondary: #DCEDFF;
-    --color-accent: #F97924;
+  --font-head: Poppins, 'sans-serif';
+  --font-body: Sofia Sans, 'sans-serif';
+  --color-main: #0d3b66;
+  --color-secondary: #dcedff;
+  --color-accent: #f97924;
 }
