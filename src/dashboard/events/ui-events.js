@@ -1,4 +1,4 @@
-export function initEvents({ mainWindow, toggleIcon, noteGroup, menuText, menuHead, line}) {
+export function initEvents({ mainWindow, toggleIcon, noteGroup, menuText, menuHead, line }) {
   setupToggleMenu({
     toggleIcon: toggleIcon,
     mainWindow: mainWindow,
@@ -11,9 +11,10 @@ export function initEvents({ mainWindow, toggleIcon, noteGroup, menuText, menuHe
 
 function setupToggleMenu({ toggleIcon, mainWindow, noteGroup, menuText, menuHead, line }) {
   toggleIcon?.addEventListener('click', () => {
-    toggleIcon?.classList.toggle('rotate-540');
+    toggleIcon?.classList.toggle('rotate--180-icon');
+    toggleIcon?.classList.toggle('rotate-180-icon');
     mainWindow?.classList.toggle('collapsed');
-    mainWindow?.classList.toggle('uncollapsed'); 
+    mainWindow?.classList.toggle('uncollapsed');
     noteGroup?.classList.toggle('hidden');
     Array.from(menuText ?? []).forEach(el => el.classList.toggle('hidden'));
     Array.from(menuHead ?? []).forEach(el => el.classList.toggle('hidden'));

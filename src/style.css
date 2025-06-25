@@ -6,13 +6,15 @@
 
 @layer components {
   .menu-item {
-    @apply flex flex-row p-0 m-0 items-center justify-center gap-4;
+    @apply  bg-gray-100 rounded-md outline-none px-2 py-1 w-full flex flex-row p-0 m-0 items-center justify-start gap-4 cursor-pointer;
   }
 
   .menu-text {
     @apply text-4xl font-body text-gray-500;
   }
 }
+
+  
 
 @layer utilities {
   .collapsed {
@@ -21,6 +23,24 @@
 
   .uncollapsed {
     @apply grid-cols-[280px_1fr];
+  }
+  .dark-hover-active {
+    @apply hover:bg-gray-200 active:brightness-90 transition ease-in-out;
+  }
+  .x-hover {
+    
+  }
+  .slide-right {
+    @apply motion-translate-x-in-[-30%] motion-translate-y-in-[0%]
+  }
+  .slide-left {
+    @apply motion-translate-x-in-[30%] motion-translate-y-in-[0%]
+  }
+  .rotate-180-icon {
+    @apply motion-rotate-in-[540deg]
+  }
+  .rotate--180-icon{
+    @apply motion-rotate-in-[-180deg]
   }
 }
 

@@ -18,25 +18,24 @@
       <!--Menu-->
       <section class="col-span-1 bg-gray-100 flex flex-col p-6 gap-6 h-full overflow-hidden justify-start items-start">
         <div class="flex justify-start items-center p-0 mb-4 gap-3">
-          <h1 class="text-6xl font-head text-gray-600 menu">Menu</h1>
-          <i id="toggleIcon" class="bx bx-arrow-left text-7xl text-gray-600 -ml-4"></i>
+          <h1 class="text-6xl font-head text-gray-600 menu slide-right">Menu</h1>
+          <i id="toggleIcon" class="bx bx-arrow-left text-7xl text-gray-600 -ml-4 slide-left"></i>
         </div>
-
-        <a class="menu-item" href="#">
+        <div class="menu-item slide-right dark-hover-active" href="#" >
           <i class="bx bx-check-square text-4xl text-gray-500"></i>
-          <h1 class="menu-text">Tasks</h1>
-        </a>
-        <div class="menu-item">
-          <i class="bx bx-note-book text-4xl text-gray-500"></i>
-          <h1 class="menu-text">Notes</h1>
+          <h1 class="menu-text slide-left">Tasks</h1>
         </div>
-        <a class="menu-item" href="#">
+        <div class="menu-item slide-right dark-hover-active">
+          <i class="bx bx-note-book text-4xl text-gray-500"></i>
+          <h1 class="menu-text slide-left">Notes</h1>
+        </div>
+        <div class="menu-item slide-right dark-hover-active" href="#">
           <i class="bx bx-calendar-alt text-4xl text-gray-500"></i>
-          <h1 class="menu-text">Calendar</h1>
-        </a>
+          <h1 class="menu-text slide-left">Calendar</h1>
+        </div>
         <hr id="line" class="w-48 h-1 border-0 rounded-sm md:my-10 dark:bg-gray-500">
         <!--Note groups-->
-        <div id="noteGroup" class="flex flex-col gap-2.5 justify-baseline items-start overflow-y-scroll h-80">
+        <div id="noteGroup" class="flex flex-col gap-2.5 justify-baseline items-start overflow-y-scroll h-80 slide-right">
           <h1 class="flex font-body items-center justify-center rounded-xl bg-amber-200 h-10 w-52 text-center">
             School
           </h1>
@@ -50,6 +49,7 @@
     <footer class="bg-gray-300"></footer>
   </main>
   <script type="module" src="./dashboard.js" defer></script>
+  
 </body>
 
 </html>
