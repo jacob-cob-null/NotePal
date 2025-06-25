@@ -17,6 +17,7 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "firebase": "^11.9.1"
+    "firebase": "^11.9.1",
+    "marked": "^15.0.12"
   }
 }

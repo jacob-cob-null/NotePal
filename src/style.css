@@ -16,6 +16,9 @@
   .note-group {
     @apply flex font-body items-center justify-center rounded-xl bg-gray-200 h-10 w-52 text-center
   }
+  .header {
+    @apply font-head text-5xl text-gray-700;
+  }
 }
 
 

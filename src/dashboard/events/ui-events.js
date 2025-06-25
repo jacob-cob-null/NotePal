@@ -44,6 +44,9 @@ function eventMenuItems({ tasksMenu, notesMenu, calendarMenu }) {
   });
   notesMenu.addEventListener('click', () => {
     workspace_title.innerText = "Notes";
+
+
+    
   });
   calendarMenu.addEventListener('click', () => {
     workspace_title.innerText = "Calendar";

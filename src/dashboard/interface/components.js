@@ -4,6 +4,8 @@ import '../../style.css';
 export const workspace_title = document.getElementById('workspace_title')
 //workspace
 export const workspace = document.getElementById('workspace');
+export const mainWorkspace = document.getElementById('mainWorkspace');
+export const workspaceHeader = document.getElementById('workspaceHeader');
 
 export function initMenuComponents() {
   const mainWindow = document.getElementById('mainWindow');

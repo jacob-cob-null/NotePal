@@ -21,7 +21,7 @@
           <h1 class="text-6xl font-head text-gray-600 menu slide-right">Menu</h1>
           <i id="toggleIcon" class="bx bx-arrow-left text-7xl text-gray-600 -ml-4 slide-left"></i>
         </div>
-        <div id="tasks" class="menu-item slide-right dark-hover-active" href="#" >
+        <div id="tasks" class="menu-item slide-right dark-hover-active" href="#">
           <i class="bx bx-check-square text-4xl text-gray-500"></i>
           <h1 class="menu-text slide-left">Tasks</h1>
         </div>
@@ -35,7 +35,8 @@
         </div>
         <hr id="line" class="w-48 h-1 border-0 rounded-sm md:my-10 dark:bg-gray-500">
         <!--Note groups-->
-        <div id="noteGroup" class="flex flex-col gap-2.5 justify-baseline items-start overflow-y-scroll h-80 slide-right">
+        <div id="noteGroup"
+          class="flex flex-col gap-2.5 justify-baseline items-start overflow-y-scroll h-80 slide-right">
           <h1 class="note-group">
             School
           </h1>
@@ -45,15 +46,20 @@
 
       <!--Workspace-->
       <section class="bg-white h-full w-full">
-        <section id="workspace" class="bg-white h-full w-full p-8">
-          <h1 id="workspace_title" class="font-head text-5xl text-gray-700">Title</h1>
+        <section id="workspace" class="bg-white h-full w-full p-8 pb-20">
+          <div id="workspaceHeader" class="flex flex-row justify-start items-center gap-6">
+            <h1 id="workspace_title" class="header">Title</h1>
+          </div>
+          <div id="mainWorkspace" class="h-full w-full p-6 mt-4 bg-gray-100 shadow-inner overflow-y-scroll rounded-3xl">
+         <h1>HELLO</h1>
+          </div>
         </section>
       </section>
     </section>
-    <footer class="bg-gray-300"></footer>
+    <footer class="bg-gray-400"></footer>
   </main>
   <script type="module" src="./dashboard.js" defer></script>
-  
+
 </body>
 
 </html>
