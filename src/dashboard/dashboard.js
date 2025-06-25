@@ -1,4 +1,7 @@
 import '../style.css';
 import { userStore } from '../login/login.js';
+import { initMenuComponents } from './interface/components.js';
+import { initEvents } from './events/ui-events.js';
 
-console.log(userStore.getUser());
+const menuComponents = initMenuComponents();
+initEvents(menuComponents);
