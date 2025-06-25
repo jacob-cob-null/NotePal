@@ -1,5 +1,10 @@
 import '../../style.css';
 
+//workspace heading
+export const workspace_title = document.getElementById('workspace_title')
+//workspace
+export const workspace = document.getElementById('workspace');
+
 export function initMenuComponents() {
   const mainWindow = document.getElementById('mainWindow');
   const toggleIcon = document.getElementById('toggleIcon');

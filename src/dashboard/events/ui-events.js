@@ -1,3 +1,5 @@
+import { workspace_title } from "../interface/components";
+
 export function initEvents({ mainWindow, toggleIcon, noteGroup, menuText, menuHead, line }) {
   setupToggleMenu({
     toggleIcon: toggleIcon,
@@ -15,9 +17,41 @@ function setupToggleMenu({ toggleIcon, mainWindow, noteGroup, menuText, menuHead
     toggleIcon?.classList.toggle('rotate-180-icon');
     mainWindow?.classList.toggle('collapsed');
     mainWindow?.classList.toggle('uncollapsed');
-    noteGroup?.classList.toggle('hidden');
-    Array.from(menuText ?? []).forEach(el => el.classList.toggle('hidden'));
+    noteGroup?.classList.toggle('invisible');
+    Array.from(menuText ?? []).forEach(el => el.classList.toggle('invisible'));
     Array.from(menuHead ?? []).forEach(el => el.classList.toggle('hidden'));
-    line?.classList.toggle('hidden');
+    line?.classList.toggle('invisible');
   });
 }
+
+//init menuItems
+function initMenuItems() {
+  const tasksMenu = document.getElementById('tasks');
+  const notesMenu = document.getElementById('notes');
+  const calendarMenu = document.getElementById('calendar');
+
+   console.log({ tasksMenu, notesMenu, calendarMenu });
+  return {
+    tasksMenu,
+    notesMenu,
+    calendarMenu
+  };
+}
+//add functions to dynamically change workspace content
+function eventMenuItems({ tasksMenu, notesMenu, calendarMenu }) {
+  tasksMenu.addEventListener('click', () => {
+    workspace_title.innerText = "Tasks";
+  });
+  notesMenu.addEventListener('click', () => {
+    workspace_title.innerText = "Notes";
+  });
+  calendarMenu.addEventListener('click', () => {
+    workspace_title.innerText = "Calendar";
+  });
+}
+//attach events and export to dashboard js
+export function attachMenuEvents() {
+  const items = initMenuItems();
+  eventMenuItems(items);
+}
+
