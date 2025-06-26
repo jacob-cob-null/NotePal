@@ -1,7 +1,9 @@
 import '../../../style.css';
 import { marked } from 'marked';
-import { mainWorkspace, workspace, workspaceHeader } from '../components';
-import { msgAlert } from '../../events/alerts';
+import { mainWorkspace, workspace, workspaceHeader, noteGroup } from '../components';
+import { msgAlert, noteGroupModal } from '../../events/alerts';
+import { addNoteGroupList, saveNoteGroupsToLocalStorage } from './notes-obj';
+
 
 //initialize notes components
 export function renderNoteComponents() {
@@ -11,6 +13,7 @@ export function renderNoteComponents() {
     createBtn.textContent = 'New Note';
     createBtn.classList.add('h-10', 'w-26', 'bg-accent', 'rounded-xl', 'text-white', 'font-head');
     createBtn.setAttribute('id', 'createBtn');
+
     let createFolderBtn = document.createElement('button');
     createFolderBtn.textContent = 'New Folder';
     createFolderBtn.classList.add('h-10', 'w-26', 'bg-accent', 'rounded-xl', 'text-white', 'font-head');
@@ -32,8 +35,14 @@ export function noteEvents() {
     createBtn.addEventListener('click', () => {
         createNote();
     })
-    createFolderBtn.addEventListener('click', () => {
-        msgAlert("New Folder Created")
+    createFolderBtn.addEventListener('click', async () => {
+        try {
+            await addFolder();
+            msgAlert("Folder Created");
+        }
+        catch {
+            msgAlert("Folder Not Created");
+        }
     });
 }
 
@@ -44,4 +53,19 @@ function createNote() {
     const form = document.createElement('form');
     form.classList.add('flex', 'flex-col', 'gap-5', 'items-start')
 
+}
+async function addFolder() {
+    const input = await noteGroupModal();
+    if (input) {
+        createFolder(input.folderName, input.color, noteGroup)
+        addNoteGroupList(input);
+        console.log(input);
+        saveNoteGroupsToLocalStorage(); 
+    }
+}
+export function createFolder(folderName, color, targetAppend) {
+    let newFolder = document.createElement('div');
+    newFolder.classList.add('note-group', `${color}`);
+    newFolder.textContent = folderName;
+    targetAppend.append(newFolder);
 }
