@@ -1,7 +1,7 @@
 import '../../../style.css';
 import { marked } from 'marked';
 import { mainWorkspace, workspace, workspaceHeader } from '../components';
-
+import { msgAlert } from '../../events/alerts';
 
 //initialize notes components
 export function renderNoteComponents() {
@@ -23,6 +23,7 @@ function renderNotes() {
 
 //render input for note creation
 function createNote() {
+    msgAlert("Note Created")
     mainWorkspace.innerHTML='';
     const form = document.createElement('form');
     form.classList.add('flex','flex-col','gap-5','items-start')

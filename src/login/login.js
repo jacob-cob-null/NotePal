@@ -1,5 +1,6 @@
 import '../style.css';
 import { loginWithEmail, createAccount } from '../Firebase/auth';
+import { successfulLogin, successfulRegistration, failedLogin } from '../dashboard/events/alerts';
 
 document.addEventListener('DOMContentLoaded', () => {
   const signin = document.getElementById('signin');
@@ -11,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     signin.addEventListener('click', () => {
       updateHeader('Sign In');
       addForm('Sign In');
-      submitElement(loginWithEmail, 'Successfully Signed In');
+      submitElement(loginWithEmail);
       updateAuthTip(false);
     });
   }
@@ -21,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     register.addEventListener('click', () => {
       updateHeader('Create Account');
       addForm('Register Account');
-      submitElement(createAccount, 'Account Created Successfully');
+      submitElement(createAccount);
       updateAuthTip(true);
     });
   }
@@ -66,7 +67,7 @@ function addForm(btnName) {
 }
 
 // Handles submit based on login or register
-function submitElement(callback, msg) {
+function submitElement(callback) {
   const submitBtn = document.getElementById('submit');
   if (!submitBtn) return;
 
@@ -79,10 +80,16 @@ function submitElement(callback, msg) {
     try {
       const user = await callback(email, password);
       userStore.setUser(user);
-      alert(`${msg}, Welcome ${user.uid}`);
-      window.location.href = '../dashboard/dashboard.html';
+      let userId = user.uid;
+      // alert(`${msg}, Welcome ${user.uid}`);
+      successfulLogin(userId);
+      setTimeout(() => {
+        window.location.href = '../dashboard/dashboard.html';
+      }, "2000");
+
     } catch (err) {
-      alert(`Login failed: ${err.message}`);
+      failedLogin()
+      // alert(`Login failed: ${err.message}`);
     }
   });
 }
