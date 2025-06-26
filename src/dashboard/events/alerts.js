@@ -21,9 +21,12 @@ export function successfulRegistration(name) {
         icon: "success"
     });
 }
+// reusable template for message popups
 export function msgAlert(msg){
     Swal.fire({
         title: msg,
-        position: 'top'
+        position: 'top',
+        timer: 800,
+        showConfirmButton: false,
     })
 }
