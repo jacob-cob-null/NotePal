@@ -1,28 +1,28 @@
-import { workspace_title, workspaceHeader, delFolderBtn, editFolderBtn } from "../interface/components";
+import { workspace_title, workspaceHeader, delFolderBtn, editFolderBtn, folderBtns } from "../interface/components";
 import { renderNoteComponents, noteEvents } from "../interface/notes/notes.render";
 import { folderEvents } from "../interface/notes/note-folder";
 
-export function initEvents({ mainWindow, toggleIcon, noteGroup, menuText, menuHead, line }) {
+export function initEvents({ mainWindow, toggleIcon, noteGroup, menuText, menu, line, folderBtns }) {
   setupToggleMenu({
     toggleIcon: toggleIcon,
     mainWindow: mainWindow,
     noteGroup: noteGroup,
     menuText: menuText,
-    menuHead: menuHead,
-    line: line
+    menu: menu,
+    line: line,
+    folderBtns: folderBtns
   });
 }
 
-function setupToggleMenu({ toggleIcon, mainWindow, noteGroup, menuText, menuHead, line }) {
+function setupToggleMenu({ toggleIcon, mainWindow, noteGroup, menuText, menu, line, folderBtns }) {
   toggleIcon?.addEventListener('click', () => {
-    toggleIcon?.classList.toggle('rotate--180-icon');
-    toggleIcon?.classList.toggle('rotate-180-icon');
+    toggleIcon?.classList.toggle('rotate-180');
     mainWindow?.classList.toggle('collapsed');
     mainWindow?.classList.toggle('uncollapsed');
     noteGroup?.classList.toggle('invisible');
     menu?.classList.toggle('invisible');
+    folderBtns?.classList.toggle('invisible');
     Array.from(menuText ?? []).forEach(el => el.classList.toggle('invisible'));
-    Array.from(menuHead ?? []).forEach(el => el.classList.toggle('hidden'));
     line?.classList.toggle('invisible');
   });
 }

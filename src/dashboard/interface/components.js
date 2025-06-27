@@ -11,20 +11,23 @@ export const noteGroup = document.getElementById('noteGroup');
 //Folder buttons
 export const editFolderBtn = document.getElementById('editFolderBtn');
 export const delFolderBtn = document.getElementById('delFolderBtn');
+export const folderBtns = document.getElementById('folderBtns');
 
 export function initMenuComponents() {
   const mainWindow = document.getElementById('mainWindow');
   const toggleIcon = document.getElementById('toggleIcon');
   const noteGroup = document.getElementById('noteGroup');
   const menuText = document.getElementsByClassName('menu-text');
-  const menu = document.getElementsByClassName('menu');
+  const menu = document.getElementById('menu');
   const line = document.getElementById('line')
+  const folderBtns = document.getElementById('folderBtns');
   return {
     mainWindow,
     toggleIcon,
     noteGroup,
     menuText,
     menu,
-    line
+    line,
+    folderBtns
   };
 }

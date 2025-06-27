@@ -55,14 +55,6 @@ body.swal2-shown {
   .slide-left {
     @apply motion-translate-x-in-[30%] motion-translate-y-in-[0%]
   }
-
-  .rotate-180-icon {
-    @apply motion-rotate-in-[540deg]
-  }
-
-  .rotate--180-icon {
-    @apply motion-rotate-in-[-180deg]
-  }
 }
 
 @theme {
