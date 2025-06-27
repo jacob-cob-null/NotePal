@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="min-h-screen">
 
 <head>
   <meta charset="UTF-8" />
@@ -8,53 +8,74 @@
   <title>Dashboard</title>
 </head>
 
-<body class="h-screen w-screen overflow-hidden">
-  <main class="grid grid-rows-[65px_1fr_45px] h-full w-full">
-    <!--Navigartion Bar-->
+<body class="min-h-screen w-screen overflow-hidden font-sans bg-gray-200">
+  <main class="grid grid-rows-[65px_1fr_45px] min-h-screen w-full">
+
+    <!-- Navigation Bar -->
     <nav class="bg-white shadow-xl z-10"></nav>
 
-    <!--Main Window-->
-    <section id="mainWindow" class="grid uncollapsed bg-gray-200">
-      <!--Menu-->
-      <section class="col-span-1 bg-gray-100 flex flex-col p-6 gap-6 h-full overflow-hidden justify-start items-start">
-        <div class="flex justify-start items-center p-0 mb-4 gap-3">
-          <h1 class="text-6xl font-head text-gray-600 menu slide-right">Menu</h1>
-          <i id="toggleIcon" class="bx bx-arrow-left text-7xl text-gray-600 -ml-4 slide-left"></i>
-        </div>
-        <div id="tasks" class="menu-item slide-right dark-hover-active" href="#">
-          <i class="bx bx-check-square text-4xl text-gray-500"></i>
-          <h1 class="menu-text slide-left">Tasks</h1>
-        </div>
-        <div id="notes" class="menu-item slide-right dark-hover-active">
-          <i class="bx bx-note-book text-4xl text-gray-500"></i>
-          <h1 class="menu-text slide-left">Notes</h1>
-        </div>
-        <div id="calendar" class="menu-item slide-right dark-hover-active" href="#">
-          <i class="bx bx-calendar-alt text-4xl text-gray-500"></i>
-          <h1 class="menu-text slide-left">Calendar</h1>
-        </div>
-        <hr id="line" class="w-48 h-1 border-0 rounded-sm md:my-10 dark:bg-gray-500">
-        <!--Note groups-->
-        <div id="noteGroup"
-          class="flex flex-col gap-2.5 justify-baseline items-start overflow-y-scroll h-80 slide-right">
-        </div>
-      </section>
+    <!-- Main Window -->
+    <section id="mainWindow" class="grid uncollapsed bg-gray-200 overflow-hidden transition-all duration-300">
 
-      <!--Workspace-->
-      <section class="bg-white h-full w-full">
-        <section id="workspace" class="bg-white h-full w-full p-8 pb-20">
-          <div id="workspaceHeader" class="flex flex-row justify-start items-center gap-6">
-            <h1 id="workspace_title" class="header">Title</h1>
+      <!-- Sidebar Menu -->
+      <aside class="bg-gray-100 flex flex-col p-5 gap-1 shadow-inner overflow-hidden">
+        <div class="flex items-center gap-3 mb-4">
+
+          <i id="toggleIcon"
+            class="bx bx-arrow-left text-5xl text-gray-600 cursor-pointer transition-transform duration-300 shrink-0 z-20"></i>
+          <h1 id="menu" class="text-4xl font-head text-gray-600">Menu</h1>
+        </div>
+
+        <div id="tasks" class="menu-item dark-hover-active">
+          <i class="bx bx-check-square text-3xl text-gray-500"></i>
+          <h1 class="menu-text slide-right">Tasks</h1>
+        </div>
+
+        <div id="notes" class="menu-item dark-hover-active">
+          <i class="bx bx-note-book text-3xl text-gray-500"></i>
+          <h1 class="menu-text">Notes</h1>
+        </div>
+
+        <div id="calendar" class="menu-item dark-hover-active">
+          <i class="bx bx-calendar-alt text-3xl text-gray-500"></i>
+          <h1 class="menu-text">Calendar</h1>
+        </div>
+
+        <hr class="w-full h-[6px] my-6 bg-gray-400 border-none rounded-sm" />
+
+        <!-- Folder Buttons -->
+        <div id="folderButton" class="flex justify-center gap-2 mb-3">
+          <button class="button">Edit Folder</button>
+          <button class="button">Delete Folder</button>
+        </div>
+
+        <!-- Note Groups -->
+        <div id="noteGroup" class="flex flex-col gap-3 items-start overflow-y-auto h-[68%] pr-1">
+          <!-- Note folders will go here -->
+        </div>
+      </aside>
+
+      <!-- Workspace -->
+      <section class="bg-white p-8 overflow-hidden">
+        <div class="flex gap-6 items-center">
+          <h1 id="workspace_title" class="text-3xl font-bold text-gray-700 cursor-pointer">Title</h1>
+          <div id="workspaceHeader" class="flex items-center gap-6">
           </div>
-          <div id="mainWorkspace" class="h-full w-full p-6 mt-4 bg-gray-100 shadow-inner overflow-y-scroll rounded-3xl">
-         <h1>HELLO</h1>
-          </div>
-        </section>
+        </div>
+        <div id="mainWorkspace" class="p-6 mt-4 bg-gray-100 shadow-inner rounded-3xl overflow-auto"
+          style="max-height: calc(100vh - 65px - 45px - 6rem);">
+          <h1 class="text-2xl font-semibold text-gray-800">HELLO</h1>
+        </div>
       </section>
     </section>
-    <footer class="bg-gray-400"></footer>
+
+    <!-- Footer -->
+    <footer class="bg-gray-300 w-full p-2 text-center text-gray-700 font-head font-medium">
+      © 2025 NotePal. All rights reserved.
+    </footer>
   </main>
   <script type="module" src="./dashboard.js" defer></script>
+
 
 </body>
 
