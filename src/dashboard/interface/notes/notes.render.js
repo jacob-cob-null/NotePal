@@ -13,7 +13,7 @@ export function renderNoteComponents() {
     //create button
     let createBtn = document.createElement('button');
     createBtn.textContent = 'New Note';
-    createBtn.classList.add('button','bg-white');
+    createBtn.classList.add('button','bg-gray-50');
     createBtn.setAttribute('id', 'createBtn');
 
     let createFolderBtn = document.createElement('button');

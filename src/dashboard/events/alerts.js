@@ -96,7 +96,7 @@ export async function deleteFolderModal(tempArr) {
     });
 
     if (folderDel) {
-        Swal.fire(`You selected: ${folderDel}`);
+        Swal.fire(`${folderDel} folder has been Deleted`);
     }
     return folderDel;
 }
@@ -155,7 +155,8 @@ export async function editFolderModal(tempArr, folderList) {
         }
     });
 
-    if (newData) {
+    if (newData) {;
+                Swal.fire(`${selectedFolder} folder has been Updated`)
         return {
             oldName: selectedFolder,
             newName: newData.newName,

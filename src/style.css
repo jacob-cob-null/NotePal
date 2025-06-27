@@ -27,7 +27,7 @@ body.swal2-shown {
   }
 
   .button {
-    @apply h-8 w-30 text-gray-600 rounded-xl font-head shadow-md active:brightness-94 hover:brightness-97 transition ease-in-out
+    @apply h-8 min-w-30 text-gray-600 rounded-xl font-head shadow-md active:brightness-94 hover:brightness-97 transition ease-in-out
   }
 }
 
