@@ -1,5 +1,6 @@
-import { workspace_title, workspaceHeader } from "../interface/components";
+import { workspace_title, workspaceHeader, delFolderBtn, editFolderBtn } from "../interface/components";
 import { renderNoteComponents, noteEvents } from "../interface/notes/notes.render";
+import { folderEvents } from "../interface/notes/note-folder";
 
 export function initEvents({ mainWindow, toggleIcon, noteGroup, menuText, menuHead, line }) {
   setupToggleMenu({
@@ -58,9 +59,11 @@ function eventMenuItems({ tasksMenu, notesMenu, calendarMenu }) {
     workspaceHeader.innerHTML = "";
   });
 }
-//attach events and export to dashboard js
+
+
+//attach menu and folder events, export to dashboard js
 export function attachMenuEvents() {
   const items = initMenuItems();
   eventMenuItems(items);
+  folderEvents(editFolderBtn, delFolderBtn);
 }
-

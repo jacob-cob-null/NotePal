@@ -30,6 +30,7 @@ export function msgAlert(msg) {
         showConfirmButton: false,
     })
 }
+//new folder modal
 export async function noteGroupModal() {
     const { isConfirmed, value } = await Swal.fire({
         html: `
@@ -41,7 +42,7 @@ export async function noteGroupModal() {
         </label>
         <label style="cursor: pointer;">
           <input type="radio" name="color" value="bg-orange-300" style="display: none;">
-          <div class="color-circle" style="width: 40px; height: 40px; background-color: oklch(83.7% 0.128 66.29); border-radius: 50%; border: 2px solid #ccc;"></div>
+          <div class="color-circle" style="width: 40px; height: 40px; background-color: oklch(93.7% 0.128 66.29); border-radius: 50%; border: 2px solid #ccc;"></div>
         </label>
         <label style="cursor: pointer;">
           <input type="radio" name="color" value="bg-green-400" style="display: none;">
@@ -87,4 +88,20 @@ export async function noteGroupModal() {
     }
 
     return null;
+}
+//delete folder modal
+export async function deleteFolderModal(tempArr) {
+    const { value: folderDel } = await Swal.fire({
+        title: "Delete Folder",
+        input: "select",
+        inputOptions: tempArr,
+        inputPlaceholder: "Select Folder",
+        showCancelButton: true,
+    });
+
+    if (folderDel) {
+        Swal.fire(`You selected: ${folderDel}`);
+
+    }
+    return folderDel;
 }

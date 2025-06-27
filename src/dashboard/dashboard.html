@@ -20,7 +20,7 @@
       <!-- Sidebar Menu -->
       <aside class="bg-gray-100 flex flex-col p-5 gap-1 shadow-inner overflow-hidden">
         <div class="flex items-center gap-3 mb-4">
-
+          <!--Menu toggle-->
           <i id="toggleIcon"
             class="bx bx-arrow-left text-5xl text-gray-600 cursor-pointer transition-transform duration-300 shrink-0 z-20"></i>
           <h1 id="menu" class="text-4xl font-head text-gray-600">Menu</h1>
@@ -44,9 +44,9 @@
         <hr class="w-full h-[6px] my-6 bg-gray-400 border-none rounded-sm" />
 
         <!-- Folder Buttons -->
-        <div id="folderButton" class="flex justify-center gap-2 mb-3">
-          <button class="button">Edit Folder</button>
-          <button class="button">Delete Folder</button>
+        <div id="folderButton" class="flex justify-center gap-2 mb-6">
+          <button id="editFolderBtn" class="button bg-white">Edit Folder</button>
+          <button id="delFolderBtn" class="button bg-red-200">Delete Folder</button>
         </div>
 
         <!-- Note Groups -->
@@ -62,7 +62,7 @@
           <div id="workspaceHeader" class="flex items-center gap-6">
           </div>
         </div>
-        <div id="mainWorkspace" class="p-6 mt-4 bg-gray-100 shadow-inner rounded-3xl overflow-auto"
+        <div id="mainWorkspace" class="p-6 mt-4 mb-2 bg-gray-100 shadow-inner rounded-3xl h-full overflow-auto"
           style="max-height: calc(100vh - 65px - 45px - 6rem);">
           <h1 class="text-2xl font-semibold text-gray-800">HELLO</h1>
         </div>

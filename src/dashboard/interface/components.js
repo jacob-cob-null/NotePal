@@ -6,7 +6,11 @@ export const workspace_title = document.getElementById('workspace_title')
 export const workspace = document.getElementById('workspace');
 export const mainWorkspace = document.getElementById('mainWorkspace');
 export const workspaceHeader = document.getElementById('workspaceHeader');
-export const noteGroup = document.getElementById('noteGroup')
+//Menu
+export const noteGroup = document.getElementById('noteGroup');
+//Folder buttons
+export const editFolderBtn = document.getElementById('editFolderBtn');
+export const delFolderBtn = document.getElementById('delFolderBtn');
 
 export function initMenuComponents() {
   const mainWindow = document.getElementById('mainWindow');
