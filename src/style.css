@@ -19,7 +19,7 @@ body.swal2-shown {
   }
 
   .note-group {
-    @apply flex font-body items-center justify-center rounded-xl min-h-10 w-full text-center
+    @apply flex font-head items-center justify-center rounded-xl min-h-10 w-full text-center
   }
 
   .header {

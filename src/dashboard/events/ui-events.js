@@ -60,7 +60,6 @@ function eventMenuItems({ tasksMenu, notesMenu, calendarMenu }) {
   });
 }
 
-
 //attach menu and folder events, export to dashboard js
 export function attachMenuEvents() {
   const items = initMenuItems();

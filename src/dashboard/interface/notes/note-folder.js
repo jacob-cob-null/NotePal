@@ -1,6 +1,6 @@
 import { noteGroup } from "../components";
 import { createFolder } from "./notes.render";
-import { deleteFolderModal } from "../../events/alerts";
+import { deleteFolderModal, editFolderModal } from "../../events/alerts";
 
 let noteGroupList = [];
 
@@ -46,8 +46,11 @@ export function addNoteGroupList(input) {
 
 //attach listeners to folderEvents 
 export function folderEvents(edit, del) {
-  edit.addEventListener('click', () => {
-    //edit logic
+  edit.addEventListener('click', async () => {
+    const result = await editFolderModal(getFolderName(), noteGroupList);
+    if (result) {
+      editFolder(result);
+    }
   });
   del.addEventListener('click', async () => {
     const folderToDelete = await deleteFolderModal(getFolderName());
@@ -60,6 +63,18 @@ export function folderEvents(edit, del) {
 //remove list item
 export function removeFolder(folderToDelete) {
   noteGroupList = noteGroupList.filter(folder => folder.folderName !== folderToDelete);
+  saveNoteGroupsToLocalStorage();
+  refreshGroupUI();
+}
+
+//edit folder
+export function editFolder({ oldName, newName, newColor }) {
+  const folder = noteGroupList.find(f => f.folderName === oldName);
+  if (!folder) return;
+
+  folder.folderName = newName;
+  folder.color = newColor;
+
   saveNoteGroupsToLocalStorage();
   refreshGroupUI();
 }
