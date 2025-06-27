@@ -4,6 +4,11 @@
 
 @plugin "tailwindcss-motion";
 
+body.swal2-shown {
+  overflow: auto !important;
+  /* if it causes scroll locking */
+}
+
 @layer components {
   .menu-item {
     @apply bg-gray-100 rounded-md outline-none px-2 py-1 w-full flex flex-row p-0 m-0 items-center justify-start gap-4 cursor-pointer;
@@ -14,10 +19,15 @@
   }
 
   .note-group {
-    @apply flex font-body items-center justify-center rounded-xl h-10 w-52 text-center
+    @apply flex font-body items-center justify-center rounded-xl min-h-10 w-full text-center
   }
+
   .header {
     @apply font-head text-5xl text-gray-700;
+  }
+
+  .button {
+    @apply h-8 w-30 text-gray-600 rounded-xl font-head shadow-md active:brightness-90 hover:brightness-95 transition ease-in-out
   }
 }
 

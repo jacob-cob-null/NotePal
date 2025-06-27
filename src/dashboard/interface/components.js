@@ -13,14 +13,14 @@ export function initMenuComponents() {
   const toggleIcon = document.getElementById('toggleIcon');
   const noteGroup = document.getElementById('noteGroup');
   const menuText = document.getElementsByClassName('menu-text');
-  const menuHead = document.getElementsByClassName('menu');
+  const menu = document.getElementsByClassName('menu');
   const line = document.getElementById('line')
   return {
     mainWindow,
     toggleIcon,
     noteGroup,
     menuText,
-    menuHead,
+    menu,
     line
   };
 }

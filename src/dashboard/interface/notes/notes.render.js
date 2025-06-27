@@ -8,20 +8,26 @@ import { addNoteGroupList, saveNoteGroupsToLocalStorage } from './notes-obj';
 //initialize notes components
 export function renderNoteComponents() {
 
+    workspaceHeader.innerHTML="";
+
     //create button
     let createBtn = document.createElement('button');
     createBtn.textContent = 'New Note';
-    createBtn.classList.add('h-10', 'w-26', 'bg-accent', 'rounded-xl', 'text-white', 'font-head');
+    createBtn.classList.add('button');
     createBtn.setAttribute('id', 'createBtn');
 
     let createFolderBtn = document.createElement('button');
     createFolderBtn.textContent = 'New Folder';
-    createFolderBtn.classList.add('h-10', 'w-26', 'bg-accent', 'rounded-xl', 'text-white', 'font-head');
+    createFolderBtn.classList.add('button','bg-orange-100');
     createFolderBtn.setAttribute('id', 'createFolderBtn');
     workspaceHeader.append(createBtn);
     workspaceHeader.append(createFolderBtn);
 
-    return createBtn;
+    return {
+        createBtn,
+        createFolderBtn
+    };
+
 }
 //render notes
 function renderNotes() {
@@ -37,8 +43,10 @@ export function noteEvents() {
     })
     createFolderBtn.addEventListener('click', async () => {
         try {
-            await addFolder();
-            msgAlert("Folder Created");
+            if (await addFolder()) {
+                msgAlert("Folder Created");
+            }
+
         }
         catch {
             msgAlert("Folder Not Created");
@@ -48,10 +56,10 @@ export function noteEvents() {
 
 //render input for note creation
 function createNote() {
-    msgAlert("Note Created")
-    mainWorkspace.innerHTML = '';
-    const form = document.createElement('form');
-    form.classList.add('flex', 'flex-col', 'gap-5', 'items-start')
+    alert("Note Created");
+    // mainWorkspace.innerHTML = '';
+    // const form = document.createElement('form');
+    // form.classList.add('flex', 'flex-col', 'gap-5', 'items-start')
 
 }
 async function addFolder() {
@@ -60,7 +68,8 @@ async function addFolder() {
         createFolder(input.folderName, input.color, noteGroup)
         addNoteGroupList(input);
         console.log(input);
-        saveNoteGroupsToLocalStorage(); 
+        saveNoteGroupsToLocalStorage();
+        return true;
     }
 }
 export function createFolder(folderName, color, targetAppend) {
