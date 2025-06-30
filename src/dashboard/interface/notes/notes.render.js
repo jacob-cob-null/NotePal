@@ -1,21 +1,21 @@
 import '../../../style.css';
 import { marked } from 'marked';
 import { mainWorkspace, workspace, workspaceHeader, noteGroup } from '../components';
-import { msgAlert, noteGroupModal } from '../../events/alerts';
-import { addNoteGroupList, saveNoteGroupsToLocalStorage } from './note-folder';
-
+import { msgAlert, newFolderModal } from '../../events/alerts';
+import { addFolder } from './notes-crud';
 
 //initialize notes components
 export function renderNoteComponents() {
 
     workspaceHeader.innerHTML="";
 
-    //create button
+    //create note button
     let createBtn = document.createElement('button');
     createBtn.textContent = 'New Note';
     createBtn.classList.add('button','bg-gray-50');
     createBtn.setAttribute('id', 'createBtn');
 
+    //create folder
     let createFolderBtn = document.createElement('button');
     createFolderBtn.textContent = 'New Folder';
     createFolderBtn.classList.add('button','bg-blue-100');
@@ -31,10 +31,8 @@ export function renderNoteComponents() {
 }
 //render notes
 function renderNotes() {
-
-
 }
-//render input for note update
+
 
 //events
 export function noteEvents() {
@@ -60,21 +58,4 @@ function createNote() {
     mainWorkspace.innerHTML = '';
     const form = document.createElement('form');
     form.classList.add('flex', 'flex-col', 'gap-5', 'items-start')
-
-}
-async function addFolder() {
-    const input = await noteGroupModal();
-    if (input) {
-        createFolder(input.folderName, input.color, noteGroup)
-        addNoteGroupList(input);
-        console.log(input);
-        saveNoteGroupsToLocalStorage();
-        return true;
-    }
-}
-export function createFolder(folderName, color, targetAppend) {
-    let newFolder = document.createElement('div');
-    newFolder.classList.add('note-group', `${color}`);
-    newFolder.textContent = folderName;
-    targetAppend.append(newFolder);
 }

@@ -1,10 +1,10 @@
 import { noteGroup } from "../components";
-import { createFolder } from "./notes.render";
+import { createFolder } from "./notes-crud";
 import { deleteFolderModal, editFolderModal } from "../../events/alerts";
 
 let noteGroupList = [];
 
-export function initNoteGroup() {
+export function initFolders() {
   loadNoteGroupsFromLocalStorage();
   readGroupList(noteGroup);
 }

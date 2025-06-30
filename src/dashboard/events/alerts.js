@@ -31,7 +31,7 @@ export function msgAlert(msg) {
     })
 }
 //new folder modal
-export async function noteGroupModal() {
+export async function newFolderModal() {
     const { isConfirmed, value } = await Swal.fire({
         html: `
   <input id="folderName" class="swal2-input" placeholder="Enter folder name">

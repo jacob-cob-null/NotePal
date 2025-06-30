@@ -1,6 +1,6 @@
 import { workspace_title, workspaceHeader, delFolderBtn, editFolderBtn, folderBtns } from "../interface/components";
 import { renderNoteComponents, noteEvents } from "../interface/notes/notes.render";
-import { folderEvents } from "../interface/notes/note-folder";
+import { folderEvents, initFolders } from "../interface/notes/note-folder";
 
 export function initEvents({ mainWindow, toggleIcon, noteGroup, menuText, menu, line, folderBtns }) {
   setupToggleMenu({
@@ -51,7 +51,7 @@ function eventMenuItems({ tasksMenu, notesMenu, calendarMenu }) {
 
     renderNoteComponents();
     noteEvents()
-    initNoteGroup();
+    initFolders();
 
   });
   calendarMenu.addEventListener('click', () => {
