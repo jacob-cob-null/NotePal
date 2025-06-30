@@ -17,6 +17,7 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
+    "easymde": "^2.20.0",
     "firebase": "^11.9.1",
     "marked": "^15.0.12",
     "sweetalert2": "^11.6.13"
