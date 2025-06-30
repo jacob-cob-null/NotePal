@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2'
-import { checkDuplicate } from '../interface/notes/note-folder';
+import { checkDuplicate } from '../interface/notes/folder-crud';
 
 export function successfulLogin(name) {
     Swal.fire({

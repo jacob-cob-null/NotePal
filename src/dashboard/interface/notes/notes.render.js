@@ -2,7 +2,7 @@ import '../../../style.css';
 import { marked } from 'marked';
 import { mainWorkspace, workspace, workspaceHeader, noteGroup } from '../components';
 import { msgAlert, newFolderModal } from '../../events/alerts';
-import { addNoteGroupList, checkDuplicate, saveNoteGroupsToLocalStorage } from './note-folder';
+import { addNoteGroupList, checkDuplicate, saveNoteGroupsToLocalStorage } from './folder-crud.js';
 
 //initialize notes components
 export function renderNoteComponent() {

@@ -1,5 +1,4 @@
 import { noteGroup } from "../components";
-import { createFolder } from "./notes-crud";
 import { deleteFolderModal, editFolderModal } from "../../events/alerts";
 
 let noteGroupList = [];
@@ -79,4 +78,20 @@ export function editFolder({ oldName, newName, newColor }) {
 
   saveNoteGroupsToLocalStorage();
   refreshGroupUI();
+}
+export async function addFolder() {
+    const input = await newFolderModal();
+    if (input) {
+        createFolder(input.folderName, input.color, noteGroup)
+        addNoteGroupList(input);
+        console.log(input);
+        saveNoteGroupsToLocalStorage();
+        return true;
+    }
+}
+export function createFolder(folderName, color, targetAppend) {
+    let newFolder = document.createElement('div');
+    newFolder.classList.add('note-group', `${color}`);
+    newFolder.textContent = folderName;
+    targetAppend.append(newFolder);
 }

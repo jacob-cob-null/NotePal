@@ -1,6 +1,6 @@
 import { workspace_title, workspaceHeader, delFolderBtn, editFolderBtn, folderBtns } from "../interface/components";
 import { renderNoteComponent, noteEvents } from "../interface/notes/notes.render";
-import { folderEvents, initFolders } from "../interface/notes/note-folder";
+import { folderEvents, initFolders } from "../interface/notes/folder-crud";
 
 export function initEvents({ mainWindow, toggleIcon, noteGroup, menuText, menu, line, folderBtns }) {
   setupToggleMenu({
