@@ -1,5 +1,9 @@
 import { workspace_title, workspaceHeader, delFolderBtn, editFolderBtn, folderBtns } from "../interface/components";
+<<<<<<< HEAD
 import { renderNoteComponents, noteEvents } from "../interface/notes/notes.render";
+=======
+import { renderNoteComponent, noteEvents } from "../interface/notes/notes.render";
+>>>>>>> f787496 (add function to block duplicate in folder creation)
 import { folderEvents, initFolders } from "../interface/notes/note-folder";
 
 export function initEvents({ mainWindow, toggleIcon, noteGroup, menuText, menu, line, folderBtns }) {
@@ -49,7 +53,8 @@ function eventMenuItems({ tasksMenu, notesMenu, calendarMenu }) {
   notesMenu.addEventListener('click', () => {
     workspace_title.innerText = "Notes";
 
-    renderNoteComponents();
+    
+    renderNoteComponent();
     noteEvents()
     initFolders();
 

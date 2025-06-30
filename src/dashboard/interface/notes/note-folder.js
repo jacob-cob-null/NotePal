@@ -14,7 +14,6 @@ function refreshGroupUI() {
   readGroupList(noteGroup);
 }
 
-
 //save to local storage
 export function saveNoteGroupsToLocalStorage() {
   localStorage.setItem('noteGroupList', JSON.stringify(noteGroupList));
@@ -37,12 +36,15 @@ function getFolderName() {
     noteGroupList.map(folder => [folder.folderName, folder.folderName])
   );
 }
+//find duplicate
+export function checkDuplicate(folderName) {
+  return noteGroupList.some(folder => folder.folderName === folderName);
+}
 
 //Add new group list
 export function addNoteGroupList(input) {
   noteGroupList.push(input);
 }
-
 
 //attach listeners to folderEvents 
 export function folderEvents(edit, del) {

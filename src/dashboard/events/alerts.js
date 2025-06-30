@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2'
+import { checkDuplicate } from '../interface/notes/note-folder';
 
 export function successfulLogin(name) {
     Swal.fire({
@@ -66,6 +67,10 @@ export async function newFolderModal() {
             const folderName = document.getElementById('folderName').value.trim();
             const selectedColor = document.querySelector('input[name="color"]:checked');
 
+            if (checkDuplicate(folderName)) {
+                msgAlert("Folder already exists");
+                return false;
+            }
             if (!folderName || !selectedColor) {
                 Swal.showValidationMessage('Please enter a folder name and select a color');
                 return false;
@@ -96,7 +101,7 @@ export async function deleteFolderModal(tempArr) {
     });
 
     if (folderDel) {
-        Swal.fire(`${folderDel} folder has been Deleted`);
+        Swal.fire(`You selected: ${folderDel}`);
     }
     return folderDel;
 }
@@ -155,8 +160,7 @@ export async function editFolderModal(tempArr, folderList) {
         }
     });
 
-    if (newData) {;
-                Swal.fire(`${selectedFolder} folder has been Updated`)
+    if (newData) {
         return {
             oldName: selectedFolder,
             newName: newData.newName,
