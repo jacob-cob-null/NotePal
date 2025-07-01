@@ -4,9 +4,9 @@
 
 @plugin "tailwindcss-motion";
 
-body.swal2-shown {
+.swal2-container {
   overflow: auto !important;
-  /* if it causes scroll locking */
+
 }
 
 @layer components {

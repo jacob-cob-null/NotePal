@@ -35,7 +35,7 @@ function createNote() {
     mainWorkspace.innerHTML = '';
     const form = document.createElement('form');
     form.classList.add('flex', 'flex-col', 'gap-5', 'items-start');
-    // Add more form creation logic here...
+
 }
 
 //create and append folder
