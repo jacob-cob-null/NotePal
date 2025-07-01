@@ -12,7 +12,17 @@
   <main class="grid grid-rows-[65px_1fr_45px] min-h-screen w-full">
 
     <!-- Navigation Bar -->
-    <nav class="bg-white shadow-xl z-10"></nav>
+    <nav class="bg-white shadow-xl z-10 flex justify-between px-5 items-center">
+      <section class="flex items-center gap-0.5">
+        <i class="bx bx-edit-alt text-3xl" style="color: #000000"></i>
+        <h1 class="header">NotePal </h1>
+      </section>
+
+      <section class="flex items-center gap-2 font-body">
+        Hello! <span>username</span>
+        <section class="h-10 w-10 rounded-full bg-gray-200"></section>
+      </section>
+    </nav>
 
     <!-- Main Window -->
     <section id="mainWindow" class="grid uncollapsed bg-gray-200 overflow-hidden transition-all duration-300">
@@ -21,37 +31,39 @@
       <aside class="bg-gray-100 flex flex-col p-5 gap-1 shadow-inner overflow-hidden">
         <div class="flex items-center gap-3 mb-4">
           <!--Menu toggle-->
+
+          <!--  TODO: TOGGLE WEIGHT WHEN CLICKED -->
           <i id="toggleIcon"
-            class="bx bx-arrow-left text-5xl text-gray-600 cursor-pointer transition-transform duration-300 shrink-0 z-20"></i>
-          <h1 id="menu" class="text-4xl font-head text-gray-600">Menu</h1>
+            class="bx bx-arrow-left text-5xl text-gray-700 cursor-pointer transition-transform duration-300 shrink-0 z-20"></i>
+          <h1 id="menu" class="text-5xl font-head text-gray-700">Menu</h1>
         </div>
 
         <div id="tasks" class="menu-item dark-hover-active">
-          <i class="bx bx-check-square text-3xl text-gray-500"></i>
-          <h1 class="menu-text slide-right">Tasks</h1>
+          <i class="bx bx-check-square text-3xl md-col"></i>
+          <h1 class="menu-text slide-right md-col">Tasks</h1>
         </div>
 
         <div id="notes" class="menu-item dark-hover-active">
-          <i class="bx bx-note-book text-3xl text-gray-500"></i>
-          <h1 class="menu-text">Notes</h1>
+          <i class="bx bx-note-book text-3xl md-col"></i>
+          <h1 class="menu-text md-col">Notes</h1>
         </div>
 
         <div id="calendar" class="menu-item dark-hover-active">
-          <i class="bx bx-calendar-alt text-3xl text-gray-500"></i>
-          <h1 class="menu-text">Calendar</h1>
+          <i class="bx bx-calendar-alt text-3xl md-col"></i>
+          <h1 class="menu-text md-col">Calendar</h1>
         </div>
 
         <div id="pomodoro" class="menu-item dark-hover-active">
-          <i class="bx bx-timer text-3xl text-gray-500"></i>
-          <h1 class="menu-text">Calendar</h1>
+          <i class="bx bx-timer text-3xl md-col"></i>
+          <h1 class="menu-text md-col">Calendar</h1>
         </div>
 
-        <hr class="w-full h-[6px] my-6 bg-gray-400 border-none rounded-sm" />
+        <hr class="w-full h-[6px] my-6 md-col border-none rounded-sm bg-gray-900" />
 
         <!-- Folder Buttons -->
         <div id="folderBtns" class="flex justify-center gap-2 mb-6">
-          <button id="editFolderBtn" class="button bg-white">Edit Folder</button>
-          <button id="delFolderBtn" class="button bg-red-200">Delete Folder</button>
+          <button id="editFolderBtn" class="button bg-white md-col">Edit Folder</button>
+          <button id="delFolderBtn" class="button bg-red-200 md-col">Delete Folder</button>
         </div>
 
         <!-- Note Groups -->
@@ -70,22 +82,25 @@
         <div id="mainWorkspace"
           class="p-6 mt-4 mb-2 bg-gray-100 shadow-inner rounded-3xl flex flex-wrap gap-3 h-full overflow-auto"
           style="max-height: calc(100vh - 65px - 45px - 6rem);">
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
-          <div class="h-80 w-60 bg-amber-100">A NOTE</div>
 
+          <!--NOTE TEMPLATE-->
+          <div class="note-container">
+            <div class="flex justify-between items-center">
+              <h1 class="font-head text-4xl font-bold">Title</h1>
+              <section class="h-7 w-25 bg-green-400 rounded-md text-center">School</section>
+            </div> <!--FOLDER-->
+            <p class="text-ellipsis line-clamp-3 font-body">Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Nobis, velit
+              dolore
+              voluptatum debitis aut a earum libero corrupti omnis obcaecati, ipsum eum quas minima alias. Architecto
+              reprehenderit quibusdam odit aliquid? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam
+              dicta assumenda laboriosam harum iusto dolorum tenetur soluta tempore ipsam, vero dolore quis porro
+              quaerat dolores esse rem vel et quo. ?</p>
+            <section class="flex justify-end">
+              <i class="bx bx-check-square text-3xl text-gray-500 cursor-pointer"></i>
+              <i class="bx bx-pencil-square text-3xl text-gray-500 cursor-pointer"></i>
+            </section>
+          </div>
 
         </div>
       </section>

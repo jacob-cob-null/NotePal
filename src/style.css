@@ -23,11 +23,15 @@
   }
 
   .header {
-    @apply font-head text-5xl text-gray-700;
+    @apply font-head text-3xl text-gray-700;
   }
 
   .button {
-    @apply h-8 w-30 text-gray-600 rounded-xl font-head shadow-md active:brightness-94 hover:brightness-97 transition ease-in-out
+    @apply h-8 w-30 rounded-xl font-head shadow-md active:brightness-94 hover:brightness-97 transition ease-in-out
+  }
+
+  .note-container {
+    @apply grid grid-rows-[40px_1fr_40px] h-90 w-[28rem] gap-3 bg-white shadow-md rounded-xl p-6 cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg
   }
 }
 
@@ -46,7 +50,9 @@
     @apply hover:bg-gray-200 active:brightness-90 transition ease-in-out;
   }
 
-  .x-hover {}
+  .y-hover {
+    @apply motion-translate-x-in-[0%] motion-translate-y-in-[10%]
+  }
 
   .slide-right {
     @apply motion-translate-x-in-[-30%] motion-translate-y-in-[0%]
@@ -55,6 +61,15 @@
   .slide-left {
     @apply motion-translate-x-in-[30%] motion-translate-y-in-[0%]
   }
+
+  .md-col {
+    @apply text-gray-600
+  }
+
+  .dark-col {
+    @apply text-gray-800
+  }
+  .light-col {}
 }
 
 @theme {
