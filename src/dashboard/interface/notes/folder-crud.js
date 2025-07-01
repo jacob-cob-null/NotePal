@@ -35,6 +35,13 @@ function getFolderName() {
     noteGroupList.map(folder => [folder.folderName, folder.folderName])
   );
 }
+
+export function getFolderAttributes() {
+  return noteGroupList.map(folder => ({
+    folderName: folder.folderName,
+    color: folder.color
+  }));
+}
 //find duplicate
 export function checkDuplicate(folderName) {
   return noteGroupList.some(folder => folder.folderName === folderName);
