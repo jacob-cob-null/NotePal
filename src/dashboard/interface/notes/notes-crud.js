@@ -2,7 +2,8 @@ import '../../../style.css';
 import EasyMDE from 'easymde';
 
 //note object factory
-function createNote(title, content, folder, owner) {
+export function createNoteObject(title, content, folder, owner) {
+    //mm/dd/yyyy
     var dateNow = new Date();
     let month = dateNow.getMonth() + 1;
     let day = dateNow.getDate();
@@ -11,7 +12,11 @@ function createNote(title, content, folder, owner) {
     //when note was made
     dateCreated = `${month} ${day}, ${year}`;
     return {
-        title, dateCreated, content, folder, owner
+        title,
+        dateCreated,
+        content,
+        folder,
+        owner
     };
 }
 
