@@ -1,8 +1,10 @@
 import '../../../style.css';
-import { marked } from 'marked';
-import { mainWorkspace, workspace, workspaceHeader, noteGroup } from '../components';
+import EasyMDE from "easymde";
+import "easymde/dist/easymde.min.css";
+import { workspaceHeader, noteGroup, mainWorkspace } from '../components';
 import { msgAlert, newFolderModal } from '../../events/alerts';
-import { addNoteGroupList, checkDuplicate, saveNoteGroupsToLocalStorage } from './folder-crud.js';
+import { addNoteGroupList, saveNoteGroupsToLocalStorage } from './folder-crud.js';
+import { createNoteForm } from './notes-dom.js';
 
 //initialize notes components
 export function renderNoteComponent() {
@@ -29,14 +31,6 @@ export function renderNoteComponent() {
     };
 }
 
-//render input for note creation
-function createNote() {
-    alert("Note Created");
-    mainWorkspace.innerHTML = '';
-    const form = document.createElement('form');
-    form.classList.add('flex', 'flex-col', 'gap-5', 'items-start');
-
-}
 
 //create and append folder
 async function addFolder() {
@@ -59,8 +53,18 @@ export function createFolder(folderName, color, targetAppend) {
 
 //bind events
 export function noteEvents() {
+    //CREATE NOTE FORM
     document.getElementById('createNoteBtn').addEventListener('click', () => {
-        createNote();
+        mainWorkspace.innerHTML = ''; //clears mainWorkspace
+        const { form, textArea } = createNoteForm();
+        mainWorkspace.append(form); //appends form
+
+        //easy mde  
+        const editor = new EasyMDE({ element: textArea });
+        const mdeContainer = textArea.parentElement?.querySelector('.EasyMDEContainer');
+        if (mdeContainer) {
+            mdeContainer.classList.add('w-full');
+        }
     });
 
     document.getElementById('createFolderBtn').addEventListener('click', async () => {

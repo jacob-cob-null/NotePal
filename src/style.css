@@ -22,6 +22,10 @@
     @apply flex font-head items-center justify-center rounded-xl min-h-10 w-full text-center
   }
 
+  .folder-option {
+    @apply flex font-head items-center justify-center rounded-xl min-h-10 w-20 text-center
+  }
+
   .header {
     @apply font-head text-3xl text-gray-700;
   }
@@ -37,6 +41,7 @@
   .note-title-section {
     @apply flex justify-between items-center mb-3
   }
+
   .note-title {
     @apply font-head text-3xl font-bold
   }
@@ -53,6 +58,7 @@
   .note-btn-section {
     @apply flex justify-end items-center gap-1
   }
+
   .note-btn {
     @apply text-gray-500 cursor-pointer text-3xl hover:bg-gray-50 active:bg-gray-100 transition ease-in-out rounded-xl
   }
