@@ -52,7 +52,7 @@ async function addFolder() {
 //creates a DOM folder
 export function createFolder(folderName, color, targetAppend) {
     let newFolder = document.createElement('div');
-    newFolder.classList.add('note-group', `${color}`);
+    newFolder.classList.add('note-group', `${color}`, 'dark-hover-active');
     newFolder.textContent = folderName;
     targetAppend.append(newFolder);
 }

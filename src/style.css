@@ -31,9 +31,35 @@
   }
 
   .note-container {
-    @apply grid grid-rows-[40px_1fr_40px] h-90 w-[28rem] gap-3 bg-white shadow-md rounded-xl p-6 cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg
+    @apply grid grid-rows-[40px_1fr_40px] h-90 w-[28rem] gap-3 bg-white shadow-md rounded-xl p-6 cursor-pointer transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg
   }
+
+  .note-title-section {
+    @apply flex justify-between items-center mb-3
+  }
+  .note-title {
+    @apply font-head text-3xl font-bold
+  }
+
+  .note-folder {
+    @apply h-7 w-25 rounded-md text-center bg-gray-200
+    /*bg color added depending on folder attribute, default is gray*/
+  }
+
+  .note-body {
+    @apply line-clamp-3 font-body
+  }
+
+  .note-btn-section {
+    @apply flex justify-end items-center gap-1
+  }
+  .note-btn {
+    @apply text-gray-500 cursor-pointer text-3xl hover:bg-gray-50 active:bg-gray-100 transition ease-in-out rounded-xl
+  }
+
+
 }
+
 
 
 
@@ -47,7 +73,7 @@
   }
 
   .dark-hover-active {
-    @apply hover:bg-gray-200 active:brightness-90 transition ease-in-out;
+    @apply hover:brightness-95 active:brightness-90 transition ease-in-out;
   }
 
   .y-hover {
@@ -69,6 +95,7 @@
   .dark-col {
     @apply text-gray-800
   }
+
   .light-col {}
 }
 
