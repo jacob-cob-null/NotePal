@@ -3,8 +3,10 @@ import EasyMDE from "easymde";
 import "easymde/dist/easymde.min.css";
 import { workspaceHeader, noteGroup, mainWorkspace } from '../components';
 import { msgAlert, newFolderModal } from '../../events/alerts';
-import { addNoteGroupList, saveNoteGroupsToLocalStorage } from './folder-crud.js';
+import { addNoteGroupList, saveNoteGroupsToLocalStorage, initFolders } from './folder-crud.js';
 import { createNoteForm } from './notes-dom.js';
+import { submitBtnEvent, cancelBtnEvent } from './notes-dom.js';
+
 
 //initialize notes components
 export function renderNoteComponent() {
@@ -31,6 +33,12 @@ export function renderNoteComponent() {
     };
 }
 
+//render primary note components
+export function initNotes() {
+    renderNoteComponent();
+    noteEvents();
+    initFolders();
+}
 
 //create and append folder
 async function addFolder() {
@@ -53,10 +61,11 @@ export function createFolder(folderName, color, targetAppend) {
 
 //bind events
 export function noteEvents() {
+
     //CREATE NOTE FORM
     document.getElementById('createNoteBtn').addEventListener('click', () => {
         mainWorkspace.innerHTML = ''; //clears mainWorkspace
-        const { form, textArea } = createNoteForm();
+        const { form, textArea, submitBtn, cancelBtn  } = createNoteForm();
         mainWorkspace.append(form); //appends form
 
         //easy mde  
@@ -65,6 +74,14 @@ export function noteEvents() {
         if (mdeContainer) {
             mdeContainer.classList.add('w-full');
         }
+
+        //triggered with submit, if cancel, remove form and render current notes and clear input
+        submitBtnEvent(submitBtn);
+        cancelBtnEvent(cancelBtn);
+        //get input from form
+        //create note component and append to mainworkspace
+        //clear input
+
     });
 
     document.getElementById('createFolderBtn').addEventListener('click', async () => {
