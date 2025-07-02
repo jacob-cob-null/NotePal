@@ -3,6 +3,7 @@ import { marked } from 'marked';
 import "easymde/dist/easymde.min.css";
 import { getFolderAttributes } from "./folder-crud";
 import { getCurrentDate } from "./notes-crud";
+import { msgAlert } from "../../events/alerts";
 
 //create note form
 export function createNoteForm() {
@@ -82,21 +83,37 @@ export function createNoteForm() {
 }
 
 //submit button events
-export function submitBtnEvent(submitBtn) {
+export function submitBtnEvent(submitBtn, titleInput, folderOptions, editor, target) {
     submitBtn.addEventListener('click', () => {
-        console.log('I worked!')
+        const title = titleInput.value.trim();
+        const folder = folderOptions.value;
+        const content = editor.value();
+        const selectedOption = folderOptions.options[folderOptions.selectedIndex];
+        const folderColor = selectedOption.dataset.color || 'bg-gray-200';
+
+        if (!title || !content || !folder) {
+            msgAlert('Please fill out all fields');
+            return;
+        }
+        const note = createNoteComponent(title, folder, folderColor, content);
+        target.innerHTML = '';
+        //TODO:: RERENDER ALL NOTES
+        target.appendChild(note);
     });
+
 }
+
 //cancel button events
-export function cancelBtnEvent(cancelBtn) {
+export function cancelBtnEvent(cancelBtn, target) {
     cancelBtn.addEventListener('click', () => {
-        console.log('I cancel things!')
+        console.log('I cancel things!');
+        //TODO:: CLEAR MAIN WORKSPACE AND RERENDER ALL NOTES
     });
 }
 
 
 //create note component 
-export function createNoteComponent(title, folder, folderColor, content, date) {
+export function createNoteComponent(title, folder, folderColor, content) {
 
     //container
     const noteContainer = document.createElement('div');
