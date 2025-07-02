@@ -11,7 +11,7 @@ export function successfulLogin(name) {
 export function failedLogin() {
     Swal.fire({
         title: `Login Failed`,
-        text: "Oops! That login didn’t work.<br> Double-check your email and password.",
+        text: "Oops! That login didn’t work"<br> "Double-check your email and password.",
         icon: "error"
     });
 }

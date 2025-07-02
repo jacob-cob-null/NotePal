@@ -1,11 +1,24 @@
 import '../style.css';
 import { loginWithEmail, createAccount } from '../Firebase/auth';
-import { successfulLogin, successfulRegistration, failedLogin } from '../dashboard/events/alerts';
+import { successfulLogin, successfulRegistration, failedLogin, msgAlert } from '../dashboard/events/alerts';
+import { auth} from '../Firebase/setup';
+import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const signin = document.getElementById('signin');
   const header = document.getElementById('header');
   const register = document.getElementById('register');
+
+
+  //check auth status
+onAuthStateChanged(auth, user => {
+  if (user) {
+    msgAlert('logged in')
+  } else {
+    msgAlert('not logged in')
+  }
+});
 
   // Add listener for Sign In
   if (signin) {
@@ -81,11 +94,13 @@ function submitElement(callback) {
       const user = await callback(email, password);
       userStore.setUser(user);
       let userId = user.uid;
+      console.log(userStore.getUser());
       // alert(`${msg}, Welcome ${user.uid}`);
       successfulLogin(userId);
       setTimeout(() => {
         window.location.href = '../dashboard/dashboard.html';
-      }, "2000");
+      }, "1500");
+
 
     } catch (err) {
       failedLogin()

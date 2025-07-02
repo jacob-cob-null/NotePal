@@ -20,7 +20,9 @@ export function createNoteForm() {
     // Folder
     const folderLabel = document.createElement('label');
     folderLabel.textContent = 'Folder';
+    folderLabel.classList.add('header')
     const folderOptions = document.createElement('select');
+    //get folders
     const folderAttributes = getFolderAttributes();
 
     // iterate folder attributes
@@ -42,10 +44,7 @@ export function createNoteForm() {
     form.appendChild(folderOptions);
     form.appendChild(textArea);
 
-
-    console.log(folderOptions)
-
     return {form, textArea}; //creates form and preps textarea to be appended
 }
 
-//submit note, take input from note form
+//submit note, take input from note form, 
