@@ -65,7 +65,7 @@ export function noteEvents() {
     //CREATE NOTE FORM
     document.getElementById('createNoteBtn').addEventListener('click', () => {
         mainWorkspace.innerHTML = ''; //clears mainWorkspace
-        const { form, textArea, submitBtn, cancelBtn  } = createNoteForm();
+        const { form, titleInput, folderOptions, textArea, submitBtn, cancelBtn  } = createNoteForm();
         mainWorkspace.append(form); //appends form
 
         //easy mde  
@@ -75,12 +75,8 @@ export function noteEvents() {
             mdeContainer.classList.add('w-full');
         }
 
-        //triggered with submit, if cancel, remove form and render current notes and clear input
-        submitBtnEvent(submitBtn);
-        cancelBtnEvent(cancelBtn);
-        //get input from form
-        //create note component and append to mainworkspace
-        //clear input
+        submitBtnEvent(submitBtn, titleInput, folderOptions, editor, mainWorkspace);
+        cancelBtnEvent(cancelBtn, mainWorkspace);
 
     });
 
