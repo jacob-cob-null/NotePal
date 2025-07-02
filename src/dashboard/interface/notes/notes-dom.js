@@ -41,7 +41,7 @@ export function createNoteForm() {
     folderGroup.classList.add('flex', 'gap-2', 'items-center')
 
     folderGroup.appendChild(folderLabel);
-    folderGroup.appendChild(folderOptions); 
+    folderGroup.appendChild(folderOptions);
 
     //text area
     const textArea = document.createElement('textarea');
@@ -50,14 +50,18 @@ export function createNoteForm() {
     const submitBtn = document.createElement('button');
     submitBtn.setAttribute('id', 'submitBtn');
     submitBtn.textContent = 'Create Note';
+    submitBtn.type = 'button';
+
+
     const cancelBtn = document.createElement('button');
     cancelBtn.setAttribute('id', 'cancelBtn');
-    cancelBtn.textContent = 'Cancel'
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.type = 'button'; // prevents form submission refresh
 
     const buttonGroup = document.createElement('section');
     buttonGroup.classList.add('flex', 'gap-2', 'mt-auto', 'self-end');
 
-    submitBtn.classList.add('button');
+    submitBtn.classList.add('button', 'hover:bg-blue-200', 'hover:shadow-lg');
     cancelBtn.classList.add('button', 'hover:bg-red-200', 'hover:shadow-lg');
 
     //button group
@@ -67,11 +71,29 @@ export function createNoteForm() {
     // Append elements to form
     form.appendChild(titleLabel);
     form.appendChild(titleInput); //noteTitle
-    form.appendChild(folderGroup);
+    form.appendChild(folderGroup); //folderOption
     form.appendChild(textArea); //textArea
     form.appendChild(buttonGroup); //cancelBtn and submitBtn
 
-    return { form, textArea }; //creates form and preps textarea to be appended
+    return { form, textArea, submitBtn, cancelBtn }; //creates form and preps textarea to be appended, and buttons to be used as parameters
+}
+
+//submit button events
+export function submitBtnEvent(submitBtn) {
+    submitBtn.addEventListener('click', () => {
+        console.log('I worked!')
+    });
+}
+//cancel button events
+export function cancelBtnEvent(cancelBtn) {
+    cancelBtn.addEventListener('click', () => {
+        console.log('I cancel things!')
+    });
+}
+
+
+//create note component 
+export function createNoteComponent() {
 
 }
 

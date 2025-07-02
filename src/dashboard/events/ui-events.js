@@ -1,5 +1,5 @@
 import { workspace_title, workspaceHeader, delFolderBtn, editFolderBtn, folderBtns } from "../interface/components";
-import { renderNoteComponent, noteEvents } from "../interface/notes/notes.render";
+import { initNotes } from "../interface/notes/notes.render";
 import { folderEvents, initFolders } from "../interface/notes/folder-crud";
 
 export function initEvents({ mainWindow, toggleIcon, noteGroup, menuText, menu, line, folderBtns }) {
@@ -49,10 +49,8 @@ function eventMenuItems({ tasksMenu, notesMenu, calendarMenu }) {
   notesMenu.addEventListener('click', () => {
     workspace_title.innerText = "Notes";
 
-    
-    renderNoteComponent();
-    noteEvents()
-    initFolders();
+    //group these
+    initNotes()
 
   });
   calendarMenu.addEventListener('click', () => {

@@ -43,7 +43,7 @@
   }
 
   .note-title {
-    @apply font-head text-3xl font-bold
+    @apply font-head text-3xl font-bold truncate w-60
   }
 
   .note-folder {
