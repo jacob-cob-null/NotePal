@@ -3,14 +3,7 @@ import EasyMDE from 'easymde';
 
 //note object factory
 export function createNoteObject(title, content, folder, owner) {
-    //mm/dd/yyyy
-    var dateNow = new Date();
-    let month = dateNow.getMonth() + 1;
-    let day = dateNow.getDate();
-    const year = dateNow.getFullYear();
-
-    //when note was made
-    dateCreated = `${month} ${day}, ${year}`;
+    const dateCreated = getCurrentDate();
     return {
         title,
         dateCreated,
@@ -20,7 +13,16 @@ export function createNoteObject(title, content, folder, owner) {
     };
 }
 
-//read
+export function getCurrentDate() {
+    const dateNow = new Date();
+    const month = dateNow.getMonth() + 1;
+    const day = dateNow.getDate();
+    const year = dateNow.getFullYear();
+
+    return `${month}/${day}/${year}`; // mm/dd/yyyy
+}
+
+//read for each and call createNoteComponent
 
 //update
 

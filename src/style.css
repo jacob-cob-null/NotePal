@@ -43,7 +43,7 @@
   }
 
   .note-title {
-    @apply font-head text-3xl font-bold truncate w-60
+    @apply font-head text-xl font-bold truncate w-60
   }
 
   .note-folder {
@@ -52,11 +52,14 @@
   }
 
   .note-body {
-    @apply line-clamp-3 font-body
+    @apply line-clamp-3 font-body text-gray-800
   }
 
   .note-btn-section {
-    @apply flex justify-end items-center gap-1
+    @apply flex justify-between items-center gap-1 mt-3
+  }
+  .note-date {
+    @apply font-body text-gray-500 text-[14px]
   }
 
   .note-btn {

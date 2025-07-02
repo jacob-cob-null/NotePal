@@ -1,6 +1,8 @@
 import EasyMDE from "easymde";
+import { marked } from 'marked';
 import "easymde/dist/easymde.min.css";
 import { getFolderAttributes } from "./folder-crud";
+import { getCurrentDate } from "./notes-crud";
 
 //create note form
 export function createNoteForm() {
@@ -31,9 +33,10 @@ export function createNoteForm() {
     // iterate folder attributes
     folderAttributes.forEach(folder => {
         const option = document.createElement('option');
-        option.value = folder.folderName;
+        option.value = folder.folderName; //folder name
         option.textContent = folder.folderName;
         option.classList.add('folder-option', `${folder.color}`);
+        option.dataset.color = folder.color; //color
         folderOptions.appendChild(option);
     });
 
@@ -75,7 +78,7 @@ export function createNoteForm() {
     form.appendChild(textArea); //textArea
     form.appendChild(buttonGroup); //cancelBtn and submitBtn
 
-    return { form, textArea, submitBtn, cancelBtn }; //creates form and preps textarea to be appended, and buttons to be used as parameters
+    return { form, titleInput, folderOptions, textArea, submitBtn, cancelBtn }; //returns form (to append), and input values (title, folder, content), and cancel and create note button
 }
 
 //submit button events
@@ -93,7 +96,60 @@ export function cancelBtnEvent(cancelBtn) {
 
 
 //create note component 
-export function createNoteComponent() {
+export function createNoteComponent(title, folder, folderColor, content, date) {
 
+    //container
+    const noteContainer = document.createElement('div');
+    noteContainer.classList.add('note-container');
+
+    //title section
+    const noteTitleSection = document.createElement('section');
+    noteTitleSection.classList.add('note-title-section')
+    const noteTitle = document.createElement('h1');
+    noteTitle.classList.add('note-title');
+    noteTitle.textContent = title;//title
+
+    const noteFolder = document.createElement('section')
+    noteFolder.classList.add('note-folder', `${folderColor}`)
+    noteFolder.textContent = folder;
+
+    //append title and folder
+    noteTitleSection.appendChild(noteTitle);
+    noteTitleSection.appendChild(noteFolder);
+
+    //main content
+    const noteBody = document.createElement('div');
+    noteBody.classList.add('note-body');
+    noteBody.innerHTML = marked(content); //parsed to html
+
+    //button section
+    const noteBtnSection = document.createElement('section');
+    noteBtnSection.classList.add('note-btn-section');
+
+    //date
+    const noteDate = document.createElement('p')
+    const dateCreated = getCurrentDate();
+    noteDate.textContent = `Created on ${dateCreated}`;
+
+    const btnDiv = document.createElement('div')
+    const deleteBtn = document.createElement('i');
+    deleteBtn.className = 'bx bx-trash note-btn text-red-400';
+    const editBtn = document.createElement('i');
+    editBtn.className = 'bx bx-pencil-square note-btn';
+
+    //append buttons
+    btnDiv.appendChild(deleteBtn)
+    btnDiv.appendChild(editBtn)
+
+    //append date and buttons
+    noteBtnSection.appendChild(noteDate);
+    noteBtnSection.appendChild(btnDiv);
+
+    noteContainer.appendChild(noteTitleSection);
+    noteContainer.appendChild(noteBody);
+    noteContainer.appendChild(noteBtnSection);
+
+    //return note container and append to mainWorkspace
+    return noteContainer;
 }
 
