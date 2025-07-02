@@ -17,5 +17,4 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
-// ✅ Use named exports instead of default
 export { app, analytics, auth };

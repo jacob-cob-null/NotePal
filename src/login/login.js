@@ -1,7 +1,7 @@
 import '../style.css';
 import { loginWithEmail, createAccount } from '../Firebase/auth';
 import { successfulLogin, successfulRegistration, failedLogin, msgAlert } from '../dashboard/events/alerts';
-import { auth} from '../Firebase/setup';
+import { auth } from '../Firebase/setup';
 import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 
 
@@ -12,13 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   //check auth status
-onAuthStateChanged(auth, user => {
-  if (user) {
-    msgAlert('logged in')
-  } else {
-    msgAlert('not logged in')
-  }
-});
+  onAuthStateChanged(auth, user => {
+    if (user) {
+
+
+    } else {
+
+    }
+  });
 
   // Add listener for Sign In
   if (signin) {
