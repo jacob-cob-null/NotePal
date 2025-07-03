@@ -2,11 +2,12 @@ import EasyMDE from "easymde";
 import { marked } from 'marked';
 import "easymde/dist/easymde.min.css";
 import { getFolderAttributes } from "./folder-crud";
-import { deleteNote, getCurrentDate } from "./notes-crud";
+import { deleteNote, findNote, getCurrentDate } from "./notes-crud";
 import { msgAlert } from "../../events/alerts";
 import { createNoteObject } from "./notes-crud";
 import { displayNotes } from "./notes.render";
 import { noteList } from "./notes-object";
+import { mainWorkspace } from "../components";
 
 
 //create note form
@@ -112,23 +113,16 @@ export function submitBtnEvent(submitBtn, titleInput, folderOptions, editor, tar
     });
 
 }
-function retrieveNoteInfo(note) {
-    note.addEventListener('click', (note) => {
-        const noteId = note.dataset.id;
-        const foundNote = noteList.find(n => n.id === noteId);
-        if (foundNote) {
-            return foundNote;
-        }
-    });
-}
 //attach events to delete and update button
 function attachNoteEvents(note) {
 
-    note.addEventListener('click', (note) => {
-        const noteId = note.dataset.id;
+    note.addEventListener('click', (e) => {
+        const noteId = e.currentTarget.dataset.id;
         const foundNote = noteList.find(n => n.id === noteId);
         if (foundNote) {
-            return foundNote;
+            const view = viewNote(foundNote.id);
+            mainWorkspace.innerHTML = '';
+            mainWorkspace.appendChild(view)
         }
     });
 
@@ -161,7 +155,7 @@ export function cancelBtnEvent(cancelBtn, target) {
         console.log('I cancel things!');
         target.innerHTML = '';
         displayNotes();
-        //TODO:: CLEAR MAIN WORKSPACE AND RERENDER ALL NOTES
+
     });
 }
 
@@ -226,7 +220,46 @@ export function createNoteComponent(title, folder, folderColor, content, dateCre
     return noteContainer;
 }
 //view note
+function viewNote(id) {
+    const note = findNote(id);
 
+    //components
+    const viewContainer = document.createElement('div');
+    viewContainer.className = 'rounded-2xl bg-white w-full h-full flex flex-col px-5 py-4';
+
+    const upperSection = document.createElement('section');
+    upperSection.className = 'flex justify-between items-center';
+
+    const title = document.createElement('h1');
+    title.className ='note-title text-5xl w-full';
+    title.textContent = note.title;
+    const folder = document.createElement('span');
+    folder.className = `note-folder w-35 ${note.folderColor}`;
+    folder.textContent = note.folder;
+
+    const date = document.createElement('h1');
+    date.className = 'note-date text-xl'
+    date.textContent = note.dateCreated;
+
+    //append to upperSection
+    upperSection.appendChild(title);
+    upperSection.appendChild(folder);
+
+    const line = document.createElement('hr');
+    line.className = 'w-full h-[3px] my-2 md-col border-none mb-8 rounded-sm bg-gray-900'
+
+    const content = document.createElement('div');
+    content.className = 'h-full w-full overflow-auto';
+    content.innerHTML = marked(note.content)
+
+    viewContainer.appendChild(upperSection);
+    viewContainer.appendChild(date);
+    viewContainer.appendChild(line);
+    viewContainer.appendChild(content);
+
+    return viewContainer;
+
+}
 //edit note
 
 

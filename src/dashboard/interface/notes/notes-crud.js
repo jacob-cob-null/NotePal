@@ -34,10 +34,15 @@ export function getCurrentDate() {
 
 //delete
 export function deleteNote(id) {
-    noteList.forEach((note)=> {
-        if(note.id == id){
-            noteList.splice(note,1);
+    noteList.forEach((note) => {
+        if (note.id == id) {
+            noteList.splice(note, 1);
             saveNotesToLocalStorage();
         }
     })
+}
+
+//search note
+export function findNote(id) {
+    return noteList.find(note => note.id === id);
 }

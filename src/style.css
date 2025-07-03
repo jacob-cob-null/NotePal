@@ -47,7 +47,7 @@
   }
 
   .note-folder {
-    @apply h-7 w-25 rounded-md text-center bg-gray-200
+    @apply h-7 w-25 rounded-md text-center items-center bg-gray-200
     /*bg color added depending on folder attribute, default is gray*/
   }
 
