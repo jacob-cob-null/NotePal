@@ -6,7 +6,9 @@ import { msgAlert, newFolderModal } from '../../events/alerts';
 import { addNoteGroupList, saveNoteGroupsToLocalStorage, initFolders } from './folder-crud.js';
 import { createNoteForm } from './notes-dom.js';
 import { submitBtnEvent, cancelBtnEvent } from './notes-dom.js';
-
+import { createNoteObject } from './notes-crud.js';
+import { noteList, loadNotesFromLocalStorage } from './notes-object.js';
+import { createNoteComponent } from './notes-dom.js';
 
 //initialize notes components
 export function renderNoteComponent() {
@@ -65,7 +67,7 @@ export function noteEvents() {
     //CREATE NOTE FORM
     document.getElementById('createNoteBtn').addEventListener('click', () => {
         mainWorkspace.innerHTML = ''; //clears mainWorkspace
-        const { form, titleInput, folderOptions, textArea, submitBtn, cancelBtn  } = createNoteForm();
+        const { form, titleInput, folderOptions, textArea, submitBtn, cancelBtn } = createNoteForm();
         mainWorkspace.append(form); //appends form
 
         //easy mde  
@@ -89,4 +91,14 @@ export function noteEvents() {
             msgAlert("Folder Not Created");
         }
     });
+}
+//iterate through notes and append through mainWorkspace
+export function displayNotes() {
+    mainWorkspace.innerHTML = ''
+    loadNotesFromLocalStorage(); //loads all notea
+    noteList.forEach((note) => {
+
+        const noteItem = createNoteComponent(note.title, note.folder, note.folderColor, note.content, note.dateCreated) //creates note
+        mainWorkspace.appendChild(noteItem);
+    })
 }

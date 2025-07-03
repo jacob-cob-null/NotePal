@@ -1,6 +1,7 @@
-import { workspace_title, workspaceHeader, delFolderBtn, editFolderBtn, folderBtns } from "../interface/components";
-import { initNotes } from "../interface/notes/notes.render";
+import { workspace_title, workspaceHeader, delFolderBtn, editFolderBtn, folderBtns, mainWorkspace } from "../interface/components";
+import { initNotes, displayNotes } from "../interface/notes/notes.render";
 import { folderEvents, initFolders } from "../interface/notes/folder-crud";
+
 
 export function initEvents({ mainWindow, toggleIcon, noteGroup, menuText, menu, line, folderBtns }) {
   setupToggleMenu({
@@ -45,17 +46,20 @@ function eventMenuItems({ tasksMenu, notesMenu, calendarMenu }) {
   tasksMenu.addEventListener('click', () => {
     workspace_title.innerText = "Tasks";
     workspaceHeader.innerHTML = "";
+    mainWorkspace.innerHTML = '';
   });
   notesMenu.addEventListener('click', () => {
     workspace_title.innerText = "Notes";
-
+    mainWorkspace.innerHTML = '';
     //group these
-    initNotes()
+    initNotes();
+    displayNotes();
 
   });
   calendarMenu.addEventListener('click', () => {
     workspace_title.innerText = "Calendar";
     workspaceHeader.innerHTML = "";
+    mainWorkspace.innerHTML = '';
   });
 }
 

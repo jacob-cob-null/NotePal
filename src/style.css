@@ -58,6 +58,7 @@
   .note-btn-section {
     @apply flex justify-between items-center gap-1 mt-3
   }
+
   .note-date {
     @apply font-body text-gray-500 text-[14px]
   }

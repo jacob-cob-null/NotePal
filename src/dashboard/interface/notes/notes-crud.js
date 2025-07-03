@@ -1,16 +1,22 @@
 import '../../../style.css';
 import EasyMDE from 'easymde';
+import { addNotes } from './notes-object';
 
 //note object factory
-export function createNoteObject(title, content, folder, owner) {
+export function createNoteObject(title, folder, folderColor, content, owner) {
     const dateCreated = getCurrentDate();
-    return {
+    const id = crypto.randomUUID()
+    const note = {
+        id,
         title,
         dateCreated,
         content,
         folder,
+        folderColor,
         owner
     };
+    addNotes(note);
+    return note;
 }
 
 export function getCurrentDate() {

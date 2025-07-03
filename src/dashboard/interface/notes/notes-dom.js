@@ -4,6 +4,9 @@ import "easymde/dist/easymde.min.css";
 import { getFolderAttributes } from "./folder-crud";
 import { getCurrentDate } from "./notes-crud";
 import { msgAlert } from "../../events/alerts";
+import { createNoteObject } from "./notes-crud";
+import { displayNotes } from "./notes.render";
+
 
 //create note form
 export function createNoteForm() {
@@ -49,6 +52,7 @@ export function createNoteForm() {
 
     //text area
     const textArea = document.createElement('textarea');
+    textArea.classList.add('h-200')
     textArea.setAttribute('id', 'textArea')
 
     const submitBtn = document.createElement('button');
@@ -95,12 +99,22 @@ export function submitBtnEvent(submitBtn, titleInput, folderOptions, editor, tar
             msgAlert('Please fill out all fields');
             return;
         }
-        const note = createNoteComponent(title, folder, folderColor, content);
+        const note = createNoteComponent(title, folder, folderColor, content, getCurrentDate());
+        createNoteObject(title, folder, folderColor, content, 'placeholder'); 
+
         target.innerHTML = '';
         //TODO:: RERENDER ALL NOTES
+        attachBtnEvents(note);
         target.appendChild(note);
+        displayNotes();
+
     });
 
+}
+//attach events to delete and update button
+function attachBtnEvents(note) {
+    note.querySelector('.bx-trash')?.addEventListener('click', () => { alert('delete') });
+    note.querySelector('.bx-pencil-square')?.addEventListener('click', () => { alert('edit') });
 }
 
 //cancel button events
@@ -113,7 +127,7 @@ export function cancelBtnEvent(cancelBtn, target) {
 
 
 //create note component 
-export function createNoteComponent(title, folder, folderColor, content) {
+export function createNoteComponent(title, folder, folderColor, content, dateCreated) {
 
     //container
     const noteContainer = document.createElement('div');
@@ -145,7 +159,6 @@ export function createNoteComponent(title, folder, folderColor, content) {
 
     //date
     const noteDate = document.createElement('p')
-    const dateCreated = getCurrentDate();
     noteDate.textContent = `Created on ${dateCreated}`;
 
     const btnDiv = document.createElement('div')
@@ -167,6 +180,12 @@ export function createNoteComponent(title, folder, folderColor, content) {
     noteContainer.appendChild(noteBtnSection);
 
     //return note container and append to mainWorkspace
+
+    attachBtnEvents(noteContainer);
     return noteContainer;
 }
+//view note
+
+//edit note
+
 
