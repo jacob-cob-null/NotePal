@@ -2,7 +2,7 @@ import EasyMDE from "easymde";
 import { marked } from 'marked';
 import "easymde/dist/easymde.min.css";
 import { getFolderAttributes } from "./folder-crud";
-import { getCurrentDate } from "./notes-crud";
+import { deleteNote, getCurrentDate } from "./notes-crud";
 import { msgAlert } from "../../events/alerts";
 import { createNoteObject } from "./notes-crud";
 import { displayNotes } from "./notes.render";
@@ -112,23 +112,46 @@ export function submitBtnEvent(submitBtn, titleInput, folderOptions, editor, tar
     });
 
 }
-//attach events to delete and update button
-function attachNoteEvents(note) {
-    note.addEventListener('click', () => {
+function retrieveNoteInfo(note) {
+    note.addEventListener('click', (note) => {
         const noteId = note.dataset.id;
         const foundNote = noteList.find(n => n.id === noteId);
         if (foundNote) {
-            alert(foundNote.id)
+            return foundNote;
+        }
+    });
+}
+//attach events to delete and update button
+function attachNoteEvents(note) {
+
+    note.addEventListener('click', (note) => {
+        const noteId = note.dataset.id;
+        const foundNote = noteList.find(n => n.id === noteId);
+        if (foundNote) {
+            return foundNote;
         }
     });
 
     note.querySelector('.bx-trash')?.addEventListener('click', (e) => {
         e.stopPropagation();
-        alert('delete')
+        const noteId = note.dataset.id;
+        const foundNote = noteList.find(n => n.id === noteId);
+        if (foundNote) {
+            const toDelete = foundNote.id;
+            deleteNote(toDelete); //delete to localstorage
+            note.remove();
+        }
+
     });
     note.querySelector('.bx-pencil-square')?.addEventListener('click', (e) => {
         e.stopPropagation();
-        alert('edit')
+        const noteId = note.dataset.id;
+        const foundNote = noteList.find(n => n.id === noteId);
+        if (foundNote) {
+
+            msgAlert(foundNote.id)
+        }
+
     });
 }
 

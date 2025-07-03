@@ -1,6 +1,6 @@
 import '../../../style.css';
 import EasyMDE from 'easymde';
-import { addNotes } from './notes-object';
+import { addNotes, noteList, saveNotesToLocalStorage } from './notes-object';
 
 //note object factory
 export function createNoteObject(title, folder, folderColor, content, owner) {
@@ -33,3 +33,11 @@ export function getCurrentDate() {
 //update
 
 //delete
+export function deleteNote(id) {
+    noteList.forEach((note)=> {
+        if(note.id == id){
+            noteList.splice(note,1);
+            saveNotesToLocalStorage();
+        }
+    })
+}
