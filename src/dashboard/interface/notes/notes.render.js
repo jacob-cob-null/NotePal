@@ -98,7 +98,7 @@ export function displayNotes() {
     loadNotesFromLocalStorage(); //loads all notea
     noteList.forEach((note) => {
 
-        const noteItem = createNoteComponent(note.title, note.folder, note.folderColor, note.content, note.dateCreated) //creates note
+        const noteItem = createNoteComponent(note.title, note.folder, note.folderColor, note.content, note.dateCreated, note.id) //creates note
         mainWorkspace.appendChild(noteItem);
     })
 }

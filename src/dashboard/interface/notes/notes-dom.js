@@ -6,6 +6,7 @@ import { getCurrentDate } from "./notes-crud";
 import { msgAlert } from "../../events/alerts";
 import { createNoteObject } from "./notes-crud";
 import { displayNotes } from "./notes.render";
+import { noteList } from "./notes-object";
 
 
 //create note form
@@ -100,11 +101,11 @@ export function submitBtnEvent(submitBtn, titleInput, folderOptions, editor, tar
             return;
         }
         const note = createNoteComponent(title, folder, folderColor, content, getCurrentDate());
-        createNoteObject(title, folder, folderColor, content, 'placeholder'); 
+        createNoteObject(title, folder, folderColor, content, 'placeholder');
 
         target.innerHTML = '';
         //TODO:: RERENDER ALL NOTES
-        attachBtnEvents(note);
+        attachNoteEvents(note);
         target.appendChild(note);
         displayNotes();
 
@@ -112,22 +113,38 @@ export function submitBtnEvent(submitBtn, titleInput, folderOptions, editor, tar
 
 }
 //attach events to delete and update button
-function attachBtnEvents(note) {
-    note.querySelector('.bx-trash')?.addEventListener('click', () => { alert('delete') });
-    note.querySelector('.bx-pencil-square')?.addEventListener('click', () => { alert('edit') });
+function attachNoteEvents(note) {
+    note.addEventListener('click', () => {
+        const noteId = note.dataset.id;
+        const foundNote = noteList.find(n => n.id === noteId);
+        if (foundNote) {
+            alert(foundNote.id)
+        }
+    });
+
+    note.querySelector('.bx-trash')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        alert('delete')
+    });
+    note.querySelector('.bx-pencil-square')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        alert('edit')
+    });
 }
 
 //cancel button events
 export function cancelBtnEvent(cancelBtn, target) {
     cancelBtn.addEventListener('click', () => {
         console.log('I cancel things!');
+        target.innerHTML = '';
+        displayNotes();
         //TODO:: CLEAR MAIN WORKSPACE AND RERENDER ALL NOTES
     });
 }
 
 
 //create note component 
-export function createNoteComponent(title, folder, folderColor, content, dateCreated) {
+export function createNoteComponent(title, folder, folderColor, content, dateCreated, id) {
 
     //container
     const noteContainer = document.createElement('div');
@@ -181,7 +198,8 @@ export function createNoteComponent(title, folder, folderColor, content, dateCre
 
     //return note container and append to mainWorkspace
 
-    attachBtnEvents(noteContainer);
+    noteContainer.dataset.id = id;
+    attachNoteEvents(noteContainer);
     return noteContainer;
 }
 //view note
