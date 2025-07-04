@@ -93,12 +93,44 @@ export function noteEvents() {
     });
 }
 //iterate through notes and append through mainWorkspace
-export function displayNotes() {
+export function displayNotes(folder) {
+
+    //if argument not empty, iterate list of note's folder
+    if (folder != null) {
+        mainWorkspace.innerHTML = ''
+        loadNotesFromLocalStorage();
+
+        //filters notes with specific folder, if empty, appends a text
+        const filteredNoteList = noteList.filter((note) => note.folder?.toLowerCase() === folder?.toLowerCase());
+        if (filteredNoteList.length === 0) {
+            const emptyWorkspace = document.createElement('h1');
+            emptyWorkspace.classList.add('header');
+            emptyWorkspace.textContent = 'This folder seems to be empty, try adding notes here!'
+            mainWorkspace.appendChild(emptyWorkspace);
+            return;
+        }
+        filteredNoteList.forEach((note) => {
+            const safeContent = typeof note.content === 'string' ? note.content : '';
+
+            if (!note.content) {
+                console.warn('Note with missing content detected:', note);
+            }
+            const noteItem = createNoteComponent(note.title, note.folder, note.folderColor, note.content, note.dateCreated, note.id) //creates note
+            mainWorkspace.appendChild(noteItem);
+        })
+        return;
+    }
     mainWorkspace.innerHTML = ''
-    loadNotesFromLocalStorage(); //loads all notea
+    loadNotesFromLocalStorage();
     noteList.forEach((note) => {
 
+        const safeContent = typeof note.content === 'string' ? note.content : '';
+
+        if (!note.content) {
+            console.warn('Note with missing content detected:', note);
+        }
         const noteItem = createNoteComponent(note.title, note.folder, note.folderColor, note.content, note.dateCreated, note.id) //creates note
         mainWorkspace.appendChild(noteItem);
     })
+
 }

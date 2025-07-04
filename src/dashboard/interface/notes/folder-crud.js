@@ -1,5 +1,6 @@
 import { noteGroup } from "../components";
 import { deleteFolderModal, editFolderModal } from "../../events/alerts";
+import { displayNotes } from "./notes.render";
 
 let noteGroupList = [];
 
@@ -83,22 +84,31 @@ export function editFolder({ oldName, newName, newColor }) {
   folder.folderName = newName;
   folder.color = newColor;
 
+  folder.addEventListener('click', (newName) => {
+    displayNotes(newName);
+  })
+
   saveNoteGroupsToLocalStorage();
   refreshGroupUI();
 }
 export async function addFolder() {
-    const input = await newFolderModal();
-    if (input) {
-        createFolder(input.folderName, input.color, noteGroup)
-        addNoteGroupList(input);
-        console.log(input);
-        saveNoteGroupsToLocalStorage();
-        return true;
-    }
+  const input = await newFolderModal();
+  if (input) {
+    createFolder(input.folderName, input.color, noteGroup)
+    addNoteGroupList(input);
+    console.log(input);
+    saveNoteGroupsToLocalStorage();
+    return true;
+  }
 }
 export function createFolder(folderName, color, targetAppend) {
-    let newFolder = document.createElement('div');
-    newFolder.classList.add('note-group', `${color}`);
-    newFolder.textContent = folderName;
-    targetAppend.append(newFolder);
+  let newFolder = document.createElement('div');
+  newFolder.classList.add('note-group', color, 'dark-hover-active');
+  newFolder.textContent = folderName;
+
+  newFolder.addEventListener('click', () => {
+    displayNotes(folderName); // now works as intended
+  });
+
+  targetAppend.append(newFolder);
 }
