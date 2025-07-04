@@ -12,26 +12,35 @@
   <main class="grid grid-rows-[65px_1fr_45px] min-h-screen w-full">
 
     <!-- Navigation Bar -->
-    <nav class="bg-white shadow-xl z-10 flex justify-between px-5 items-center">
-      <section class="flex items-center gap-0.5">
-        <i class="bx bx-edit-alt text-3xl" style="color: #000000"></i>
-        <h1 class="header">NotePal </h1>
+    <nav class="bg-white shadow-xl z-10 flex items-center justify-around sm:justify-between px-0 sm:px-3">
+      <!--Menu-->
+      <section class="flex items-center gap-2 sm:hidden">
+        <button id="burger" class="sm:hidden">
+          <i class="bx bx-menu text-3xl" style="color: #000000"></i>
+        </button>
       </section>
 
+      <!--Logo-->
+      <section class="flex">
+        <i class="bx bx-edit-alt text-3xl" style="color: #000000"></i>
+        <h1 class="header">NotePal</h1>
+      </section>
+
+      <!--Greeting and Avatar -->
       <section class="flex items-center gap-2 font-body">
-        Hello! <span id="username"></span>
-        <section class="h-10 w-10 rounded-full bg-gray-200"></section>
+        <div class="hidden sm:flex">Hello! <span id="username"></span></div>
+        <div class="h-10 w-10 rounded-full bg-gray-200"></div>
       </section>
     </nav>
 
     <!-- Main Window -->
-    <section id="mainWindow" class="grid uncollapsed bg-gray-200 overflow-hidden transition-all duration-300">
+    <section id="mainWindow"
+      class="grid uncollapsed sm:uncollapsed-m bg-gray-200 overflow-hidden transition-all duration-300">
 
       <!-- Sidebar Menu -->
       <aside class="bg-gray-100 flex flex-col p-5 gap-1 shadow-inner overflow-hidden">
-        <div class="flex items-center gap-3 mb-4">
+        <div class="items-center gap-3 mb-4 hidden sm:flex">
           <!--Menu toggle-->
-
           <!--  TODO: TOGGLE WEIGHT WHEN CLICKED -->
           <i id="toggleIcon"
             class="bx bx-arrow-left text-5xl text-gray-700 cursor-pointer transition-transform duration-300 shrink-0 z-20"></i>
@@ -68,19 +77,20 @@
 
         <!-- Note Groups -->
         <div id="noteGroup" class="flex flex-col gap-3 items-start overflow-y-auto h-[68%] pr-1">
+
           <!-- Note folders will go here -->
         </div>
       </aside>
 
       <!-- Workspace -->
-      <section class="bg-white p-8 overflow-hidden">
-        <div class="flex gap-6 items-center">
-          <h1 id="workspace_title" class="text-3xl font-bold text-gray-700 cursor-pointer">Title</h1>
-          <div id="workspaceHeader" class="flex items-center gap-6">
+      <section class="bg-white p-1 sm:p-8 overflow-hidden">
+        <div class="flex justify-center sm:justify-start gap-6 items-center mt-2 sm:mt-0">
+          <h1 id="workspace_title" class="text-3xl font-bold text-gray-700 cursor-pointer text-center">Title</h1>
+          <div id="workspaceHeader" class="flex justify-center items-center gap-2 sm:gap-6">
           </div>
         </div>
         <div id="mainWorkspace"
-          class="p-4 mt-4 mb-2 bg-gray-50 shadow-inner rounded-3xl flex flex-wrap gap-3 h-full overflow-auto"
+          class="p-4 mt-4 mb-2 bg-gray-50 shadow-inner overflow-y-scroll overflow-x-hidden rounded-3xl flex flex-wrap gap-3 h-full sm:overflow-auto"
           style="max-height: calc(100vh - 65px - 45px - 6rem);">
 
 

@@ -16,6 +16,7 @@ export const folderBtns = document.getElementById('folderBtns');
 export function initMenuComponents() {
   const mainWindow = document.getElementById('mainWindow');
   const toggleIcon = document.getElementById('toggleIcon');
+  const burger = document.getElementById('burger');
   const noteGroup = document.getElementById('noteGroup');
   const menuText = document.getElementsByClassName('menu-text');
   const menu = document.getElementById('menu');
@@ -24,6 +25,7 @@ export function initMenuComponents() {
   return {
     mainWindow,
     toggleIcon,
+    burger,
     noteGroup,
     menuText,
     menu,

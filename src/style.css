@@ -66,26 +66,29 @@
   .note-btn {
     @apply text-gray-500 cursor-pointer text-3xl hover:bg-gray-50 active:bg-gray-100 transition ease-in-out rounded-xl
   }
-
-
 }
 
-
-
-
 @layer utilities {
-  .collapsed {
-    @apply grid-cols-[90px_1fr];
+ .collapsed {
+    grid-template-columns: 90px 1fr;
   }
 
   .uncollapsed {
-    @apply grid-cols-[280px_1fr];
+    grid-template-columns: 280px 1fr;
+  }
+
+  .collapsed-m {
+    grid-template-columns: 100vw 0px; /* Full screen width for sidebar, no content */
+  }
+
+  .uncollapsed-m {
+    grid-template-columns: 0px 100vw; /* No sidebar, full screen for content */
   }
 
   .dark-hover-active {
     @apply hover:brightness-95 active:brightness-90 hover:shadow-md transition ease-in-out;
   }
-  
+
 
   .y-hover {
     @apply motion-translate-x-in-[0%] motion-translate-y-in-[10%]

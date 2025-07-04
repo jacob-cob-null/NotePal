@@ -2,32 +2,52 @@ import { workspace_title, workspaceHeader, delFolderBtn, editFolderBtn, folderBt
 import { initNotes, displayNotes } from "../interface/notes/notes.render";
 import { folderEvents, initFolders } from "../interface/notes/folder-crud";
 
-
-export function initEvents({ mainWindow, toggleIcon, noteGroup, menuText, menu, line, folderBtns }) {
+export function initEvents({ mainWindow, toggleIcon, noteGroup, burger, menuText, menu, line, folderBtns }) {
   setupToggleMenu({
     toggleIcon: toggleIcon,
     mainWindow: mainWindow,
     noteGroup: noteGroup,
     menuText: menuText,
     menu: menu,
+    burger: burger,
     line: line,
     folderBtns: folderBtns
   });
 }
 
-function setupToggleMenu({ toggleIcon, mainWindow, noteGroup, menuText, menu, line, folderBtns }) {
+function setupToggleMenu({ toggleIcon, mainWindow, noteGroup, menuText, menu, line, folderBtns, burger }) {
+  // Desktop toggle
   toggleIcon?.addEventListener('click', () => {
     toggleIcon?.classList.toggle('rotate-180');
-    mainWindow?.classList.toggle('collapsed');
-    mainWindow?.classList.toggle('uncollapsed');
+
+    // Only toggle desktop classes
+    if (window.innerWidth >= 640) { // sm breakpoint
+      mainWindow?.classList.toggle('collapsed');
+      mainWindow?.classList.toggle('uncollapsed');
+    }
+
     noteGroup?.classList.toggle('invisible');
     menu?.classList.toggle('invisible');
     folderBtns?.classList.toggle('invisible');
     Array.from(menuText ?? []).forEach(el => el.classList.toggle('invisible'));
     line?.classList.toggle('invisible');
   });
-}
 
+  // Mobile toggle
+  burger?.addEventListener('click', () => {
+    // Only toggle mobile classes
+   if (window.innerWidth < 640) { // sm breakpoint
+    if (mainWindow?.classList.contains('collapsed-m')) {
+      mainWindow?.classList.remove('collapsed-m');
+      mainWindow?.classList.add('uncollapsed-m');
+    } else {
+      mainWindow?.classList.remove('uncollapsed-m');
+      mainWindow?.classList.add('collapsed-m');
+    }
+  }
+
+  })
+}
 //init menuItems
 function initMenuItems() {
   const tasksMenu = document.getElementById('tasks');
