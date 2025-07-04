@@ -231,7 +231,7 @@ function viewNote(id) {
     upperSection.className = 'flex justify-between items-center';
 
     const title = document.createElement('h1');
-    title.className ='note-title text-5xl w-full';
+    title.className ='note-title text-5xl w-full h-14';
     title.textContent = note.title;
     const folder = document.createElement('span');
     folder.className = `note-folder w-35 ${note.folderColor}`;
