@@ -15,7 +15,7 @@
   }
 
   .menu-text {
-    @apply text-4xl font-body text-gray-500;
+    @apply text-2xl sm:text-4xl font-body text-gray-500;
   }
 
   .note-group {
@@ -27,7 +27,7 @@
   }
 
   .header {
-    @apply font-head text-3xl text-gray-700;
+    @apply font-head text-[clamp(0.75rem,2rem,4rem)] text-gray-700;
   }
 
   .button {

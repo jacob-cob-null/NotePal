@@ -36,15 +36,15 @@ function setupToggleMenu({ toggleIcon, mainWindow, noteGroup, menuText, menu, li
   // Mobile toggle
   burger?.addEventListener('click', () => {
     // Only toggle mobile classes
-   if (window.innerWidth < 640) { // sm breakpoint
-    if (mainWindow?.classList.contains('collapsed-m')) {
-      mainWindow?.classList.remove('collapsed-m');
-      mainWindow?.classList.add('uncollapsed-m');
-    } else {
-      mainWindow?.classList.remove('uncollapsed-m');
-      mainWindow?.classList.add('collapsed-m');
+    if (window.innerWidth < 640) { // sm breakpoint
+      if (mainWindow?.classList.contains('collapsed-m')) {
+        mainWindow?.classList.remove('collapsed-m');
+        mainWindow?.classList.add('uncollapsed-m');
+      } else {
+        mainWindow?.classList.remove('uncollapsed-m');
+        mainWindow?.classList.add('collapsed-m');
+      }
     }
-  }
 
   })
 }
@@ -53,16 +53,18 @@ function initMenuItems() {
   const tasksMenu = document.getElementById('tasks');
   const notesMenu = document.getElementById('notes');
   const calendarMenu = document.getElementById('calendar');
+  const pomodoroMenu = document.getElementById('pomodoro');
 
   console.log({ tasksMenu, notesMenu, calendarMenu });
   return {
     tasksMenu,
     notesMenu,
-    calendarMenu
+    calendarMenu,
+    pomodoroMenu
   };
 }
 //add functions to dynamically change workspace content
-function eventMenuItems({ tasksMenu, notesMenu, calendarMenu }) {
+function eventMenuItems({ tasksMenu, notesMenu, calendarMenu, pomodoroMenu}) {
   tasksMenu.addEventListener('click', () => {
     workspace_title.innerText = "Tasks";
     workspaceHeader.innerHTML = "";
@@ -78,6 +80,11 @@ function eventMenuItems({ tasksMenu, notesMenu, calendarMenu }) {
   });
   calendarMenu.addEventListener('click', () => {
     workspace_title.innerText = "Calendar";
+    workspaceHeader.innerHTML = "";
+    mainWorkspace.innerHTML = '';
+  });
+  pomodoroMenu.addEventListener('click', () => {
+    workspace_title.innerText = "Pomodoro";
     workspaceHeader.innerHTML = "";
     mainWorkspace.innerHTML = '';
   });
