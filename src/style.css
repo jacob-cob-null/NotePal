@@ -86,7 +86,7 @@
   }
 
   .dark-hover-active {
-    @apply hover:brightness-95 active:brightness-90 hover:shadow-md transition ease-in-out;
+    @apply hover:brightness-97 active:brightness-95 hover:shadow-md transition ease-in-out;
   }
 
 

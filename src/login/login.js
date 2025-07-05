@@ -72,7 +72,7 @@ function addForm(btnName) {
       <input class="h-12 w-90 bg-gray-100 p-2 border-2 border-gray-300 rounded-[10px] hover:brightness-95"
              type="password" placeholder="Type your password" id="password" name="password" required />
 
-      <button id="submit" class="bg-white outline-1 rounded-[10px] shadow-md h-12 mb-5 hover:brightness-95 active:scale-95 active:translate-y-[2px] transition">
+      <button id="submit" class="button h-[50px] w-full bg-white dark-hover-active outline-gray-200 outline-1">
         ${btnName}
       </button>
     </form>
@@ -116,14 +116,14 @@ function updateAuthTip(isRegistering) {
   if (!header) return;
 
   const prompt = document.createElement('h2');
-  prompt.className = 'mt-2';
+  prompt.className = 'mt-2 flex gap-1';
 
   const isLogin = !isRegistering;
   const actionText = isLogin ? 'Register here' : 'Sign in here';
   const toggleId = isLogin ? 'register' : 'signin';
   const message = isLogin ? 'New to NotePal?' : 'Already have an account?';
 
-  prompt.innerHTML = `${message} <span id="${toggleId}" class="text-orange-600 cursor-pointer">${actionText}</span>`;
+  prompt.innerHTML = `${message} <div id="${toggleId}" class="text-orange-600 transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95">${actionText}</div>`;
   header.append(prompt);
 
   // Reattach event listener to new dynamic toggle
