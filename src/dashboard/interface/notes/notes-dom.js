@@ -296,7 +296,7 @@ function viewNote(id) {
     viewContainer.className = 'rounded-2xl bg-white w-full h-full flex flex-col px-5 py-4';
 
     const upperSection = document.createElement('section');
-    upperSection.className = 'flex flex-col sm:flex-row justify-between items-center';
+    upperSection.className = 'flex  justify-between items-center';
 
     const title = document.createElement('h1');
     title.className = 'note-title text-xl sm:text-4xl w-full h-14 mt-5.5';
@@ -323,7 +323,7 @@ function viewNote(id) {
 
     //buttons
     const editButton = document.createElement('button');
-    editButton.classList.add('button', 'dark-hover-active', 'bg-blue-100');
+    editButton.classList.add('button', 'dark-hover-active', 'bg-blue-200');
     editButton.innerHTML = '<i class="bx bx-pencil-square"></i> Edit';
 
     const deleteButton = document.createElement('button');
@@ -335,7 +335,7 @@ function viewNote(id) {
     cancelButton.textContent = 'Back';
 
     const btnGroup = document.createElement('section');
-    btnGroup.className = 'flex gap-1 self-end sm:grid sm:grid-cols-3';
+    btnGroup.className = 'flex gap-2 self-end sm:grid sm:grid-cols-3';
 
     btnGroup.appendChild(cancelButton);
     btnGroup.appendChild(editButton);

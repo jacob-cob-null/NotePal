@@ -27,11 +27,11 @@
   }
 
   .header {
-    @apply font-head text-[0.75rem] sm:text-[2rem] text-gray-700;
+    @apply font-head text-[1.25rem] sm:text-[2rem] text-gray-700;
   }
 
   .button {
-    @apply bg-white h-8 w-30 rounded-xl font-head shadow-md active:brightness-94 hover:brightness-97 transition ease-in-out outline-gray-300 outline-1
+    @apply bg-white h-8 w-30 rounded-xl font-head active:brightness-94 hover:brightness-97 transition ease-in-out outline-gray-300 outline-1
   }
 
   .note-container {
