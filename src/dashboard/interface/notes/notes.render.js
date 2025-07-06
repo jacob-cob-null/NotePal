@@ -63,23 +63,20 @@ export function createFolder(folderName, color, targetAppend) {
 
 //bind events
 export function noteEvents() {
-
     //CREATE NOTE FORM
     document.getElementById('createNoteBtn').addEventListener('click', () => {
-        mainWorkspace.innerHTML = ''; //clears mainWorkspace
+        mainWorkspace.innerHTML = '';
         const { form, titleInput, folderOptions, textArea, submitBtn, cancelBtn } = createNoteForm();
-        mainWorkspace.append(form); //appends form
+        mainWorkspace.append(form);
 
         //easy mde  
         const editor = new EasyMDE({ element: textArea });
         const mdeContainer = textArea.parentElement?.querySelector('.EasyMDEContainer');
         if (mdeContainer) {
-            mdeContainer.classList.add('w-full');
+            mdeContainer.classList.add('w-full','h-full');
         }
-
-        submitBtnEvent(submitBtn, titleInput, folderOptions, editor, mainWorkspace);
+        submitBtnEvent(submitBtn, titleInput, folderOptions, editor, mainWorkspace, null);
         cancelBtnEvent(cancelBtn, mainWorkspace);
-
     });
 
     document.getElementById('createFolderBtn').addEventListener('click', async () => {

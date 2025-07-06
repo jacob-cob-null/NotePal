@@ -2,7 +2,7 @@ import EasyMDE from "easymde";
 import { marked } from 'marked';
 import "easymde/dist/easymde.min.css";
 import { getFolderAttributes } from "./folder-crud";
-import { deleteNote, findNote, getCurrentDate } from "./notes-crud";
+import { deleteNote, editNote, findNote, getCurrentDate } from "./notes-crud";
 import { msgAlert } from "../../events/alerts";
 import { createNoteObject } from "./notes-crud";
 import { displayNotes } from "./notes.render";
@@ -11,7 +11,13 @@ import { mainWorkspace } from "../components";
 
 
 //create note form
-export function createNoteForm() {
+export function createNoteForm(id = null, title = '', folder = '', folderColor = '', content = '') {
+    //inputs
+    const titleInput = document.createElement('input');
+    const folderOptions = document.createElement('select');
+    const textArea = document.createElement('textarea');
+
+
     // Form
     const form = document.createElement('form');
     form.classList.add('flex', 'flex-col', 'gap-3', 'items-start', 'w-full');
@@ -21,7 +27,7 @@ export function createNoteForm() {
     titleLabel.textContent = 'Title:';
     titleLabel.classList.add('header')
 
-    const titleInput = document.createElement('input');
+
     titleInput.type = 'text';
     titleInput.classList.add('border-2', 'border-gray-500', 'w-full', 'bg-white', 'p-1.5', 'rounded-xl')
     titleInput.setAttribute('id', 'noteTitle');
@@ -30,10 +36,10 @@ export function createNoteForm() {
     const folderLabel = document.createElement('label');
     folderLabel.textContent = 'Folder:';
     folderLabel.classList.add('header')
-    const folderOptions = document.createElement('select');
+
     folderOptions.classList.add('bg-white', 'p-1.5', 'rounded-xl');
     folderOptions.setAttribute('id', 'folderOption');
-    //get folders
+    //get list of folders
     const folderAttributes = getFolderAttributes();
 
     // iterate folder attributes
@@ -46,6 +52,15 @@ export function createNoteForm() {
         folderOptions.appendChild(option);
     });
 
+    //find note from id first
+
+    //editing form
+    if (id !== null && title !== null && folder !== null && folderColor !== null && content !== null) {
+        titleInput.value = title;
+        folderOptions.value = folder;
+        textArea.value = content;
+    }
+
     const folderGroup = document.createElement('div');
     folderGroup.classList.add('flex', 'gap-2', 'items-center')
 
@@ -53,7 +68,7 @@ export function createNoteForm() {
     folderGroup.appendChild(folderOptions);
 
     //text area
-    const textArea = document.createElement('textarea');
+
     textArea.classList.add('h-200')
     textArea.setAttribute('id', 'textArea')
 
@@ -89,7 +104,7 @@ export function createNoteForm() {
 }
 
 //submit button events
-export function submitBtnEvent(submitBtn, titleInput, folderOptions, editor, target) {
+export function submitBtnEvent(submitBtn, titleInput, folderOptions, editor, target, id) {
     submitBtn.addEventListener('click', () => {
         const title = titleInput.value.trim();
         const folder = folderOptions.value;
@@ -101,21 +116,24 @@ export function submitBtnEvent(submitBtn, titleInput, folderOptions, editor, tar
             msgAlert('Please fill out all fields');
             return;
         }
-        const note = createNoteComponent(title, folder, folderColor, content, getCurrentDate());
-        createNoteObject(title, folder, folderColor, content, 'placeholder');
 
-        target.innerHTML = '';
-        //TODO:: RERENDER ALL NOTES
-        attachNoteEvents(note);
-        target.appendChild(note);
-        displayNotes();
-
+        //editing existing note
+        if (id !== null) {
+            editNote(id, title, folder, folderColor, content);
+            target.innerHTML = '';
+            displayNotes();
+            return;
+        }
+        // Creating new note - FIXED
+        const noteObject = createNoteObject(title, folder, folderColor, content); // Removed 'placeholder' parameter
+        target.innerHTML = ''; // Clear form
+        displayNotes(); // Show updated notes list including the new note
     });
-
 }
 //attach events to delete and update button
 function attachNoteEvents(note) {
 
+    //make each note clickable
     note.addEventListener('click', (e) => {
         const noteId = e.currentTarget.dataset.id;
         const foundNote = noteList.find(n => n.id === noteId);
@@ -133,7 +151,9 @@ function attachNoteEvents(note) {
         if (foundNote) {
             const toDelete = foundNote.id;
             deleteNote(toDelete); //delete to localstorage
-            note.remove();
+            //remove to firestore
+            note.remove(); // remove to dom
+            msgAlert(`Note ${foundNote.title} has been deleted`);
         }
 
     });
@@ -142,8 +162,25 @@ function attachNoteEvents(note) {
         const noteId = note.dataset.id;
         const foundNote = noteList.find(n => n.id === noteId);
         if (foundNote) {
+            const { form, titleInput, folderOptions, textArea, submitBtn, cancelBtn } = createNoteForm(
+                foundNote.id,
+                foundNote.title,
+                foundNote.folder,
+                foundNote.folderColor,
+                foundNote.content
+            );
 
-            msgAlert(foundNote.id)
+            mainWorkspace.innerHTML = '';
+            mainWorkspace.append(form);
+
+            
+            const editor = new EasyMDE({ element: textArea });
+            const mdeContainer = textArea.parentElement?.querySelector('.EasyMDEContainer');
+            if (mdeContainer) {
+                mdeContainer.classList.add('w-full', 'h-full');
+            }
+            submitBtnEvent(submitBtn, titleInput, folderOptions, editor, mainWorkspace, noteId);
+            cancelBtnEvent(cancelBtn, mainWorkspace);
         }
 
     });
@@ -184,7 +221,7 @@ export function createNoteComponent(title, folder, folderColor, content, dateCre
 
     //main content
     const noteBody = document.createElement('div');
-    noteBody.classList.add('note-body');
+    noteBody.classList.add('markdown');
     noteBody.innerHTML = marked(content); //parsed to html
 
     //button section
@@ -214,9 +251,11 @@ export function createNoteComponent(title, folder, folderColor, content, dateCre
     noteContainer.appendChild(noteBtnSection);
 
     //return note container and append to mainWorkspace
+    if (id) {
+        noteContainer.dataset.id = id;
+        attachNoteEvents(noteContainer);
+    }
 
-    noteContainer.dataset.id = id;
-    attachNoteEvents(noteContainer);
     return noteContainer;
 }
 //view note
@@ -228,10 +267,10 @@ function viewNote(id) {
     viewContainer.className = 'rounded-2xl bg-white w-full h-full flex flex-col px-5 py-4';
 
     const upperSection = document.createElement('section');
-    upperSection.className = 'flex justify-between items-center';
+    upperSection.className = 'flex flex-col sm:flex-row justify-between items-center';
 
     const title = document.createElement('h1');
-    title.className ='note-title text-xl sm:text-4xl w-full h-14 mt-5.5';
+    title.className = 'note-title text-xl sm:text-4xl w-full h-14 mt-5.5';
     title.textContent = note.title;
     const folder = document.createElement('span');
     folder.className = `note-folder w-35 ${note.folderColor}`;
@@ -249,8 +288,10 @@ function viewNote(id) {
     line.className = 'w-full h-[3px] my-2 md-col border-none mb-8 rounded-sm bg-gray-900'
 
     const content = document.createElement('div');
-    content.className = 'h-full w-full overflow-auto';
+    content.className = 'h-full w-full overflow-auto markdown';
     content.innerHTML = marked(note.content)
+    console.log("🔍 marked output", marked(note.content));
+
 
     viewContainer.appendChild(upperSection);
     viewContainer.appendChild(date);
