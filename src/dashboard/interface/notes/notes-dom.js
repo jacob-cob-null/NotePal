@@ -3,7 +3,7 @@ import { marked } from 'marked';
 import "easymde/dist/easymde.min.css";
 import { getFolderAttributes } from "./folder-crud";
 import { deleteNote, editNote, findNote } from "./notes-crud";
-import { msgAlert } from "../../events/alerts";
+import { deleteConfirm, msgAlert } from "../../events/alerts";
 import { createNoteObject } from "./notes-crud";
 import { displayNotes } from "./notes.render";
 import { noteList } from "./notes-object";
@@ -202,13 +202,12 @@ function attachNoteEvents(note) {
             const noteId = note.dataset.id;
             const foundNote = noteList.find(n => n.id === noteId);
             if (foundNote) {
-                if (confirm(`Are you sure you want to delete "${foundNote.title}"?`)) {
-                    deleteNote(foundNote.id);
-                    note.remove();
-                    msgAlert(`Note "${foundNote.title}" has been deleted`);
-                }
+                deleteConfirm(async () => {
+                    await deleteDom(foundNote.id);
+                }, 'note');
             }
-        });
+        })
+
     }
 
     // Edit button event
@@ -345,13 +344,11 @@ function viewNote(id) {
     editButton.addEventListener('click', () => {
         editNoteHandler(note.id);
     });
-
+    //DELETE
     deleteButton.addEventListener('click', () => {
-
-        deleteNote(note.id);
-        mainWorkspace.innerHTML = '';
-        displayNotes();
-
+        deleteConfirm(async () => {
+            await deleteDom(note.id);
+        }, 'note');
     });
 
     cancelButton.addEventListener('click', () => {
@@ -366,4 +363,12 @@ function viewNote(id) {
     viewContainer.appendChild(btnGroup);
 
     return viewContainer;
+}
+
+function deleteDom(id) {
+    mainWorkspace.innerHTML = '';
+    deleteNote(id);
+    deleteDom(id);
+    note.remove();
+    displayNotes()
 }

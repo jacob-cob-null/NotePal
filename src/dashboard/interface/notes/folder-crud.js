@@ -1,5 +1,5 @@
 import { noteGroup } from "../components";
-import { deleteFolderModal, editFolderModal } from "../../events/alerts";
+import { deleteConfirm, deleteFolderModal, editFolderModal } from "../../events/alerts";
 import { displayNotes } from "./notes.render";
 
 let noteGroupList = [];
@@ -64,7 +64,9 @@ export function folderEvents(edit, del) {
   del.addEventListener('click', async () => {
     const folderToDelete = await deleteFolderModal(getFolderName());
     if (folderToDelete) {
-      removeFolder(folderToDelete);
+      deleteConfirm(async () => {
+        await removeFolder(folderToDelete);
+      }, 'folder');
     }
   });
 }

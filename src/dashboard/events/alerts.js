@@ -11,7 +11,7 @@ export function successfulLogin(name) {
 export function failedLogin() {
     Swal.fire({
         title: `Login Failed`,
-        text: "Oops! That login didn’t work"<br> "Double-check your email and password.",
+        text: "Oops! That login didn’t work" < br > "Double-check your email and password.",
         icon: "error"
     });
 }
@@ -100,9 +100,6 @@ export async function deleteFolderModal(tempArr) {
         showCancelButton: true,
     });
 
-    if (folderDel) {
-        Swal.fire(`You selected: ${folderDel}`);
-    }
     return folderDel;
 }
 
@@ -169,4 +166,29 @@ export async function editFolderModal(tempArr, folderList) {
     }
 
     return null;
+}
+//generic delete confirm modal
+export async function deleteConfirm(callback, type) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!",
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "Deleted!",
+                text: `Your ${type} has been deleted`,
+                icon: "success",
+
+            }).then(() =>
+                callback()
+            )
+
+        }
+    });
 }
