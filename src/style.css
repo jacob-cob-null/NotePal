@@ -31,7 +31,7 @@
   }
 
   .button {
-    @apply h-8 w-30 rounded-xl font-head shadow-md active:brightness-94 hover:brightness-97 transition ease-in-out
+    @apply bg-white h-8 w-30 rounded-xl font-head shadow-md active:brightness-94 hover:brightness-97 transition ease-in-out outline-gray-300 outline-1
   }
 
   .note-container {

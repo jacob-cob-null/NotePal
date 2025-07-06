@@ -23,7 +23,7 @@ export function renderNoteComponent() {
 
     let createFolderBtn = document.createElement('button');
     createFolderBtn.textContent = 'New Folder';
-    createFolderBtn.classList.add('button', 'bg-blue-100');
+    createFolderBtn.classList.add('button');
     createFolderBtn.setAttribute('id', 'createFolderBtn');
 
     workspaceHeader.append(createNoteBtn);

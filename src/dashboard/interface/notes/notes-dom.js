@@ -2,13 +2,12 @@ import EasyMDE from "easymde";
 import { marked } from 'marked';
 import "easymde/dist/easymde.min.css";
 import { getFolderAttributes } from "./folder-crud";
-import { deleteNote, editNote, findNote, getCurrentDate } from "./notes-crud";
+import { deleteNote, editNote, findNote } from "./notes-crud";
 import { msgAlert } from "../../events/alerts";
 import { createNoteObject } from "./notes-crud";
 import { displayNotes } from "./notes.render";
 import { noteList } from "./notes-object";
 import { mainWorkspace } from "../components";
-
 
 //create note form
 export function createNoteForm(id = null, title = '', folder = '', folderColor = '', content = '') {
@@ -16,7 +15,6 @@ export function createNoteForm(id = null, title = '', folder = '', folderColor =
     const titleInput = document.createElement('input');
     const folderOptions = document.createElement('select');
     const textArea = document.createElement('textarea');
-
 
     // Form
     const form = document.createElement('form');
@@ -26,7 +24,6 @@ export function createNoteForm(id = null, title = '', folder = '', folderColor =
     const titleLabel = document.createElement('label');
     titleLabel.textContent = 'Title:';
     titleLabel.classList.add('header')
-
 
     titleInput.type = 'text';
     titleInput.classList.add('border-2', 'border-gray-500', 'w-full', 'bg-white', 'p-1.5', 'rounded-xl')
@@ -39,6 +36,7 @@ export function createNoteForm(id = null, title = '', folder = '', folderColor =
 
     folderOptions.classList.add('bg-white', 'p-1.5', 'rounded-xl');
     folderOptions.setAttribute('id', 'folderOption');
+
     //get list of folders
     const folderAttributes = getFolderAttributes();
 
@@ -52,10 +50,8 @@ export function createNoteForm(id = null, title = '', folder = '', folderColor =
         folderOptions.appendChild(option);
     });
 
-    //find note from id first
-
-    //editing form
-    if (id !== null && title !== null && folder !== null && folderColor !== null && content !== null) {
+    //editing form - populate with existing values
+    if (id !== null && title !== '' && folder !== '' && folderColor !== '' && content !== '') {
         titleInput.value = title;
         folderOptions.value = folder;
         textArea.value = content;
@@ -68,26 +64,24 @@ export function createNoteForm(id = null, title = '', folder = '', folderColor =
     folderGroup.appendChild(folderOptions);
 
     //text area
-
     textArea.classList.add('h-200')
     textArea.setAttribute('id', 'textArea')
 
     const submitBtn = document.createElement('button');
     submitBtn.setAttribute('id', 'submitBtn');
-    submitBtn.textContent = 'Create Note';
+    submitBtn.textContent = id ? 'Update Note' : 'Create Note';
     submitBtn.type = 'button';
-
 
     const cancelBtn = document.createElement('button');
     cancelBtn.setAttribute('id', 'cancelBtn');
     cancelBtn.textContent = 'Cancel';
-    cancelBtn.type = 'button'; // prevents form submission refresh
+    cancelBtn.type = 'button';
 
     const buttonGroup = document.createElement('section');
     buttonGroup.classList.add('flex', 'gap-2', 'mt-auto', 'self-end');
 
-    submitBtn.classList.add('button', 'hover:bg-blue-200', 'hover:shadow-lg');
-    cancelBtn.classList.add('button', 'hover:bg-red-200', 'hover:shadow-lg');
+    submitBtn.classList.add('button', 'bg-blue-200', 'dark-hover-active');
+    cancelBtn.classList.add('button', 'dark-hover-active');
 
     //button group
     buttonGroup.appendChild(cancelBtn);
@@ -95,16 +89,16 @@ export function createNoteForm(id = null, title = '', folder = '', folderColor =
 
     // Append elements to form
     form.appendChild(titleLabel);
-    form.appendChild(titleInput); //noteTitle
-    form.appendChild(folderGroup); //folderOption
-    form.appendChild(textArea); //textArea
-    form.appendChild(buttonGroup); //cancelBtn and submitBtn
+    form.appendChild(titleInput);
+    form.appendChild(folderGroup);
+    form.appendChild(textArea);
+    form.appendChild(buttonGroup);
 
-    return { form, titleInput, folderOptions, textArea, submitBtn, cancelBtn }; //returns form (to append), and input values (title, folder, content), and cancel and create note button
+    return { form, titleInput, folderOptions, textArea, submitBtn, cancelBtn };
 }
 
 //submit button events
-export function submitBtnEvent(submitBtn, titleInput, folderOptions, editor, target, id) {
+export function submitBtnEvent(submitBtn, titleInput, folderOptions, editor, target, id = null) {
     submitBtn.addEventListener('click', () => {
         const title = titleInput.value.trim();
         const folder = folderOptions.value;
@@ -122,17 +116,73 @@ export function submitBtnEvent(submitBtn, titleInput, folderOptions, editor, tar
             editNote(id, title, folder, folderColor, content);
             target.innerHTML = '';
             displayNotes();
+            msgAlert(`Note "${title}" has been updated`);
             return;
         }
-        // Creating new note - FIXED
-        const noteObject = createNoteObject(title, folder, folderColor, content); // Removed 'placeholder' parameter
-        target.innerHTML = ''; // Clear form
-        displayNotes(); // Show updated notes list including the new note
+
+        // Creating new note
+        const noteObject = createNoteObject(title, folder, folderColor, content);
+        target.innerHTML = '';
+        displayNotes();
+        msgAlert(`Note "${title}" has been created`);
     });
 }
+
+//cancel button events
+export function cancelBtnEvent(cancelBtn, target) {
+    cancelBtn.addEventListener('click', () => {
+        console.log('Cancelling operation');
+        target.innerHTML = '';
+        displayNotes();
+    });
+}
+
+//edit note handler
+function editNoteHandler(noteId) {
+    const foundNote = noteList.find(n => n.id === noteId);
+    if (!foundNote) {
+        msgAlert('Note not found');
+        return;
+    }
+
+    const { form, titleInput, folderOptions, textArea, submitBtn, cancelBtn } = createNoteForm(
+        foundNote.id,
+        foundNote.title,
+        foundNote.folder,
+        foundNote.folderColor,
+        foundNote.content
+    );
+
+    mainWorkspace.innerHTML = '';
+    mainWorkspace.appendChild(form);
+
+
+    //easy mde  
+    const editor = new EasyMDE({
+        element: textArea,
+        toolbar: [
+            "bold", "italic", "heading", "|",
+            "quote", "unordered-list", "ordered-list", "|",
+            "code", "link", "image", "|",
+            "preview", "side-by-side", "fullscreen", "|",
+            {
+            },
+        ],
+    });
+
+    // Add styling to EasyMDE container
+    const mdeContainer = textArea.parentElement?.querySelector('.EasyMDEContainer');
+    if (mdeContainer) {
+        mdeContainer.classList.add('w-full', 'h-full');
+    }
+
+    // Attach event listeners
+    submitBtnEvent(submitBtn, titleInput, folderOptions, editor, mainWorkspace, foundNote.id);
+    cancelBtnEvent(cancelBtn, mainWorkspace);
+}
+
 //attach events to delete and update button
 function attachNoteEvents(note) {
-
     //make each note clickable
     note.addEventListener('click', (e) => {
         const noteId = e.currentTarget.dataset.id;
@@ -140,89 +190,53 @@ function attachNoteEvents(note) {
         if (foundNote) {
             const view = viewNote(foundNote.id);
             mainWorkspace.innerHTML = '';
-            mainWorkspace.appendChild(view)
+            mainWorkspace.appendChild(view);
         }
     });
 
-    note.querySelector('.bx-trash')?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const noteId = note.dataset.id;
-        const foundNote = noteList.find(n => n.id === noteId);
-        if (foundNote) {
-            const toDelete = foundNote.id;
-            deleteNote(toDelete); //delete to localstorage
-            //remove to firestore
-            note.remove(); // remove to dom
-            msgAlert(`Note ${foundNote.title} has been deleted`);
-        }
-
-    });
-    note.querySelector('.bx-pencil-square')?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const noteId = note.dataset.id;
-        const foundNote = noteList.find(n => n.id === noteId);
-        if (foundNote) {
-            const { form, titleInput, folderOptions, textArea, submitBtn, cancelBtn } = createNoteForm(
-                foundNote.id,
-                foundNote.title,
-                foundNote.folder,
-                foundNote.folderColor,
-                foundNote.content
-            );
-
-            mainWorkspace.innerHTML = '';
-            mainWorkspace.append(form);
-
-
-            const editor = new EasyMDE({
-                element: textArea,
-                toolbar: [
-                    "bold", "italic", "heading", "|",
-                    "quote", "unordered-list", "ordered-list", "|",
-                    "code", "link", "image", "|",
-                    "preview", "side-by-side", "fullscreen", "|",
-                    {
-                    },
-                ],
-            });
-            const mdeContainer = textArea.parentElement?.querySelector('.EasyMDEContainer');
-            if (mdeContainer) {
-                mdeContainer.classList.add('w-full', 'h-full');
+    // Delete button event
+    const deleteBtn = note.querySelector('.bx-trash');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const noteId = note.dataset.id;
+            const foundNote = noteList.find(n => n.id === noteId);
+            if (foundNote) {
+                if (confirm(`Are you sure you want to delete "${foundNote.title}"?`)) {
+                    deleteNote(foundNote.id);
+                    note.remove();
+                    msgAlert(`Note "${foundNote.title}" has been deleted`);
+                }
             }
-            submitBtnEvent(submitBtn, titleInput, folderOptions, editor, mainWorkspace, noteId);
-            cancelBtnEvent(cancelBtn, mainWorkspace);
-        }
+        });
+    }
 
-    });
+    // Edit button event
+    const editBtn = note.querySelector('.bx-pencil-square');
+    if (editBtn) {
+        editBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            editNoteHandler(note.dataset.id);
+        });
+    }
 }
-
-//cancel button events
-export function cancelBtnEvent(cancelBtn, target) {
-    cancelBtn.addEventListener('click', () => {
-        console.log('I cancel things!');
-        target.innerHTML = '';
-        displayNotes();
-
-    });
-}
-
 
 //create note component 
 export function createNoteComponent(title, folder, folderColor, content, dateCreated, id) {
-
     //container
     const noteContainer = document.createElement('div');
     noteContainer.classList.add('note-container');
 
     //title section
     const noteTitleSection = document.createElement('section');
-    noteTitleSection.classList.add('note-title-section')
+    noteTitleSection.classList.add('note-title-section');
+
     const noteTitle = document.createElement('h1');
     noteTitle.classList.add('note-title');
-    noteTitle.textContent = title;//title
+    noteTitle.textContent = title;
 
-    const noteFolder = document.createElement('section')
-    noteFolder.classList.add('note-folder', `${folderColor}`)
+    const noteFolder = document.createElement('section');
+    noteFolder.classList.add('note-folder', `${folderColor}`);
     noteFolder.textContent = folder;
 
     //append title and folder
@@ -232,25 +246,25 @@ export function createNoteComponent(title, folder, folderColor, content, dateCre
     //main content
     const noteBody = document.createElement('div');
     noteBody.classList.add('markdown');
-    noteBody.innerHTML = marked(content); //parsed to html
+    noteBody.innerHTML = marked(content);
 
     //button section
     const noteBtnSection = document.createElement('section');
     noteBtnSection.classList.add('note-btn-section');
 
     //date
-    const noteDate = document.createElement('p')
+    const noteDate = document.createElement('p');
     noteDate.textContent = `Created on ${dateCreated}`;
 
-    const btnDiv = document.createElement('div')
+    const btnDiv = document.createElement('div');
     const deleteBtn = document.createElement('i');
     deleteBtn.className = 'bx bx-trash note-btn text-red-400';
     const editBtn = document.createElement('i');
     editBtn.className = 'bx bx-pencil-square note-btn';
 
     //append buttons
-    btnDiv.appendChild(deleteBtn)
-    btnDiv.appendChild(editBtn)
+    btnDiv.appendChild(deleteBtn);
+    btnDiv.appendChild(editBtn);
 
     //append date and buttons
     noteBtnSection.appendChild(noteDate);
@@ -260,7 +274,7 @@ export function createNoteComponent(title, folder, folderColor, content, dateCre
     noteContainer.appendChild(noteBody);
     noteContainer.appendChild(noteBtnSection);
 
-    //return note container and append to mainWorkspace
+    //set id and attach events
     if (id) {
         noteContainer.dataset.id = id;
         attachNoteEvents(noteContainer);
@@ -268,9 +282,14 @@ export function createNoteComponent(title, folder, folderColor, content, dateCre
 
     return noteContainer;
 }
+
 //view note
 function viewNote(id) {
     const note = findNote(id);
+    if (!note) {
+        msgAlert('Note not found');
+        return document.createElement('div');
+    }
 
     //components
     const viewContainer = document.createElement('div');
@@ -282,12 +301,13 @@ function viewNote(id) {
     const title = document.createElement('h1');
     title.className = 'note-title text-xl sm:text-4xl w-full h-14 mt-5.5';
     title.textContent = note.title;
+
     const folder = document.createElement('span');
     folder.className = `note-folder w-35 ${note.folderColor}`;
     folder.textContent = note.folder;
 
     const date = document.createElement('h1');
-    date.className = 'note-date text-xl'
+    date.className = 'note-date text-xl';
     date.textContent = note.dateCreated;
 
     //append to upperSection
@@ -295,22 +315,55 @@ function viewNote(id) {
     upperSection.appendChild(folder);
 
     const line = document.createElement('hr');
-    line.className = 'w-full h-[3px] my-2 md-col border-none mb-8 rounded-sm bg-gray-900'
+    line.className = 'w-full h-[3px] my-2 md-col border-none mb-8 rounded-sm bg-gray-900';
 
     const content = document.createElement('div');
     content.className = 'h-full w-full overflow-auto markdown';
-    content.innerHTML = marked(note.content)
-    console.log("🔍 marked output", marked(note.content));
+    content.innerHTML = marked(note.content);
 
+    //buttons
+    const editButton = document.createElement('button');
+    editButton.classList.add('button', 'dark-hover-active', 'bg-blue-100');
+    editButton.innerHTML = '<i class="bx bx-pencil-square"></i> Edit';
+
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('button', 'dark-hover-active', 'bg-red-200');
+    deleteButton.innerHTML = '<i class="bx bx-trash"></i> Delete';
+
+    const cancelButton = document.createElement('button');
+    cancelButton.classList.add('button', 'dark-hover-active');
+    cancelButton.textContent = 'Back';
+
+    const btnGroup = document.createElement('section');
+    btnGroup.className = 'flex gap-1 self-end sm:grid sm:grid-cols-3';
+
+    btnGroup.appendChild(cancelButton);
+    btnGroup.appendChild(editButton);
+    btnGroup.appendChild(deleteButton);
+
+    // Event listeners
+    editButton.addEventListener('click', () => {
+        editNoteHandler(note.id);
+    });
+
+    deleteButton.addEventListener('click', () => {
+
+        deleteNote(note.id);
+        mainWorkspace.innerHTML = '';
+        displayNotes();
+
+    });
+
+    cancelButton.addEventListener('click', () => {
+        mainWorkspace.innerHTML = '';
+        displayNotes();
+    });
 
     viewContainer.appendChild(upperSection);
     viewContainer.appendChild(date);
     viewContainer.appendChild(line);
     viewContainer.appendChild(content);
+    viewContainer.appendChild(btnGroup);
 
     return viewContainer;
-
 }
-//edit note
-
-
