@@ -69,35 +69,35 @@
 
   /*MARKDOWN*/
   .markdown h1 {
-    @apply text-3xl font-bold mt-[8px] mb-[8px];
+    @apply text-3xl font-body mt-[8px] mb-[8px];
   }
 
   .markdown h2 {
-    @apply text-2xl font-semibold mt-[5px] mb-[5px];
+    @apply text-2xl font-semibold font-body mt-[5px] mb-[5px];
   }
 
   .markdown h3 {
-    @apply text-xl font-medium mt-[2px] mb-[2px];
+    @apply text-xl font-medium mt-[2px] mb-[2px] font-body;
   }
 
   .markdown p {
-    @apply text-base mb-3 text-gray-800;
+    @apply text-base mb-3 text-gray-800 font-body;
   }
 
   .markdown ul {
-    @apply list-disc pl-6 mb-3;
+    @apply list-disc pl-6 mb-3 font-body;
   }
 
   .markdown ol {
-    @apply list-decimal pl-6 mb-3;
+    @apply list-decimal pl-6 mb-3 font-body;
   }
 
   .markdown li {
-    @apply mb-1;
+    @apply mb-1 font-body;
   }
 
   .markdown code {
-    @apply px-1 py-0.5 rounded font-mono text-sm;
+    @apply px-1 py-0.5 rounded font-mono text-sm font-body;
   }
 
   .markdown pre {
