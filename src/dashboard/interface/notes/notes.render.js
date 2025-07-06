@@ -70,10 +70,20 @@ export function noteEvents() {
         mainWorkspace.append(form);
 
         //easy mde  
-        const editor = new EasyMDE({ element: textArea });
+        const editor = new EasyMDE({
+            element: textArea,
+            toolbar: [
+                "bold", "italic", "heading", "|",
+                "quote", "unordered-list", "ordered-list", "|",
+                "code", "link", "image", "|",
+                "preview", "side-by-side", "fullscreen", "|",
+                {
+                },
+            ],
+        });
         const mdeContainer = textArea.parentElement?.querySelector('.EasyMDEContainer');
         if (mdeContainer) {
-            mdeContainer.classList.add('w-full','h-full');
+            mdeContainer.classList.add('w-full', 'h-full');
         }
         submitBtnEvent(submitBtn, titleInput, folderOptions, editor, mainWorkspace, null);
         cancelBtnEvent(cancelBtn, mainWorkspace);

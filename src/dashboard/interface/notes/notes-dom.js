@@ -173,8 +173,18 @@ function attachNoteEvents(note) {
             mainWorkspace.innerHTML = '';
             mainWorkspace.append(form);
 
-            
-            const editor = new EasyMDE({ element: textArea });
+
+            const editor = new EasyMDE({
+                element: textArea,
+                toolbar: [
+                    "bold", "italic", "heading", "|",
+                    "quote", "unordered-list", "ordered-list", "|",
+                    "code", "link", "image", "|",
+                    "preview", "side-by-side", "fullscreen", "|",
+                    {
+                    },
+                ],
+            });
             const mdeContainer = textArea.parentElement?.querySelector('.EasyMDEContainer');
             if (mdeContainer) {
                 mdeContainer.classList.add('w-full', 'h-full');
