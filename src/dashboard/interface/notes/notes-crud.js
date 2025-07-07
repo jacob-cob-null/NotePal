@@ -1,5 +1,4 @@
 import '../../../style.css';
-import EasyMDE from 'easymde';
 import { addNotes, noteList, saveNotesToLocalStorage } from './notes-object';
 
 //note object factory

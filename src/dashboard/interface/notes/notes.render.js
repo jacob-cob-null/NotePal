@@ -6,7 +6,6 @@ import { msgAlert, newFolderModal } from '../../events/alerts';
 import { addNoteGroupList, saveNoteGroupsToLocalStorage, initFolders } from './folder-crud.js';
 import { createNoteForm } from './notes-dom.js';
 import { submitBtnEvent, cancelBtnEvent } from './notes-dom.js';
-import { createNoteObject } from './notes-crud.js';
 import { noteList, loadNotesFromLocalStorage } from './notes-object.js';
 import { createNoteComponent } from './notes-dom.js';
 
