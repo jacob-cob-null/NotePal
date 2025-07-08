@@ -1,147 +1,166 @@
 <!DOCTYPE html>
 <html lang="en" class="min-h-screen">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Dashboard</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css" rel="stylesheet" />
-  <title>Dashboard</title>
-</head>
+  <body class="min-h-screen w-screen overflow-hidden font-sans bg-gray-200">
+    <main class="grid grid-rows-[65px_1fr_45px] min-h-screen w-full">
+      <!-- Navigation Bar -->
+      <nav
+        class="bg-white shadow-xl z-10 flex items-center justify-around sm:justify-between px-0 sm:px-6"
+      >
+        <!--Menu-->
+        <section class="flex items-center gap-2 sm:hidden">
+          <button id="burger" class="sm:hidden">
+            <i class="bx bx-menu text-3xl" style="color: #000000"></i>
+          </button>
+        </section>
 
-<body class="min-h-screen w-screen overflow-hidden font-sans bg-gray-200">
-  <main class="grid grid-rows-[65px_1fr_45px] min-h-screen w-full">
+        <!--Logo-->
+        <section class="flex items-center">
+          <i class="bx bx-edit-alt text-3xl" style="color: #000000"></i>
+          <h1 class="header">NotePal</h1>
+        </section>
 
-    <!-- Navigation Bar -->
-    <nav class="bg-white shadow-xl z-10 flex items-center justify-around sm:justify-between px-0 sm:px-6">
-      <!--Menu-->
-      <section class="flex items-center gap-2 sm:hidden">
-        <button id="burger" class="sm:hidden">
-          <i class="bx bx-menu text-3xl" style="color: #000000"></i>
-        </button>
-      </section>
+        <!--Greeting and Avatar -->
+        <section class="flex items-center gap-2 font-body">
+          <div class="hidden sm:flex">Hello! <span id="username"></span></div>
+          <div class="h-10 w-10 rounded-full bg-gray-200"></div>
+        </section>
+      </nav>
 
-      <!--Logo-->
-      <section class="flex items-center">
-        <i class="bx bx-edit-alt text-3xl" style="color: #000000"></i>
-        <h1 class="header">NotePal</h1>
-      </section>
-
-      <!--Greeting and Avatar -->
-      <section class="flex items-center gap-2 font-body">
-        <div class="hidden sm:flex">Hello! <span id="username"></span></div>
-        <div class="h-10 w-10 rounded-full bg-gray-200"></div>
-      </section>
-    </nav>
-
-    <!-- Main Window -->
-    <section id="mainWindow"
-      class="grid uncollapsed sm:uncollapsed-m bg-gray-200 overflow-hidden transition-all duration-300">
-
-      <!-- Sidebar Menu -->
-      <aside class="bg-gray-100 flex flex-col p-5 gap-1 shadow-inner overflow-hidden">
-        <div class="items-center gap-3 mb-4 hidden sm:flex">
-          <!--Menu toggle-->
-          <!--  TODO: TOGGLE WEIGHT WHEN CLICKED -->
-          <i id="toggleIcon"
-            class="bx bx-arrow-left text-5xl text-gray-700 cursor-pointer transition-transform duration-300 shrink-0 z-20"></i>
-          <h1 id="menu" class="text-3xl sm:text-5xl font-head text-gray-700">Menu</h1>
-        </div>
-
-        <div id="tasks" class="menu-item dark-hover-active">
-          <i class="bx bx-check-square text-3xl md-col"></i>
-          <h1 class="menu-text slide-right md-col">Tasks</h1>
-        </div>
-
-        <div id="notes" class="menu-item dark-hover-active">
-          <i class="bx bx-note-book text-3xl md-col"></i>
-          <h1 class="menu-text md-col">Notes</h1>
-        </div>
-
-        <div id="calendar" class="menu-item dark-hover-active">
-          <i class="bx bx-calendar-alt text-3xl md-col"></i>
-          <h1 class="menu-text md-col">Calendar</h1>
-        </div>
-
-        <div id="pomodoro" class="menu-item dark-hover-active">
-          <i class="bx bx-timer text-3xl md-col"></i>
-          <h1 class="menu-text md-col">Pomodoro</h1>
-        </div>
-
-        <hr class="w-full h-[6px] my-6 md-col border-none rounded-sm bg-gray-800" />
-
-        <!-- Folder Buttons -->
-        <div id="folderBtns" class="grid grid-cols-2 gap-2 mb-6">
-          <button id="editFolderBtn" class="w-full button bg-blue-200 dark-col">Edit Folder</button>
-          <button id="delFolderBtn" class="w-full button bg-red-200 dark:-col">Delete Folder</button>
-        </div>
-
-        <!-- Note Groups -->
-        <div id="noteGroup" class="flex flex-col gap-3 items-start overflow-y-auto h-[68%] pr-1">
-
-          <!-- Note folders will go here -->
-        </div>
-      </aside>
-
-      <!-- Workspace -->
-      <section class="bg-white p-1 sm:p-8 overflow-hidden">
-        <div class="flex justify-center sm:justify-start gap-6 items-center mt-2 sm:mt-0">
-          <h1 id="workspace_title" class="text-3xl font-bold text-gray-700 cursor-pointer text-center">Title</h1>
-          <div id="workspaceHeader" class="flex justify-center items-center gap-2 sm:gap-6">
-          </div>
-        </div>
-        <div id="mainWorkspace"
-          class="p-4 mt-4 mb-2 bg-gray-50 shadow-inner overflow-y-scroll overflow-x-hidden rounded-3xl flex flex-wrap gap-3 h-full sm:overflow-auto"
-          style="max-height: calc(100vh - 65px - 45px - 6rem);">
-
-          <!--Todo Container Template-->
-
-          <div class="flex flex-col gap-2 bg-white p-4 outline-1 rounded-lg shadow-md outline-gray-200 w-90 h-fit">
-            <!--header-->
-            <section class="h-fit w-full flex justify-between items-center mb-3">
-              <h1 class="text-3xl font-head leading-8">Purposive Communication</h1>
-              <i class="bx bx-minus text-2xl text-white h-fit w-fit bg-red-400 rounded-full mb-8"></i>
-            </section>
-
-            <!--Todo Item-->
-            <section class="h-fit w-full flex items-center gap-1">
-              <section class="h-fit w-full flex justify-start  flex-2/3 gap-2">
-                <input type="checkbox">
-                <h1 class="font-body text-xl">Study Module 1</h1>
-              </section>
-              <h1 class="flex-1/3 text-[10px] text-gray-400">Due date mm/dd/yyyy</h1>
-            </section>
-
-            <section class="h-fit w-full flex items-center gap-1">
-              <section class="h-fit w-full flex justify-start  flex-2/3 gap-2">
-                <input type="checkbox">
-                <h1 class="font-body text-xl leading-5">Answer enrichment activity</h1>
-              </section>
-              <h1 class="flex-1/3 text-[10px] text-gray-400">Due date mm/dd/yyyy</h1>
-            </section>
-
-            <section class="h-fit w-full flex items-center gap-1 line-through">
-              <section class="h-fit w-full flex justify-start  flex-2/3 gap-2">
-                <input type="checkbox">
-                <h1 class="font-body text-xl">Answer activity #2</h1>
-              </section>
-              <h1 class="flex-1/3 text-[10px] text-gray-400">Due date mm/dd/yyyy</h1>
-            </section>
-
-
+      <!-- Main Window -->
+      <section
+        id="mainWindow"
+        class="grid uncollapsed sm:uncollapsed-m bg-gray-200 overflow-hidden transition-all duration-200"
+      >
+        <!-- Sidebar Menu -->
+        <aside
+          class="bg-gray-100 flex flex-col p-5 gap-1 shadow-inner overflow-hidden"
+        >
+          <div class="items-center gap-3 mb-4 hidden sm:flex">
+            <!--Menu toggle-->
+            <!--  TODO: TOGGLE WEIGHT WHEN CLICKED -->
+            <i
+              id="toggleIcon"
+              class="bx bx-arrow-left text-5xl text-gray-700 cursor-pointer transition-transform duration-300 shrink-0 z-20"
+            ></i>
+            <h1 id="menu" class="text-3xl sm:text-5xl font-head text-gray-700">
+              Menu
+            </h1>
           </div>
 
-        </div>
+          <div id="tasks" class="menu-item dark-hover-active">
+            <i class="bx bx-check-square text-3xl md-col"></i>
+            <h1 class="menu-text slide-right md-col">Tasks</h1>
+          </div>
+
+          <div id="notes" class="menu-item dark-hover-active">
+            <i class="bx bx-note-book text-3xl md-col"></i>
+            <h1 class="menu-text md-col">Notes</h1>
+          </div>
+
+          <div id="calendar" class="menu-item dark-hover-active">
+            <i class="bx bx-calendar-alt text-3xl md-col"></i>
+            <h1 class="menu-text md-col">Calendar</h1>
+          </div>
+
+          <div id="pomodoro" class="menu-item dark-hover-active">
+            <i class="bx bx-timer text-3xl md-col"></i>
+            <h1 class="menu-text md-col">Pomodoro</h1>
+          </div>
+
+          <hr
+            class="w-full h-[6px] my-6 md-col border-none rounded-sm bg-gray-800"
+          />
+
+          <!-- Folder Buttons -->
+          <div id="folderBtns" class="grid grid-cols-2 gap-2 mb-6">
+            <button
+              id="editFolderBtn"
+              class="w-full button bg-blue-200 dark-col"
+            >
+              Edit Folder
+            </button>
+            <button
+              id="delFolderBtn"
+              class="w-full button bg-red-200 dark:-col"
+            >
+              Delete Folder
+            </button>
+          </div>
+
+          <!-- Note Groups -->
+          <div
+            id="noteGroup"
+            class="flex flex-col gap-3 items-start overflow-y-auto h-[68%] pr-1"
+          >
+            <!-- Note folders will go here -->
+          </div>
+        </aside>
+
+        <!-- Workspace -->
+        <section class="bg-white p-1 sm:p-8 overflow-hidden">
+          <div
+            class="flex justify-center sm:justify-start gap-6 items-center mt-2 sm:mt-0"
+          >
+            <h1
+              id="workspace_title"
+              class="text-3xl font-bold text-gray-700 cursor-pointer text-center"
+            >
+              Title
+            </h1>
+            <div
+              id="workspaceHeader"
+              class="flex justify-center items-center gap-2 sm:gap-6"
+            ></div>
+          </div>
+          <div
+            id="mainWorkspace"
+            class="p-4 mt-4 mb-2 bg-gray-50 shadow-inner overflow-y-scroll overflow-x-hidden rounded-3xl flex flex-wrap gap-3 h-full sm:overflow-auto"
+            style="max-height: calc(100vh - 65px - 45px - 6rem)"
+          >
+            <!--Todo Container Template-->
+
+            <div class="todoContainer">
+              <!--header-->
+              <section class="todoHeader">
+                <h1 class="todoText">Purposive Communication</h1>
+                <i class="bx bx-minus todoClose"></i>
+              </section>
+
+              <!--Todo Item-->
+
+              <section class="todoItem">
+                <section class="todoItemSection">
+                  <h1 class="todoItemText">Answer enrichment activity</h1>
+                  <h1 class="todoDate">mm/dd/yyyy</h1>
+                </section>
+                <i class="bx bx-trash todoDelete"></i>
+              </section>
+
+              <button class="todoButton dark-hover-active">
+                <i class="bx bx-plus text-xl"></i>New Task
+              </button>
+            </div>
+          </div>
+        </section>
       </section>
-    </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-300 w-full p-3 text-center justify-center flex text-gray-700 font-head font-medium">
-      © 2025 NotePal. All rights reserved.
-    </footer>
-  </main>
-  <script type="module" src="./dashboard.js" defer></script>
-
-
-</body>
-
+      <!-- Footer -->
+      <footer
+        class="bg-gray-300 w-full p-3 text-center justify-center flex text-gray-700 font-head font-medium"
+      >
+        © 2025 NotePal. All rights reserved.
+      </footer>
+    </main>
+    <script type="module" src="./dashboard.js" defer></script>
+  </body>
 </html>
