@@ -192,5 +192,60 @@ export async function deleteConfirm(callback, type) {
         }
     });
 }
+
 //create todoItem
+export async function createTodoItemModal() {
+    const { value: formValues } = await Swal.fire({
+        title: 'Add New Task',
+        html: `
+        <form class="flex flex-col justify-center items-center">
+        <section class="flex justify-start items-center">
+              <label for="swal-task" class="header text-xl">Task</label>
+      <input id="swal-task" class="swal2-input w-120" placeholder="Task">
+        </section>
+
+        <section class="flex justify-start items-center">
+              <label for="swal-date" class="header text-xl">Due Date</label>
+      <input id="swal-date" type="date" class="swal2-input w-120">
+        </section>
+
+        </form>
+
+
+    `,
+        focusConfirm: false,
+        showCancelButton: true,
+        preConfirm: () => {
+            const task = document.getElementById('swal-task').value.trim();
+            const dueDate = document.getElementById('swal-date').value;
+
+            if (!task || !dueDate) {
+                Swal.showValidationMessage('Both task and due date are required');
+                return;
+            }
+
+            return { task, dueDate };
+        },
+    });
+
+    return formValues; // { task, dueDate } or undefined if cancelled
+}
+
 //create todoGroup
+export async function createTaskSet() {
+    const { value: name } = await Swal.fire({
+        title: "Enter Task Set Name",
+        input: "text",
+        showCancelButton: true,
+        inputValidator: (value) => {
+            if (!value) {
+                return "You need to write something!";
+            }
+        }
+    });
+    if (name) {
+        Swal.fire(`Task Set ${name} has been created`);
+        console.log(name)
+    }
+    return name;
+}

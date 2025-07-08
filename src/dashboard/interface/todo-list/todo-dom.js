@@ -1,4 +1,4 @@
-
+import { deleteConfirm, createTodoItemModal } from "../../events/alerts"
 
 export function createTodoSet(target, title) {
 
@@ -11,10 +11,20 @@ export function createTodoSet(target, title) {
     //header and close
     const todoText = document.createElement('h1')
     todoText.classList.add('todoText');
-    todoText.textContent = 'title'
+    todoText.textContent = title
     const todoClose = document.createElement('i') //delete todoContainer with preconfirm
     todoClose.className = 'bx bx-minus todoClose dark-hover-active'
 
+    todoClose.addEventListener('click', async () => {
+        function deleteTodoContainer() {
+            //remove to dom
+            todoContainer.remove()
+            //remove to todoObject
+            //remove firestore
+        }
+        await deleteConfirm(deleteTodoContainer, 'Task Set')
+
+    })
     todoHeader.appendChild(todoText)
     todoHeader.appendChild(todoClose)
 
@@ -29,8 +39,11 @@ export function createTodoSet(target, title) {
     todoButton.appendChild(plus)
     todoButton.textContent = 'New Task'
 
-    todoButton.addEventListener('click', () => {
-        createTodoItem(todoItemContainer);
+    todoButton.addEventListener('click', async () => {
+        const {task, dueDate}= await createTodoItemModal()
+        createTodoItem(todoItemContainer, task, dueDate);
+        //add to todoItem object
+        //add to todoObject property
     })
 
     todoContainer.appendChild(todoHeader)
@@ -41,12 +54,11 @@ export function createTodoSet(target, title) {
     //todo item
 
 }
-export function createTodoItem(target) {
+export function createTodoItem(target, item, dueDate) {
     //sweet alert
 
     //return item and duedate object
-    const item = 'sample title'
-    const dueDate = 'sample due date'
+
     //pass in dom creation
     const todoItem = document.createElement('section')
     todoItem.classList.add('todoItem')
@@ -68,7 +80,7 @@ export function createTodoItem(target) {
     todoDelete.addEventListener('click', () => {
         //remove to dom
         todoItem.remove()
-        //remove to todoObject
+        //remove to todoItem
         //remove firestore
     })
 
