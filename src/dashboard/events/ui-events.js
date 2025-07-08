@@ -1,6 +1,7 @@
 import { workspace_title, workspaceHeader, delFolderBtn, editFolderBtn, folderBtns, mainWorkspace } from "../interface/components";
 import { initNotes, displayNotes } from "../interface/notes/notes.render";
 import { folderEvents, initFolders } from "../interface/notes/folder-crud";
+import { initTodo } from "../interface/todo-list/todo.render";
 
 export function initEvents({ mainWindow, toggleIcon, noteGroup, burger, menuText, menu, line, folderBtns }) {
   setupToggleMenu({
@@ -69,6 +70,7 @@ function eventMenuItems({ tasksMenu, notesMenu, calendarMenu, pomodoroMenu}) {
     workspace_title.innerText = "Tasks";
     workspaceHeader.innerHTML = "";
     mainWorkspace.innerHTML = '';
+    initTodo()
   });
   notesMenu.addEventListener('click', () => {
     workspace_title.innerText = "Notes";

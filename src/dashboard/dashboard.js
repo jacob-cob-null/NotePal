@@ -4,9 +4,13 @@ import { initMenuComponents } from './interface/components.js';
 import { initEvents } from './events/ui-events.js';
 import { attachMenuEvents } from './events/ui-events.js';
 import { initFolders } from './interface/notes/folder-crud.js';
-import { msgAlert } from './events/alerts.js';
+import { initTodo } from './interface/todo-list/todo.render.js';
+import { initNotes, displayNotes } from './interface/notes/notes.render.js';
 
+//menu
 const menuComponents = initMenuComponents();
 initEvents(menuComponents);
 attachMenuEvents();
+
+//folders
 initFolders();
