@@ -244,7 +244,7 @@ export function createNoteComponent(title, folder, folderColor, content, dateCre
 
     //main content
     const noteBody = document.createElement('div');
-    noteBody.classList.add('markdown');
+    noteBody.className = 'markdown w-full break-words whitespace-pre-wrap overflow-y-auto text-sm leading-relaxed';
     noteBody.innerHTML = marked(content);
 
     //button section
@@ -254,6 +254,7 @@ export function createNoteComponent(title, folder, folderColor, content, dateCre
     //date
     const noteDate = document.createElement('p');
     noteDate.textContent = `Created on ${dateCreated}`;
+    noteDate.classList.add('noteDate')
 
     const btnDiv = document.createElement('div');
     const deleteBtn = document.createElement('i');
@@ -292,7 +293,7 @@ function viewNote(id) {
 
     //components
     const viewContainer = document.createElement('div');
-    viewContainer.className = 'rounded-2xl bg-white w-full h-full flex flex-col px-5 py-4';
+    viewContainer.className = 'rounded-2xl bg-white w-full h-full flex flex-col px-5 py-4 border-1 border-gray-200';
 
     const upperSection = document.createElement('section');
     upperSection.className = 'flex  justify-between items-center';
@@ -306,7 +307,7 @@ function viewNote(id) {
     folder.textContent = note.folder;
 
     const date = document.createElement('h1');
-    date.className = 'note-date text-xl';
+    date.className = 'note-date text-xl  text-gray-400';
     date.textContent = note.dateCreated;
 
     //append to upperSection
@@ -334,7 +335,7 @@ function viewNote(id) {
     cancelButton.textContent = 'Back';
 
     const btnGroup = document.createElement('section');
-    btnGroup.className = 'flex gap-2 self-end sm:grid sm:grid-cols-3';
+    btnGroup.className = 'flex gap-2 mt-4 sm:grid sm:grid-cols-3';
 
     btnGroup.appendChild(cancelButton);
     btnGroup.appendChild(editButton);
@@ -366,9 +367,7 @@ function viewNote(id) {
 }
 
 function deleteDom(id) {
+    deleteNote(id); // remove from noteList and/or storage
     mainWorkspace.innerHTML = '';
-    deleteNote(id);
-    deleteDom(id);
-    note.remove();
-    displayNotes()
+    displayNotes(); // re-render remaining notes
 }

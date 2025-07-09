@@ -199,14 +199,13 @@ export async function createTodoItemModal() {
         title: 'Add New Task',
         html: `
         <form class="flex flex-col justify-center items-center">
-        <section class="flex justify-start items-center">
-              <label for="swal-task" class="header text-xl">Task</label>
-      <input id="swal-task" class="swal2-input w-120" placeholder="Task">
-        </section>
 
-        <section class="flex justify-start items-center">
+      <input id="swal-task" class="swal2-input w-120 mt-4" placeholder="Task">
+
+
+        <section class="flex justify-center items-center flex-col">
               <label for="swal-date" class="header text-xl">Due Date</label>
-      <input id="swal-date" type="date" class="swal2-input w-120">
+      <input id="swal-date" type="date" class="swal2-input w-120 h-20">
         </section>
 
         </form>
