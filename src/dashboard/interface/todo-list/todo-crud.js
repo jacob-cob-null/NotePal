@@ -1,8 +1,28 @@
 //todo factory
-export function createToDoObject(id, title, todoItem) {
-    return (id, title, todoItem)
-}
-// todoItem factory
-function createTodoItem(title, dueDate, isComplete) {
-    return {title, dueDate, isComplete}
+export function todoObject(title) {
+    const id = crypto.randomUUID();
+    const todoItems = [];
+
+    function addTodoItem(title, dueDate, isComplete = false) {
+        const todo = {
+            id: crypto.randomUUID(),
+            title,
+            dueDate,
+            isComplete
+        };
+        todoItems.push(todo);
+        return todo;
+    }
+    function deleteTodoItem(id) {
+        const index = todoItems.findIndex(item => item.id === id)
+        if (index !== -1) todoItems.splice(index, 1);
+    }
+
+    return {
+        id,
+        title,
+        todoItems,
+        addTodoItem,
+        deleteTodoItem
+    };
 }

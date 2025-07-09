@@ -1,7 +1,8 @@
 import { deleteConfirm, createTodoItemModal } from "../../events/alerts"
 
-export function createTodoSet(target, title) {
+export function createTodoSet(target, todoObj) {
 
+    const { id, title, addTodoItem } = todoObj
     //container
     const todoContainer = document.createElement('div')
     todoContainer.classList.add('todoContainer')
@@ -39,12 +40,17 @@ export function createTodoSet(target, title) {
     todoButton.appendChild(plus)
     todoButton.textContent = 'New Task'
 
+    //adds id
+    todoContainer.dataset.id = id;
+
+
     todoButton.addEventListener('click', async () => {
-        const {task, dueDate}= await createTodoItemModal()
-        createTodoItem(todoItemContainer, task, dueDate);
-        //add to todoItem object
-        //add to todoObject property
-    })
+        const { task, dueDate } = await createTodoItemModal();
+
+        const taskObject = addTodoItem(task, dueDate);
+
+        createTodoItem(todoItemContainer, taskObject, todoObj);
+    });
 
     todoContainer.appendChild(todoHeader)
     todoContainer.appendChild(todoItemContainer)
@@ -54,43 +60,34 @@ export function createTodoSet(target, title) {
     //todo item
 
 }
-export function createTodoItem(target, item, dueDate) {
-    //sweet alert
+export function createTodoItem(target, task, todoObj) {
+    const { id: taskId, title, dueDate } = task;
+    const { deleteTodoItem } = todoObj;
 
-    //return item and duedate object
+    const todoItem = document.createElement('section');
+    todoItem.classList.add('todoItem');
+    todoItem.dataset.id = taskId;
 
-    //pass in dom creation
-    const todoItem = document.createElement('section')
-    todoItem.classList.add('todoItem')
+    const todoItemSection = document.createElement('section');
+    todoItemSection.classList.add('todoItemSection');
 
-    //task name
-    const todoItemSection = document.createElement('section')
-    todoItemSection.classList.add('todoItemSection')
-    const todoItemText = document.createElement('h1')
+    const todoItemText = document.createElement('h1');
     todoItemText.classList.add('todoItemText');
-    todoItemText.textContent = item;
-    //due date
-    const todoDate = document.createElement('h1')
+    todoItemText.textContent = title;
+
+    const todoDate = document.createElement('h1');
     todoDate.classList.add('todoDate');
-    todoDate.textContent = dueDate
+    todoDate.textContent = dueDate;
 
-    //delete button
-    const todoDelete = document.createElement('i')
-    todoDelete.className = 'bx bx-trash todoDelete'
+    const todoDelete = document.createElement('i');
+    todoDelete.className = 'bx bx-trash todoDelete';
     todoDelete.addEventListener('click', () => {
-        //remove to dom
-        todoItem.remove()
-        //remove to todoItem
-        //remove firestore
-    })
+        todoItem.remove();               // ✅ remove from DOM
+        deleteTodoItem(taskId);         // ✅ remove from memory
+        // TODO: delete from Firestore
+    });
 
-    todoItemSection.appendChild(todoItemText)
-    todoItemSection.appendChild(todoDate)
-    todoItem.appendChild(todoItemSection)
-    todoItem.appendChild(todoDelete)
-
-    //append to targer
+    todoItemSection.append(todoItemText, todoDate);
+    todoItem.append(todoItemSection, todoDelete);
     target.appendChild(todoItem);
-
-
 }

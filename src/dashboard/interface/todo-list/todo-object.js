@@ -1,11 +1,6 @@
 export const todoObject = [] //todo container
-export const todoItem = [] // todo individual items
 
-//add
-export function addTodoObject(todoObject) {
-    todoObject.push(todoObject)
+//add task set
+export function addTodoObject(obj) {
+    todoObject.push(obj)
 }
-export function addTodoItem(todoItem) {
-    todoItem.push(todoItem)
-}
-

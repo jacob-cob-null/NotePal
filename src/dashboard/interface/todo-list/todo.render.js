@@ -1,10 +1,12 @@
 import { msgAlert } from "../../events/alerts";
 import { mainWorkspace, workspaceHeader } from "../components";
-import {createTodoSet} from "/src/dashboard/interface/todo-list/todo-dom"
+import { createTodoSet } from "/src/dashboard/interface/todo-list/todo-dom"
 import { createTaskSet } from "../../events/alerts";
+import { todoObject } from "./todo-crud";
+import { addTodoObject } from "./todo-object";
 
 //bootstrap for todo component
-export function initTodo(){
+export function initTodo() {
     TodoHeader()
 }
 //button to create todo set
@@ -15,7 +17,10 @@ function TodoHeader() {
 
     createButton.addEventListener('click', async () => {
         const title = await createTaskSet()
-        createTodoSet(mainWorkspace, title)
+        const newTodoObj = todoObject(title); //creates obj
+        addTodoObject(newTodoObj) //push to array
+        
+        createTodoSet(mainWorkspace, newTodoObj) //appends to main workspace
     })
     workspaceHeader.appendChild(createButton);
 }
