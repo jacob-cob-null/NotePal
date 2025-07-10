@@ -7,6 +7,28 @@
 .swal2-container {
   overflow: auto !important;
 }
+@media (max-width: 640px) {
+  /* Smaller toolbar text */
+  #calendar .fc-toolbar-title {
+    font-size: 1.5rem; /* or 0.875rem for even smaller */
+  }
+
+  /* Smaller day numbers */
+  #calendar .fc-daygrid-day-number {
+    font-size: 1rem;
+  }
+
+  /* Smaller event text */
+  #calendar .fc-event-title {
+    font-size: 0.75rem;
+  }
+
+  /* Smaller button text */
+  #calendar .fc-button {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
 
 @layer components {
   .menu-item {
