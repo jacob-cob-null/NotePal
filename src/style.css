@@ -1,12 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap');
-@import 'tailwindcss';
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap");
+@import "tailwindcss";
 
 @plugin "tailwindcss-motion";
 
 .swal2-container {
   overflow: auto !important;
-
 }
 
 @layer components {
@@ -19,11 +18,11 @@
   }
 
   .note-group {
-    @apply flex font-head items-center justify-center rounded-xl min-h-10 w-full text-center cursor-pointer
+    @apply flex font-head items-center justify-center rounded-xl min-h-10 w-full text-center cursor-pointer;
   }
 
   .folder-option {
-    @apply flex font-head items-center justify-center rounded-xl min-h-10 w-20 text-center
+    @apply flex font-head items-center justify-center rounded-xl min-h-10 w-20 text-center;
   }
 
   .header {
@@ -31,11 +30,11 @@
   }
 
   .button {
-    @apply bg-white h-8 w-30 rounded-xl font-head active:brightness-94 hover:brightness-97 transition ease-in-out outline-gray-300 outline-1
+    @apply bg-white h-8 w-30 rounded-xl font-head active:brightness-94 hover:brightness-97 transition ease-in-out outline-gray-300 outline-1;
   }
 
   .note-container {
-    @apply grid grid-rows-[40px_1fr_40px] min-h-60 h-90 max-h-130 w-full sm:w-full lg:w-full xl:w-[31rem] gap-3 bg-white shadow-md rounded-xl p-3 sm:p-6 cursor-pointer transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg border-1 border-gray-200
+    @apply grid grid-rows-[40px_1fr_40px] min-h-60 h-90 max-h-130 w-full sm:w-full lg:w-full xl:w-[31rem] gap-3 bg-white shadow-md rounded-xl p-3 sm:p-6 cursor-pointer transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg border-1 border-gray-200;
   }
 
   .note-title-section {
@@ -44,7 +43,7 @@
 
   .note-title {
     @apply font-head text-lg sm:text-xl font-bold overflow-hidden whitespace-nowrap text-ellipsis flex-shrink min-w-0 max-w-[70%];
-}
+  }
 
   .note-folder {
     @apply h-7 px-2 rounded-md text-center items-center flex justify-center bg-gray-200 flex-shrink-0;
@@ -52,51 +51,51 @@
   }
 
   .note-body {
-    @apply line-clamp-3 font-body text-[12px] text-gray-800
+    @apply line-clamp-3 font-body text-[12px] text-gray-800;
   }
 
   .note-btn-section {
-    @apply flex justify-between items-center gap-1 mt-3
+    @apply flex justify-between items-center gap-1 mt-3;
   }
 
   .note-date {
-    @apply font-body text-[14px] text-gray-400
+    @apply font-body text-[14px] text-gray-400;
   }
 
   .note-btn {
-    @apply text-gray-500 cursor-pointer text-3xl hover:bg-gray-50 active:bg-gray-100 transition ease-in-out rounded-xl
+    @apply text-gray-500 cursor-pointer text-3xl hover:bg-gray-50 active:bg-gray-100 transition ease-in-out rounded-xl;
   }
 
   /*TODO LIST*/
   .todoContainer {
-    @apply flex flex-col gap-2 bg-white p-6 outline-1 rounded-lg shadow-md outline-gray-200 w-full lg:max-w-[31rem] h-fit sm:overflow-y-scroll
+    @apply flex flex-col gap-2 bg-white p-6 outline-1 rounded-lg shadow-md outline-gray-200 w-full lg:max-w-[31rem] h-fit sm:overflow-y-scroll;
   }
   .todoHeader {
-    @apply h-fit w-full flex justify-between items-start mb-3
+    @apply h-fit w-full flex justify-between items-start mb-3;
   }
   .todoText {
-    @apply text-2xl font-head leading-8 font-bold
+    @apply text-2xl font-head leading-8 font-bold;
   }
   .todoClose {
-    @apply text-2xl text-white h-fit w-fit bg-red-400 rounded-full
+    @apply text-2xl text-white h-fit w-fit bg-red-400 rounded-full;
   }
   .todoItem {
-    @apply h-fit w-full flex items-center justify-between gap-10 mb-4
+    @apply h-fit w-full flex items-center justify-between gap-10 mb-4;
   }
   .todoItemSection {
-    @apply h-fit w-full flex flex-col justify-start gap-0
+    @apply h-fit w-full flex flex-col justify-start gap-0;
   }
   .todoItemText {
-    @apply font-body text-lg leading-4
+    @apply font-body text-lg leading-4;
   }
   .todoDate {
-    @apply flex justify-items-end text-[15px] text-gray-400
+    @apply flex justify-items-end text-[15px] text-gray-400;
   }
   .todoDelete {
-    @apply  text-2xl text-red-400
+    @apply text-2xl text-red-400;
   }
   .todoButton {
-    @apply justify-center items-center flex gap-5 h-10 w-full bg-gray-100 mt-4 rounded-lg font-body text-lg
+    @apply justify-center items-center flex gap-5 h-10 w-full bg-gray-100 mt-4 rounded-lg font-body text-lg;
   }
 
   /*MARKDOWN*/
@@ -169,33 +168,33 @@
     @apply hover:brightness-97 active:brightness-95 hover:shadow-md transition ease-in-out;
   }
 
-
   .y-hover {
-    @apply motion-translate-x-in-[0%] motion-translate-y-in-[10%]
+    @apply motion-translate-x-in-[0%] motion-translate-y-in-[10%];
   }
 
   .slide-right {
-    @apply motion-translate-x-in-[-30%] motion-translate-y-in-[0%]
+    @apply motion-translate-x-in-[-30%] motion-translate-y-in-[0%];
   }
 
   .slide-left {
-    @apply motion-translate-x-in-[30%] motion-translate-y-in-[0%]
+    @apply motion-translate-x-in-[30%] motion-translate-y-in-[0%];
   }
 
   .md-col {
-    @apply text-gray-600
+    @apply text-gray-600;
   }
 
   .dark-col {
-    @apply text-gray-800
+    @apply text-gray-800;
   }
 
-  .light-col {}
+  .light-col {
+  }
 }
 
 @theme {
-  --font-head: Poppins, 'sans-serif';
-  --font-body: Sofia Sans, 'sans-serif';
+  --font-head: Poppins, "sans-serif";
+  --font-body: Sofia Sans, "sans-serif";
   --color-main: #0d3b66;
   --color-secondary: #dcedff;
   --color-accent: #f97924;
