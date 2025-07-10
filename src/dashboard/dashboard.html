@@ -124,10 +124,54 @@
           </div>
           <div
             id="mainWorkspace"
-            class="p-4 mt-4 mb-0 sm:mb-2 bg-gray-50 shadow-inner rounded-3xl h-full overflow-x-hidden sm:overflow-auto flex flex-col sm:flex-row sm:flex-wrap gap-y-6 gap-x-4"
+            class="p-4 mt-4 mb-0 sm:mb-2 bg-red-100 shadow-inner rounded-3xl h-full justify-center overflow-x-hidden sm:overflow-auto flex flex-col sm:flex-row sm:flex-wrap gap-y-6 gap-x-4"
             style="max-height: calc(100vh - 65px - 45px - 6rem)"
           >
-      
+            <div
+              class="w-[950px] h-[600px] bg-white outline-1 outline-gray-200 rounded-xl self-center flex flex-col justify-center items-center p-8 shadow-lg"
+            >
+              <!-- Status + Timer -->
+              <section class="flex flex-col items-center justify-center">
+                <section
+                  class="font-body text-xl mb-3 text-gray-500 h-9 w-50 px-4 py-1 flex justify-around items-center bg-gray-100 rounded-xl outline-1 outline-gray-200 shadow-md"
+                  id="status"
+                >
+                  <div class="h-4 w-4 bg-red-400 rounded-full"></div>
+                  <h3 class="ml-2">Focus mode!</h3>
+                </section>
+
+                <h1
+                  class="text-[250px] leading-none font-head text-gray-700"
+                  id="timer"
+                >
+                  25:00
+                </h1>
+              </section>
+
+              <!-- Control Icons -->
+              <section class="grid grid-cols-3 gap-4 mt-4">
+                <div class="flex justify-center items-center">
+                  <i class="bx bx-rotate-cw text-gray-500 text-5xl"></i>
+                </div>
+                <div class="flex justify-center items-center">
+                  <div
+                    class="flex items-center justify-center w-20 h-20 bg-red-400 rounded-full"
+                  >
+                    <i class="bx bx-play text-white text-6xl ml-1"></i>
+                  </div>
+                </div>
+                <div class="flex justify-center items-center">
+                  <i class="bx bx-stop text-gray-500 text-6xl"></i>
+                </div>
+              </section>
+
+              <!-- Break Buttons -->
+              <div class="flex w-full justify-center items-center mt-10 gap-4">
+                <button class="button text-gray-500">Short Break</button>
+                <button class="button text-gray-500">Long Break</button>
+              </div>
+            </div>
+          </div>
         </section>
       </section>
 

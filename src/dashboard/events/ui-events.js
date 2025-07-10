@@ -65,16 +65,22 @@ function initMenuItems() {
   };
 }
 //add functions to dynamically change workspace content
-function eventMenuItems({ tasksMenu, notesMenu, calendarMenu, pomodoroMenu}) {
+function eventMenuItems({ tasksMenu, notesMenu, calendarMenu, pomodoroMenu }) {
   tasksMenu.addEventListener('click', () => {
     workspace_title.innerText = "Tasks";
     workspaceHeader.innerHTML = "";
+    if (mainWorkspace.classList.contains('justify-center')) {
+      mainWorkspace.classList.remove('justify-center')
+    }
     mainWorkspace.innerHTML = '';
     initTodo()
   });
   notesMenu.addEventListener('click', () => {
     workspace_title.innerText = "Notes";
     mainWorkspace.innerHTML = '';
+    if (mainWorkspace.classList.contains('justify-center')) {
+      mainWorkspace.classList.remove('justify-center')
+    }
     //group these
     initNotes();
     displayNotes();
@@ -82,13 +88,20 @@ function eventMenuItems({ tasksMenu, notesMenu, calendarMenu, pomodoroMenu}) {
   });
   calendarMenu.addEventListener('click', () => {
     workspace_title.innerText = "Calendar";
+    if (mainWorkspace.classList.contains('justify-center')) {
+      mainWorkspace.classList.remove('justify-center')
+    }
     workspaceHeader.innerHTML = "";
     mainWorkspace.innerHTML = '';
   });
   pomodoroMenu.addEventListener('click', () => {
     workspace_title.innerText = "Pomodoro";
     workspaceHeader.innerHTML = "";
+    if (!mainWorkspace.classList.contains('justify-center')) {
+      mainWorkspace.classList.add('justify-center')
+    }
     mainWorkspace.innerHTML = '';
+
   });
 }
 
