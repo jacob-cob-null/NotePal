@@ -2,6 +2,7 @@ import { workspace_title, workspaceHeader, delFolderBtn, editFolderBtn, folderBt
 import { initNotes, displayNotes } from "../interface/notes/notes.render";
 import { folderEvents, initFolders } from "../interface/notes/folder-crud";
 import { initTodo } from "../interface/todo-list/todo.render";
+import { initCalendar } from "../interface/calendar/calendar-setup";
 
 export function initEvents({ mainWindow, toggleIcon, noteGroup, burger, menuText, menu, line, folderBtns }) {
   setupToggleMenu({
@@ -93,6 +94,8 @@ function eventMenuItems({ tasksMenu, notesMenu, calendarMenu, pomodoroMenu }) {
     }
     workspaceHeader.innerHTML = "";
     mainWorkspace.innerHTML = '';
+    initCalendar(mainWorkspace)
+
   });
   pomodoroMenu.addEventListener('click', () => {
     workspace_title.innerText = "Pomodoro";
