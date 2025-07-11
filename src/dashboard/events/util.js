@@ -1,15 +1,5 @@
-export function resetBg(target) {
-    const removeBackgroundClasses = (element) => {
-        const classesToRemove = [];
-        element.classList.forEach(className => {
-            if (className.startsWith('bg-') && className.includes('-')) {
-                classesToRemove.push(className);
-            }
-        });
-        element.classList.remove(...classesToRemove);
-    };
+const alarmSound = new Audio('/alarm.m4a')
+const clockSound = new Audio('/clock.m4a')
 
-    removeBackgroundClasses(target);
-    target.classList.add('bg-gray-50');
-
-}
+export const playAlarm = () => { alarmSound.play() }
+export const playClock = () => { clockSound.play() }

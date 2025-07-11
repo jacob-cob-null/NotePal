@@ -1,5 +1,6 @@
 import { pomodoro, updateStatus } from "./pomodoro-ui";
 import { mainWorkspace } from "../components";
+import { playAlarm, playClock } from "../../events/util";
 
 export function initPomodoro(target) {
     const worker = new Worker(new URL('./pomodoroWorker.js', import.meta.url), {
@@ -17,6 +18,7 @@ export function initPomodoro(target) {
     let isRunning = false
     playBtn.addEventListener('click', () => {
         updateStatus(mainWorkspace, 'bg-red-100', statusLabel, "Focus Mode", statusDot, 'bg-red-300');
+        playClock()
         if (!isRunning) {
             // Only update status when starting for the first time
 
@@ -38,12 +40,14 @@ export function initPomodoro(target) {
     });
 
     shortBreak.addEventListener('click', () => {
+        playClock()
         worker.postMessage({ type: 'shortBreak' });
         updateStatus(mainWorkspace, 'bg-blue-100', statusLabel, "Short Break", statusDot, 'bg-blue-300');
         isRunning = true; // Set running state for break
     });
 
     longBreak.addEventListener('click', () => {
+        playClock()
         worker.postMessage({ type: 'longBreak' });
         updateStatus(mainWorkspace, 'bg-green-100', statusLabel, "Long Break", statusDot, 'bg-green-300');
         isRunning = true; // Set running state for break
@@ -55,6 +59,7 @@ export function initPomodoro(target) {
         }
         // Handle timer completion
         if (e.data.type === 'complete') {
+            playAlarm();
             isRunning = false;
         }
     }

@@ -22,7 +22,7 @@ self.onmessage = (e) => {
     }
 
     if (type === 'shortBreak') {
-        startCountdown(300); // 5 minutes
+        startCountdown(50); // 5 minutes
     }
 
     if (type === 'longBreak') {
@@ -44,7 +44,7 @@ function startCountdown(seconds) {
 
         if (remainingSeconds <= 0) {
             clearInterval(timerId);
-            self.postMessage({ type: 'done' });
+            self.postMessage({ type: 'complete' });
         }
     }, 1000);
 }

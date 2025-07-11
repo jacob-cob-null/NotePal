@@ -4,7 +4,7 @@ import { folderEvents, initFolders } from "../interface/notes/folder-crud";
 import { initTodo } from "../interface/todo-list/todo.render";
 import { initCalendar } from "../interface/calendar/calendar-setup";
 import { initPomodoro } from "../interface/pomodoro/pomodoro.render";
-import { resetBg } from "./util";
+
 
 export function initEvents({ mainWindow, toggleIcon, noteGroup, burger, menuText, menu, line, folderBtns }) {
   setupToggleMenu({
