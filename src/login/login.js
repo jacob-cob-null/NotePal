@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const signin = document.getElementById('signin');
   const header = document.getElementById('header');
   const register = document.getElementById('register');
-
+  const loginIcon = document.getElementById('loginIcon')
 
   //check auth status
   onAuthStateChanged(auth, user => {
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (signin) {
     signin.addEventListener('click', () => {
       updateHeader('Sign In');
-      addForm('Sign In');
+      addForm('Enter Notepal');
       submitElement(loginWithEmail);
       updateAuthTip(false);
     });
@@ -41,45 +41,82 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
-// Update header text
 function updateHeader(text) {
   const header = document.getElementById('header');
   if (!header) return;
 
   header.innerHTML = '';
-  const h = document.createElement('div');
+  header.className = 'p-6 sm:p-12 gap-4 flex flex-col items-center justify-center';
+
+  const h = document.createElement('h1');
   h.textContent = text;
-  h.className =
-    'text-5xl font-bold font-head mb-4 motion-translate-x-in-[0%] motion-translate-y-in-[50%] motion-blur-in-[10px]';
-  header.classList.add('p-12', 'gap-2');
+  h.className = 'text-3xl sm:text-5xl font-bold font-head motion-translate-x-in-[0%] motion-translate-y-in-[50%] motion-blur-in-[10px] mb-6';
+
   header.appendChild(h);
 }
 
-// Generate login/register form
+// Add a responsive, styled login/register form
 function addForm(btnName) {
   const header = document.getElementById('header');
-  if (!header) return;
+  const loginIcon = document.getElementById('loginIcon');
+  if (!header || !loginIcon) return;
 
-  const form = document.createElement('div');
-  form.innerHTML = `
-    <form class="flex flex-col w-full max-w-sm justify-center gap-4" id="login-form">
-      <label class="text-xl font-body" for="email">Username</label>
-      <input class="bg-gray-100 p-2 border-2 border-gray-300 rounded-[10px] hover:brightness-95"
-             type="email" placeholder="Type your email" id="email" name="email" required />
+  loginIcon.classList.add('hidden');
 
-      <label class="text-xl font-body" for="password">Password</label>
-      <input class="h-12 w-90 bg-gray-100 p-2 border-2 border-gray-300 rounded-[10px] hover:brightness-95"
-             type="password" placeholder="Type your password" id="password" name="password" required />
+  // 🔥 Clear header completely (including old forms and wrappers)
+  while (header.firstChild) {
+    header.removeChild(header.firstChild);
+  }
 
-      <button id="submit" class="button h-[50px] w-full bg-white dark-hover-active outline-gray-200 outline-1">
-        ${btnName}
+  // Add heading again (optional if using updateHeader separately)
+  const heading = document.createElement('h1');
+  heading.textContent = btnName === 'Sign In' ? 'Sign In' : 'Create Account';
+  heading.className =
+    'text-3xl sm:text-5xl font-bold font-head motion-translate-x-in-[0%] motion-translate-y-in-[50%] motion-blur-in-[10px] mb-6';
+  header.appendChild(heading);
+
+  // Consistent form wrapper
+  const formWrapper = document.createElement('div');
+  formWrapper.className =
+    'w-full sm:w-[400px] flex flex-col justify-center items-center';
+
+  formWrapper.innerHTML = `
+    <form class="flex flex-col gap-4 w-full font-body" id="login-form">
+      <div class="flex flex-col w-full">
+        <label for="email" class="text-base sm:text-lg font-medium">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          placeholder="Type your email"
+          class="bg-gray-100 p-2 border-2 border-gray-300 rounded-[10px] hover:brightness-95 text-sm sm:text-base"
+        />
+      </div>
+
+      <div class="flex flex-col">
+        <label for="password" class="text-base sm:text-lg font-medium">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          placeholder="Type your password"
+          class="bg-gray-100 p-2 border-2 border-gray-300 rounded-[10px] hover:brightness-95 text-sm sm:text-base w-full"
+        />
+      </div>
+
+      <button
+        id="submit"
+        class="button h-[50px] w-full bg-white dark-hover-active outline-1 outline-gray-300 rounded-[10px] transition-all duration-300 hover:scale-105 active:scale-95"
+      >
+        <span class="text-black text-xl font-body">${btnName}</span>
       </button>
     </form>
   `;
-  header.appendChild(form);
-}
 
+  header.appendChild(formWrapper);
+}
 // Handles submit based on login or register
 function submitElement(callback) {
   const submitBtn = document.getElementById('submit');
@@ -104,7 +141,7 @@ function submitElement(callback) {
 
 
     } catch (err) {
-      failedLogin()
+      failedLogin(err)
       // alert(`Login failed: ${err.message}`);
     }
   });

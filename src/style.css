@@ -30,6 +30,22 @@
   }
 }
 
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
 @layer components {
   .menu-item {
     @apply bg-gray-100 rounded-md outline-none px-2 py-1 w-full flex flex-row p-0 m-0 items-center justify-start gap-4 cursor-pointer;

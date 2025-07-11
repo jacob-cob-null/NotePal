@@ -13,19 +13,17 @@ export function initCalendar(target) {
     calendarDiv.className =
         "w-full h-[600px] bg-white rounded-xl font-head overflow-hidden p-4 shadow-lg";
 
-    // Inject into workspace
     wrapper.appendChild(calendarDiv);
-    target.innerHTML = ""; // clear previous content
     target.appendChild(wrapper);
 
     // Init FullCalendar
     const calendar = new Calendar(calendarDiv, {
         initialView: "dayGridMonth",
-        height: "100%", // Let it use the full container height
+        height: "100%",
     });
 
     calendar.render();
 
-    // Update layout on resize (e.g. sidebar toggle)
+    // Update layout on resize
     new ResizeObserver(() => calendar.updateSize()).observe(wrapper);
 }

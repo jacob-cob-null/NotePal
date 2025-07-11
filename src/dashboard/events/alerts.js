@@ -8,11 +8,14 @@ export function successfulLogin(name) {
         icon: "success"
     });
 }
-export function failedLogin() {
+export function failedLogin(err) {
     Swal.fire({
-        title: `Login Failed`,
-        text: "Oops! That login didn’t work" < br > "Double-check your email and password.",
-        icon: "error"
+        title: 'Oops! Login Failed!',
+        html: `
+          <p>Double-check your email and password.</p><br>
+          <p>${err}</p>
+        `,
+        icon: 'error'
     });
 }
 export function successfulRegistration(name) {
