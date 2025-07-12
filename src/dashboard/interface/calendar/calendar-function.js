@@ -9,10 +9,13 @@ export function loadEventsFromTodos(allTodoObjects = []) {
 
     // Add events from all todo folders
     allTodoObjects.forEach(todoObj => {
+
+        const taskSet = todoObj.title
         todoObj.todoItems.forEach(todo => {
             calendar.addEvent({
                 id: todo.id,
                 title: todo.title,
+                description: `${todo.title} | ${taskSet}`,
                 start: todo.dueDate,
                 color: todo.isComplete ? '#9ca3af' : ''
             });

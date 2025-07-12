@@ -1,5 +1,6 @@
 import '../../../style.css';
 import { addNotes, noteList, saveNotesToLocalStorage } from './notes-object';
+import { getCurrentDate } from '../../events/util';
 
 //note object factory
 export function createNoteObject(title, folder, folderColor, content, owner = 'placeholder') {
@@ -16,15 +17,6 @@ export function createNoteObject(title, folder, folderColor, content, owner = 'p
     };
     addNotes(note);
     return note;
-}
-
-export function getCurrentDate() {
-    const dateNow = new Date();
-    const month = dateNow.getMonth() + 1;
-    const day = dateNow.getDate();
-    const year = dateNow.getFullYear();
-
-    return `${month}/${day}/${year}`; // mm/dd/yyyy
 }
 
 //read for each and call createNoteComponent

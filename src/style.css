@@ -7,6 +7,18 @@
 .swal2-container {
   overflow: auto !important;
 }
+.popper,
+.tooltip {
+  position: absolute;
+  z-index: 9999;
+  background: #ffc107;
+  color: black;
+  width: 150px;
+  border-radius: 3px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  text-align: center;
+}
 @media (max-width: 640px) {
   /* Smaller toolbar text */
   #calendar .fc-toolbar-title {

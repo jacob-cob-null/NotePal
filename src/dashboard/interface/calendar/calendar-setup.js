@@ -1,5 +1,7 @@
 import { Calendar } from "fullcalendar/index.js";
 import { createCalendar } from "./calendar-render";
+import Tooltip from 'tooltip.js';
+import { createPopper } from '@popperjs/core'; // Tooltip.js will likely use this internally
 
 let calendarInstance = null;
 
@@ -16,6 +18,14 @@ export function initCalendar(target) {
     const calendar = new Calendar(calendarDiv, {
         initialView: "dayGridMonth",
         height: "100%",
+        eventDidMount: function (info) {
+            var tooltip = new Tooltip(info.el, {
+                title: info.event.extendedProps.description,
+                placement: 'top',
+                trigger: 'hover',
+                container: 'body'
+            });
+        },
     });
 
     calendar.render();

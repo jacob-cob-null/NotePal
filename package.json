@@ -17,10 +17,13 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "easymde": "^2.20.0",
     "firebase": "^11.9.1",
     "fullcalendar": "^6.1.18",
     "marked": "^15.0.12",
-    "sweetalert2": "^11.6.13"
+    "popper.js": "^1.16.1",
+    "sweetalert2": "^11.6.13",
+    "tooltip.js": "^1.3.3"
   }
 }

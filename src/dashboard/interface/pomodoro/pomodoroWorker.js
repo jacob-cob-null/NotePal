@@ -22,7 +22,7 @@ self.onmessage = (e) => {
     }
 
     if (type === 'shortBreak') {
-        startCountdown(50); // 5 minutes
+        startCountdown(300); // 5 minutes
     }
 
     if (type === 'longBreak') {
