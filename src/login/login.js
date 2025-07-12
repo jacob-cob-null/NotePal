@@ -22,14 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Add listener for Sign In
-  if (signin) {
-    signin.addEventListener('click', () => {
-      updateHeader('Sign In');
-      addForm('Enter Notepal');
-      submitElement(loginWithEmail);
-      updateAuthTip(false);
-    });
-  }
+  signin.addEventListener('click', () => {
+    updateHeader('Welcome to NotePal');
+    addForm('Sign In');
+    submitElement(loginWithEmail);
+    updateAuthTip(false);
+  });
 
   // Add listener for Register
   if (register) {
@@ -70,7 +68,7 @@ function addForm(btnName) {
 
   // Add heading again (optional if using updateHeader separately)
   const heading = document.createElement('h1');
-  heading.textContent = btnName === 'Sign In' ? 'Sign In' : 'Create Account';
+  heading.textContent = btnName === 'Sign In' ? 'Welcome Back!' : 'Register Here';
   heading.className =
     'text-3xl sm:text-5xl font-bold font-head motion-translate-x-in-[0%] motion-translate-y-in-[50%] motion-blur-in-[10px] mb-6';
   header.appendChild(heading);
@@ -156,7 +154,7 @@ function updateAuthTip(isRegistering) {
   prompt.className = 'mt-2 flex gap-1';
 
   const isLogin = !isRegistering;
-  const actionText = isLogin ? 'Register here' : 'Sign in here';
+  const actionText = isLogin ? 'Register Here' : 'Sign in here';
   const toggleId = isLogin ? 'register' : 'signin';
   const message = isLogin ? 'New to NotePal?' : 'Already have an account?';
 
@@ -166,7 +164,7 @@ function updateAuthTip(isRegistering) {
   // Reattach event listener to new dynamic toggle
   document.getElementById(toggleId)?.addEventListener('click', () => {
     const isNowRegistering = isLogin;
-    updateHeader(isNowRegistering ? 'Create Account' : 'Sign In');
+    updateHeader(isNowRegistering ? 'Register Account' : 'Sign In');
     addForm(isNowRegistering ? 'Register Account' : 'Sign In');
     submitElement(
       isNowRegistering ? createAccount : loginWithEmail,
