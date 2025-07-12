@@ -22,12 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Add listener for Sign In
-  signin.addEventListener('click', () => {
-    updateHeader('Welcome to NotePal');
-    addForm('Sign In');
-    submitElement(loginWithEmail);
-    updateAuthTip(false);
-  });
+  if (signin) {
+    signin.addEventListener('click', () => {
+      updateHeader('Welcome to NotePal');
+      addForm('Sign In');
+      submitElement(loginWithEmail);
+      updateAuthTip(false);
+    });
+
+  }
 
   // Add listener for Register
   if (register) {
