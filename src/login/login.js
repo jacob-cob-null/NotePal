@@ -1,10 +1,9 @@
-// src/auth/auth.js (This is the main UI/login page logic file)
-
-import '../style.css'; // Correct place for stylesheet import
-import { loginWithEmail, createAccount } from '../Firebase/auth'; // auth.js is the Firebase logic file
-import { successfulLogin, successfulRegistration, failedLogin, msgAlert } from '../dashboard/events/alerts'; // Assuming these are correct paths and functions
+import '../style.css';
+import { loginWithEmail, createAccount } from '../Firebase/auth';
+import { successfulLogin, successfulRegistration, failedLogin, msgAlert } from '../dashboard/events/alerts';
 import { auth } from '../Firebase/setup'; // Firebase auth instance
-import { onAuthStateChanged } from 'firebase/auth'; // Prefer importing from 'firebase/auth' directly for modular SDK consistency
+import { onAuthStateChanged } from 'firebase/auth';
+import { userStore } from './user';
 
 // --- DOMContentLoaded listener and event setup ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -158,8 +157,7 @@ function addForm(btnName) {
 /**
  * Handles form submission based on the provided callback function (login or register).
  * @param {Function} callback - The function to call (loginWithEmail or createAccount).
- */
-function submitElement(callback) {
+ */function submitElement(callback) {
   const submitBtn = document.getElementById('submit');
   if (!submitBtn) return;
 
@@ -169,33 +167,41 @@ function submitElement(callback) {
     const email = document.getElementById('email')?.value;
     const password = document.getElementById('password')?.value;
 
-    let user;
+    let user = null; // Initialize user to null
+
     try {
-      if (callback === createAccount) { // If it's the createAccount function
-        // --- NEW: Retrieve displayName and userBio for registration ---
+      if (callback === createAccount) {
         const displayName = document.getElementById('displayName')?.value || '';
         const userBio = document.getElementById('userBio')?.value || '';
         console.log("Attempting to create account with:", email, password, displayName, userBio);
-        user = await callback(email, password, displayName, userBio); // Pass additional arguments
-        successfulRegistration(user.uid); // Assuming you have a successfulRegistration alert
-      } else { // It's loginWithEmail
+
+        // Call createAccount, which also creates the Firestore profile and updates Auth displayName
+        user = await callback(email, password, displayName, userBio);
+
+        // Store the user info in your client-side store immediately after successful creation
+        userStore.setUser(user);
+        successfulRegistration(user.displayName || user.email || 'New User');
+
+      } else { // This is the loginWithEmail path
         user = await callback(email, password);
+        userStore.setUser(user);
       }
 
-      userStore.setUser(user);
-      let userId = user.uid;
-      console.log(userStore.getUser());
-      successfulLogin(userId); // Use your successfulLogin alert/UI update
+      const userFriendlyName = user.displayName || user.email || 'User';
+      successfulLogin(userFriendlyName); // Pass a friendly name for the alert
+
+      // Redirect to dashboard after a short delay
       setTimeout(() => {
         window.location.href = '../dashboard/dashboard.html';
-      }, "1500");
+      }, 1500);
 
     } catch (err) {
-      failedLogin(err); // Use your failedLogin alert/UI update
+      // Handle authentication or profile creation errors
+      failedLogin(err);
+      console.error("Authentication/Profile Creation Error:", err.message);
     }
   });
 }
-
 /**
  * Dynamically updates the prompt tip below the form (e.g., "New to NotePal? Register Here").
  * @param {boolean} isRegistering - True if the current form is registration, false for login.
@@ -225,25 +231,22 @@ function updateAuthTip(isRegistering) {
   });
 }
 
-// Auth state store (client-side session management for UID)
-export const userStore = (() => {
-  let user = null;
+onAuthStateChanged(auth, user => {
+  if (user) {
+    // If you need the full user object from Auth for userStore, call setUser here too
+    userStore.setUser(user); // This ensures 'user' in userStore has latest Auth data
 
-  function setUser(userCredential) {
-    user = userCredential;
-    sessionStorage.setItem('userUID', userCredential.uid);
+    // Then, to get the FULL profile with display name, bio, etc.
+    // You'll need to fetch it from Firestore using your getUserProfile function
+    // as discussed in the previous answer.
+    // Example: (Assuming getUserProfile is imported from Firebase/user-collection.js)
+    // getUserProfile(user.uid).then(profile => {
+    //   // Store this full profile somewhere accessible, or update UI directly
+    //   // This profile will contain displayName, userBio, etc.
+    // });
+
+  } else {
+    // User signed out, clear the client-side store
+    userStore.clearUser(); // <-- Use the new clearUser function
   }
-
-  function getUser() {
-    // Attempt to retrieve user from session storage if not already loaded
-    if (!user) {
-      const uid = sessionStorage.getItem('userUID');
-      if (uid) {
-        user = { uid };
-      }
-    }
-    return user;
-  }
-
-  return { setUser, getUser };
-})();
+});

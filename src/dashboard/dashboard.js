@@ -1,5 +1,5 @@
 import '../style.css';
-import { userStore } from '../login/login.js';
+import { userStore } from '../login/user.js';
 import { initMenuComponents } from './interface/components.js';
 import { initEvents } from './events/ui-events.js';
 import { attachMenuEvents } from './events/ui-events.js';
