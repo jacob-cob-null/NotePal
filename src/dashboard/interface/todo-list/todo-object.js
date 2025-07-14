@@ -34,21 +34,23 @@ export function saveTodoObjectLocalStorage() {
 export function loadTodoObjectFromLocalStorage() {
     try {
         const saved = JSON.parse(localStorage.getItem('todoObjectList')) || [];
-        todoObjectList.length = 0; // Clear existing array
+        todoObjectList.length = 0;
 
         saved.forEach(savedObj => {
             const reconstructed = todoObject(savedObj.title);
+
+            // ✅ Set ID immediately, before anything else
             reconstructed.id = savedObj.id;
 
-            // Reconstruct todo items
-            if (savedObj.todoItems && Array.isArray(savedObj.todoItems)) {
-                savedObj.todoItems.forEach(savedTask => {
-                    reconstructed.addTodoItem(
-                        savedTask.title,
-                        savedTask.dueDate,
-                        savedTask.isComplete
-                    );
-                });
+            // ✅ Reconstruct todo items with correct parentId and IDs
+            if (Array.isArray(savedObj.todoItems)) {
+                reconstructed.todoItems = savedObj.todoItems.map(task => ({
+                    id: task.id,
+                    title: task.title,
+                    dueDate: task.dueDate,
+                    isComplete: task.isComplete,
+                    parentId: savedObj.id  // ✅ Correctly link to restored parent
+                }));
             }
 
             todoObjectList.push(reconstructed);

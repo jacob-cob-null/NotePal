@@ -75,12 +75,13 @@ export function createTodoSet(target, todoObj) {
     return todoContainer;
 }
 export function createTodoItem(target, task, todoObj) {
-    const { id: taskId, title: taskTitle, dueDate, isComplete } = task;
+    const { id: taskId, title: taskTitle, dueDate, isComplete, parentId } = task;
     const { deleteTodoItem, updateTodoItem } = todoObj;
 
     const todoItem = document.createElement('section');
     todoItem.classList.add('todoItem');
     todoItem.dataset.id = taskId;
+    todoItem.dataset.todoObjectId = parentId;
 
     const todoItemSection = document.createElement('section');
     todoItemSection.classList.add('todoItemSection');
