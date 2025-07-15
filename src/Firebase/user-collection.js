@@ -10,8 +10,10 @@ export async function createUserDoc(
     userBio
 ) {
     try {
+        //params, db | collection | defined id
         const userDocRef = doc(db, 'users', userId); // Reference to the specific user's document
 
+        //user object
         const userProfileData = {
             email: userEmail,
             displayName: userName,
@@ -20,7 +22,7 @@ export async function createUserDoc(
             lastLogin: serverTimestamp(),
             userBio: userBio || '',
         };
-
+        //create or update if existing
         await setDoc(userDocRef, userProfileData, { merge: true });
         console.log(`User profile for ${userId} successfully created/updated in Firestore.`);
 
@@ -39,7 +41,7 @@ export async function getUserProfile(userId) {
             // If the document exists, return its data along with its ID
             return {
                 id: userSnapshot.id,
-                ...userSnapshot.data()
+                ...userSnapshot.data() //rest of the data
             };
         } else {
             // Document does not exist

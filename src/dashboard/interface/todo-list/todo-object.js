@@ -33,29 +33,28 @@ export function saveTodoObjectLocalStorage() {
 // Load from localStorage
 export function loadTodoObjectFromLocalStorage() {
     try {
+        //get todo object list array
         const saved = JSON.parse(localStorage.getItem('todoObjectList')) || [];
         todoObjectList.length = 0;
 
         saved.forEach(savedObj => {
-            const reconstructed = todoObject(savedObj.title);
+            const reconstructed = todoObject(savedObj.title); //reconstruc todo object
 
-            // ✅ Set ID immediately, before anything else
+            //attach saved id from local obj
             reconstructed.id = savedObj.id;
 
-            // ✅ Reconstruct todo items with correct parentId and IDs
+            //Reconstruct todo items array with correct parentId and IDs
             if (Array.isArray(savedObj.todoItems)) {
                 reconstructed.todoItems = savedObj.todoItems.map(task => ({
                     id: task.id,
                     title: task.title,
                     dueDate: task.dueDate,
                     isComplete: task.isComplete,
-                    parentId: savedObj.id  // ✅ Correctly link to restored parent
+                    parentId: savedObj.id
                 }));
             }
-
             todoObjectList.push(reconstructed);
         });
-
         console.log('Todo objects loaded from localStorage');
     } catch (error) {
         console.error('Failed to load from localStorage:', error);

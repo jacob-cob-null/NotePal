@@ -31,13 +31,13 @@ export async function loginWithEmail(email, password) {
  */
 export async function createAccount(email, password, displayName, userBio) { // Added displayName, userBio arguments
   try {
-    // 1. Create user account with Firebase Authentication
+    //Create user account with Firebase Authentication
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     console.log("Firebase Auth account created:", user.uid);
 
-    // 2. Update the Firebase Authentication user profile (displayName)
-    // This makes displayName directly accessible from user.displayName
+    //Update the Firebase Authentication user profile (displayName)
+
     if (user && displayName) { // Only attempt if user exists and displayName is provided
       await updateProfile(user, { displayName: displayName });
       console.log("Firebase Auth user profile updated with display name:", displayName);

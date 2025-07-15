@@ -18,7 +18,7 @@ function TodoHeader() {
     const createButton = document.createElement('button');
     createButton.className = 'button w-40';
     createButton.textContent = 'New Task Set';
-    
+
     createButton.addEventListener('click', async () => {
         try {
             const title = await createTaskSet();
@@ -26,10 +26,10 @@ function TodoHeader() {
                 msgAlert('Please enter a valid task set title');
                 return;
             }
-            
+
             const newTodoObj = todoObject(title);
             addTodoObject(newTodoObj);
-            
+
             // Create and append the new todo set
             createTodoSet(mainWorkspace, newTodoObj);
             saveTodoObjectLocalStorage();
@@ -38,16 +38,16 @@ function TodoHeader() {
             msgAlert('Failed to create task set');
         }
     });
-    
+
     workspaceHeader.appendChild(createButton);
 }
 
 function renderTodo(target, todoObjArr) {
     target.innerHTML = ''; // clear previous render
-    
+
     todoObjArr.forEach(taskSet => {
         const container = createTodoSet(target, taskSet);
-        
+
         // Render existing todo items for this task set
         const itemContainer = container.querySelector('.todoItemContainer');
         if (itemContainer && taskSet.todoItems) {
