@@ -1,5 +1,5 @@
-import { db } from './setup'; // Assuming 'db' is your Firestore instance
-import { doc, setDoc, serverTimestamp, getDoc } from 'firebase/firestore'; // Removed Timestamp as it's not directly used here
+import { db } from './setup';
+import { doc, setDoc, serverTimestamp, getDoc } from 'firebase/firestore';
 
 // create user document
 export async function createUserDoc(

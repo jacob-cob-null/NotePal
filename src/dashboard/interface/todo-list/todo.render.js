@@ -5,6 +5,10 @@ import { createTaskSet } from "../../events/alerts";
 import { todoObject } from "./todo-crud";
 import { addTodoObject } from "./todo-object";
 import { loadTodoObjectFromLocalStorage, saveTodoObjectLocalStorage, todoObjectList } from "./todo-object";
+import { userStore } from "../../../login/user";
+
+//gets current user
+const currentUser = await userStore.getUser();
 
 //bootstrap for todo component
 export function initTodo() {
