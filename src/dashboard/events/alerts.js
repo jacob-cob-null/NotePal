@@ -58,8 +58,16 @@ export async function newFolderModal() {
             const labels = Swal.getPopup().querySelectorAll('label');
             labels.forEach(label => {
                 label.addEventListener('click', () => {
-                    labels.forEach(l => l.querySelector('.color-circle').style.border = '2px solid #ccc');
-                    label.querySelector('.color-circle').style.border = '4px solid black';
+                    labels.forEach(l => {
+                        const divElement = l.querySelector('div');
+                        if (divElement) { // Add null check here
+                            divElement.classList.remove('selected-color');
+                        }
+                    });
+                    const clickedDivElement = label.querySelector('div');
+                    if (clickedDivElement) { // Add null check here
+                        clickedDivElement.classList.add('selected-color');
+                    }
                 });
             });
         },

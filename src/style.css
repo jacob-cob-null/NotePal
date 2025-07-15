@@ -4,6 +4,9 @@
 
 @plugin "tailwindcss-motion";
 
+.selected-color {
+  border: 4px solid black !important;
+}
 .swal2-container {
   overflow: auto !important;
 }

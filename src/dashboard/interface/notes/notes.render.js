@@ -8,7 +8,11 @@ import { createNoteForm } from './notes-dom.js';
 import { submitBtnEvent, cancelBtnEvent } from './notes-dom.js';
 import { noteList, loadNotesFromLocalStorage } from './notes-object.js';
 import { createNoteComponent } from './notes-dom.js';
+import { userStore } from '../../../login/user.js';
+import { createFolderFS } from './firestore-notes-folder/folder-firestore.js';
 
+//get user
+const user = userStore.getUser();
 //initialize notes components
 export function renderNoteComponent() {
     workspaceHeader.innerHTML = "";
@@ -45,17 +49,20 @@ export function initNotes() {
 async function addFolder() {
     const input = await newFolderModal();
     if (input) {
-        createFolder(input.folderName, input.color, noteGroup);
+        const folderId = "FOLDER-" + crypto.randomUUID()
+        createFolder(folderId, input.folderName, input.color, noteGroup);
         addNoteGroupList(input);
+        await createFolderFS(user.uid, folderId, input.folderName, input.color)
         saveNoteGroupsToLocalStorage();
         return true;
     }
 }
 
 //creates a DOM folder
-export function createFolder(folderName, color, targetAppend) {
+export function createFolder(id, folderName, color, targetAppend) {
     let newFolder = document.createElement('div');
     newFolder.classList.add('note-group', `${color}`, 'dark-hover-active');
+    newFolder.id = id;
     newFolder.textContent = folderName;
     targetAppend.append(newFolder);
 }
@@ -93,8 +100,9 @@ export function noteEvents() {
             if (await addFolder()) {
                 msgAlert("Folder Created");
             }
-        } catch {
+        } catch (err) {
             msgAlert("Folder Not Created");
+            console.log(err)
         }
     });
 }
