@@ -6,19 +6,25 @@ import { todoObject } from "./todo-crud";
 import { addTodoObject } from "./todo-object";
 import { loadTodoObjectFromLocalStorage, saveTodoObjectLocalStorage, todoObjectList } from "./todo-object";
 import { userStore } from "../../../login/user";
+import { addTaskSetFS } from "./firestore-taskSet-todoItem/taskSet-firestore";
 
 //gets current user
-const currentUser = await userStore.getUser();
+
 
 //bootstrap for todo component
 export function initTodo() {
-    TodoHeader();
-    loadTodoObjectFromLocalStorage();
-    renderTodo(mainWorkspace, todoObjectList);
-}
+    const user = userStore.getUser();
+    if (!user || !user.uid) {
+        console.warn("No user available for todo initialization");
+        return;
+    }
 
+    TodoHeader(user);
+    loadTodoObjectFromLocalStorage();
+    renderTodo(mainWorkspace, todoObjectList, user); // ✅ Pass user
+}
 //button to create todo set
-function TodoHeader() {
+function TodoHeader(user) {
     const createButton = document.createElement('button');
     createButton.className = 'button w-40';
     createButton.textContent = 'New Task Set';
@@ -30,12 +36,14 @@ function TodoHeader() {
                 msgAlert('Please enter a valid task set title');
                 return;
             }
-
-            const newTodoObj = todoObject(title);
-            addTodoObject(newTodoObj);
+            mainWorkspace.innerHTML = ''
+            const taskSetId = "TaskSet" + crypto.randomUUID();
+            const newTodoObj = todoObject(taskSetId, title); //creates obj
+            addTodoObject(newTodoObj); //pushes obj
+            addTaskSetFS(taskSetId, user.uid, title)
 
             // Create and append the new todo set
-            createTodoSet(mainWorkspace, newTodoObj);
+            createTodoSet(mainWorkspace, newTodoObj, user);
             saveTodoObjectLocalStorage();
         } catch (error) {
             console.error('Error creating task set:', error);
@@ -45,19 +53,23 @@ function TodoHeader() {
 
     workspaceHeader.appendChild(createButton);
 }
+export function renderTodo(target, todoObjArr, user) {
+    target.innerHTML = '';
 
-function renderTodo(target, todoObjArr) {
-    target.innerHTML = ''; // clear previous render
-
-    todoObjArr.forEach(taskSet => {
-        const container = createTodoSet(target, taskSet);
-
-        // Render existing todo items for this task set
-        const itemContainer = container.querySelector('.todoItemContainer');
-        if (itemContainer && taskSet.todoItems) {
-            taskSet.todoItems.forEach(task => {
-                createTodoItem(itemContainer, task, taskSet);
-            });
-        }
-    });
+    if (todoObjArr.length > 0) {
+        todoObjArr.forEach(taskSet => {
+            const container = createTodoSet(target, taskSet, user);
+            const itemContainer = container.querySelector('.todoItemContainer');
+            if (itemContainer && taskSet.todoItems) {
+                taskSet.todoItems.forEach(task => {
+                    createTodoItem(itemContainer, task, taskSet);
+                });
+            }
+        });
+    } else {
+        const empty = document.createElement('h1');
+        empty.textContent = 'No pending tasks! Time to relax';
+        empty.classList.add('header', 'text-center')
+        target.appendChild(empty);
+    }
 }

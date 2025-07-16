@@ -35,22 +35,26 @@ export function loadTodoObjectFromLocalStorage() {
     try {
         //get todo object list array
         const saved = JSON.parse(localStorage.getItem('todoObjectList')) || [];
-        todoObjectList.length = 0;
+        todoObjectList.length = 0; // Clear the existing list before populating
 
         saved.forEach(savedObj => {
-            const reconstructed = todoObject(savedObj.title); //reconstruc todo object
+            // FIX: Pass both id and title in the correct order to todoObject
+            const reconstructed = todoObject(savedObj.id, savedObj.title); // <--- CORRECTED LINE
 
-            //attach saved id from local obj
-            reconstructed.id = savedObj.id;
+            // The reconstructed.id = savedObj.id; line is now redundant but harmless if left.
+            // You can remove it since todoObject will set the id directly.
 
             //Reconstruct todo items array with correct parentId and IDs
             if (Array.isArray(savedObj.todoItems)) {
+                // When you push tasks to reconstructed.todoItems, you're effectively
+                // bypassing the addTodoItem method of the reconstructed object.
+                // This is generally fine for loading, as you're just restoring state.
                 reconstructed.todoItems = savedObj.todoItems.map(task => ({
                     id: task.id,
                     title: task.title,
                     dueDate: task.dueDate,
                     isComplete: task.isComplete,
-                    parentId: savedObj.id
+                    parentId: savedObj.id // Ensure parentId is correct
                 }));
             }
             todoObjectList.push(reconstructed);

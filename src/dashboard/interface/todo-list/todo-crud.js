@@ -1,7 +1,6 @@
 import { saveTodoObjectLocalStorage } from "./todo-object";
 
-export function todoObject(title) {
-    const id = crypto.randomUUID();
+export function todoObject(id, title) {
     const todoItems = [];
 
     function addTodoItem(title, dueDate, isComplete = false) {

@@ -1,7 +1,9 @@
 import { deleteConfirm, createTodoItemModal } from "../../events/alerts";
 import { saveTodoObjectLocalStorage, deleteObject } from "./todo-object";
+import { delTaskSetFS } from "./firestore-taskSet-todoItem/taskSet-firestore";
 
-export function createTodoSet(target, todoObj) {
+export function createTodoSet(target, todoObj, user) {
+
     const { id, title, addTodoItem } = todoObj;
 
     //container
@@ -23,8 +25,9 @@ export function createTodoSet(target, todoObj) {
         function deleteTodoContainer() {
             //remove to dom
             todoContainer.remove();
-            //remove to todoObject
-            deleteObject(id);
+
+            deleteObject(id);//remove to todoObject
+            delTaskSetFS(user.uid, id)
             //remove firestore
             saveTodoObjectLocalStorage();
         }

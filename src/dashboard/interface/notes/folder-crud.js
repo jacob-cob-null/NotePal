@@ -26,8 +26,8 @@ export function loadNoteGroupsFromLocalStorage() {
 
 //read group list
 export function readGroupList(targetAppend) {
-  noteGroupList.forEach((noteGroup) => {
-    createFolder(noteGroup.folderName, noteGroup.color, targetAppend);
+  noteGroupList.forEach((folderData) => {
+    createFolder(folderData.id, folderData.folderName, folderData.color, targetAppend);
   });
 }
 //return all folder name
@@ -94,22 +94,26 @@ export function editFolder({ oldName, newName, newColor }) {
   refreshGroupUI();
 }
 export async function addFolder() {
-  const input = await newFolderModal();
+  const input = await newFolderModal(); // input likely contains { folderName, color }
   if (input) {
-    createFolder(input.folderName, input.color, noteGroup)
-    addNoteGroupList(input);
-    console.log(input);
+    const folderId = 'FOLDER-' + crypto.randomUUID();
+    // Add the id to the input object before adding it to the list
+    const newFolderData = { id: folderId, folderName: input.folderName, color: input.color };
+    addNoteGroupList(newFolderData); // This will push the object with id, folderName, color
+    createFolder(newFolderData.id, newFolderData.folderName, newFolderData.color, noteGroup); // Also pass correct args here
+    console.log(newFolderData);
     saveNoteGroupsToLocalStorage();
     return true;
   }
 }
-export function createFolder(folderName, color, targetAppend) {
+export function createFolder(id, folderName, color, targetAppend) {
   let newFolder = document.createElement('div');
-  newFolder.classList.add('note-group', color, 'dark-hover-active');
+  newFolder.classList.add('note-group', `${String(color)}`, 'dark-hover-active');
+  newFolder.id = id;
   newFolder.textContent = folderName;
 
   newFolder.addEventListener('click', () => {
-    displayNotes(folderName); // now works as intended
+    displayNotes(folderName);
   });
 
   targetAppend.append(newFolder);
