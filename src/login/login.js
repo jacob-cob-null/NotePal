@@ -1,5 +1,5 @@
 import '../style.css';
-import { loginWithEmail, createAccount } from '../Firebase/auth';
+import { loginWithEmail, createAccount, signinWithGoogle } from '../Firebase/auth';
 import { successfulLogin, successfulRegistration, failedLogin, msgAlert } from '../dashboard/events/alerts';
 import { auth } from '../Firebase/setup'; // Firebase auth instance
 import { onAuthStateChanged } from 'firebase/auth';
@@ -64,7 +64,7 @@ function updateHeader(text) {
  * Adds a responsive, styled login/register form to the header.
  * @param {string} btnName - The text for the submit button (e.g., 'Sign In', 'Register Account').
  */
-function addForm(btnName) {
+async function addForm(btnName) {
   const header = document.getElementById('header');
   const loginIcon = document.getElementById('loginIcon');
   if (!header || !loginIcon) return;
@@ -148,8 +148,20 @@ function addForm(btnName) {
       >
         <span class="text-black text-xl font-body">${btnName}</span>
       </button>
+            
+      
     </form>
   `;
+  if (btnName !== 'Register Account') {
+    const googleSignIn = document.createElement('button');
+    googleSignIn.id = 'googleSignIn'
+    googleSignIn.classList = ' mt-3 button h-[50px] w-full bg-white dark-hover-active outline-1 outline-gray-300 rounded-[10px] transition-all duration-300 hover:scale-105 active:scale-95'
+    googleSignIn.innerText = 'Sign In with Google'
+    formWrapper.appendChild(googleSignIn)
+    googleSignIn.onclick = function () {
+      signinWithGoogle()
+    }
+  }
 
   header.appendChild(formWrapper);
 }
@@ -193,7 +205,7 @@ function addForm(btnName) {
       // Redirect to dashboard after a short delay
       setTimeout(() => {
         window.location.href = '../dashboard/dashboard.html';
-      }, 1500);
+      }, 300);
 
     } catch (err) {
       // Handle authentication or profile creation errors
@@ -202,10 +214,7 @@ function addForm(btnName) {
     }
   });
 }
-/**
- * Dynamically updates the prompt tip below the form (e.g., "New to NotePal? Register Here").
- * @param {boolean} isRegistering - True if the current form is registration, false for login.
- */
+
 function updateAuthTip(isRegistering) {
   const header = document.getElementById('header');
   if (!header) return;

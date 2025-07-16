@@ -58,7 +58,9 @@ export async function createFolderFS(userId, id, name, color) {
     } catch (err) {
         console.log(err)
     }
-
-
-
 }
+//delete folder
+
+//update folder
+
+//return all folders

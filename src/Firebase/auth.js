@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword, getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"; // Added updateProfile
+import { signInWithEmailAndPassword, getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"; // Added updateProfile
 import { createUserDoc } from './user-collection.js';
 import { app, auth } from "./setup.js";
 import { initTaskSetCollection } from "../dashboard/interface/todo-list/firestore-taskSet-todoItem/taskSet-firestore.js";
@@ -50,4 +50,37 @@ export async function createAccount(email, password, displayName, userBio) {
     console.error("Error during account creation or profile setup:", error.code, errorMessage);
     throw new Error(errorMessage);
   }
+}
+//sign in with gmail
+export async function signinWithGoogle() {
+  const provider = new GoogleAuthProvider();
+
+  return signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+
+      return createUserDoc(
+        user.uid,
+        user.email,
+        user.displayName,
+        user.photoURL,
+        'New to NotePal? Customize your profile!'
+      ).then(() => user); // pass user forward
+    })
+    .then((user) => {
+      return Promise.all([
+        initFoldersCollection(user.uid),
+        initTaskSetCollection(user.uid)
+      ]).then(() => user); // pass user forward if needed
+    })
+    .then((user) => {
+      setTimeout(() => {
+        window.location.href = '/src/dashboard/dashboard.html';
+      }, 300);
+    })
+    .catch((error) => {
+      console.error("Google sign-in failed:", error.code, error.message);
+      alert("Google Sign-In failed. Please try again.");
+      throw error;
+    });
 }
