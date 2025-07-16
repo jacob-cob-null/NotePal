@@ -1,23 +1,23 @@
 export const userStore = (() => {
-    let user = null; // Private variable to hold the user object
+    let user = null; // Private variable
 
     /**
-     * Sets the current user. Stores UID in sessionStorage.
-     * @param {object} userCredential - The Firebase User object from auth.currentUser or userCredential.user.
+     * Sets the current user and stores full user object in sessionStorage.
+     * @param {object} userCredential - Must include at least uid, displayName, email.
      */
     function setUser(userCredential) {
-        user = userCredential; // Assign the full Firebase User object
-        sessionStorage.setItem('userUID', userCredential.uid);
+        user = userCredential;
+        sessionStorage.setItem('user', JSON.stringify(userCredential)); //set user object to session storage
     }
 
     /**
-     * @returns {object|null} The user object or null if no user.
+     * @returns {object|null} The user object or null if none.
      */
     function getUser() {
         if (!user) {
-            const uid = sessionStorage.getItem('userUID');
-            if (uid) {
-                user = { uid };
+            const raw = sessionStorage.getItem('user');
+            if (raw) {
+                user = JSON.parse(raw);
             }
         }
         return user;
@@ -25,8 +25,7 @@ export const userStore = (() => {
 
     function clearUser() {
         user = null;
-        sessionStorage.removeItem('userUID');
-        // sessionStorage.removeItem('userDisplayName'); // Clear any other stored minimal data
+        sessionStorage.removeItem('user');
     }
 
     return {

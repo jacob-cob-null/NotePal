@@ -13,9 +13,7 @@ import { spinnerTrigger } from './events/util.js';
 
 async function initUser() {
     const storedUserInfo = userStore.getUser();
-    spinnerTrigger(true, mainWorkspace)
-
-    // Check if we have a user and their UID
+    console.log("🧠 Loaded from userStore:", storedUserInfo);
     if (!storedUserInfo || !storedUserInfo.uid) {
         console.log("No user info in userStore, redirecting to login.");
         setTimeout(() => {
@@ -23,23 +21,35 @@ async function initUser() {
         }, 1000);
         return;
     }
+    const navbarNameElement = document.getElementById('username');
+    if (sessionStorage.getItem('userInitialized')) {
+        const userName = storedUserInfo.displayName || storedUserInfo.email || 'NotePal User';
+        if (navbarNameElement) {
+            navbarNameElement.textContent = `Welcome! ${userName}`;
+            navbarNameElement.classList.add('ml-2');
+        }
+        return;
+    }
 
-    // We have a UID, now fetch the full profile from Firestore
+    spinnerTrigger(true, mainWorkspace);
+
     try {
         const fullUserProfile = await getUserProfile(storedUserInfo.uid);
 
         if (fullUserProfile) {
-            // User profile found in Firestore, use its displayName
-            const navbarNameElement = document.getElementById('username');
-            const userName = fullUserProfile.displayName || fullUserProfile.email || 'NotePal User'; // Provide fallbacks
+            const userName = fullUserProfile.displayName || fullUserProfile.email || 'NotePal User';
+
             if (navbarNameElement) {
                 navbarNameElement.textContent = `Welcome! ${userName}`;
-                navbarNameElement.classList.add('ml-1')
-            } else {
-                console.warn("Element with ID 'username' not found in the DOM.");
+                navbarNameElement.classList.add('ml-2');
             }
-            console.log("Full user profile loaded:", fullUserProfile);
-            spinnerTrigger(false, mainWorkspace)
+            userStore.setUser({
+                uid: storedUserInfo.uid,
+                displayName: fullUserProfile.displayName,
+                email: fullUserProfile.email
+            });
+            sessionStorage.setItem('userInitialized', 'true'); //flag that user credentials have been loaded
+            spinnerTrigger(false, mainWorkspace);
         } else {
             console.warn(`User ${storedUserInfo.uid} logged in, but no Firestore profile found. Redirecting to login.`);
             setTimeout(() => {
@@ -53,11 +63,7 @@ async function initUser() {
         }, 5000);
     }
 }
-//user
-document.addEventListener('DOMContentLoaded', async () => {
-    await initUser();
-});
-
+initUser();
 //menu
 const menuComponents = initMenuComponents();
 initEvents(menuComponents);
