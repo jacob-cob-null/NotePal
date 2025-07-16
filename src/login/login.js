@@ -4,12 +4,14 @@ import { successfulLogin, successfulRegistration, failedLogin, msgAlert } from '
 import { auth } from '../Firebase/setup'; // Firebase auth instance
 import { onAuthStateChanged } from 'firebase/auth';
 import { userStore } from './user';
-
+import { spinnerTrigger } from '../dashboard/events/util';
+const container = document.getElementById('container')
 // --- DOMContentLoaded listener and event setup ---
 document.addEventListener('DOMContentLoaded', () => {
   const signin = document.getElementById('signin');
   const register = document.getElementById('register');
   const loginIcon = document.getElementById('loginIcon');
+
 
   // Check auth status on page load
   onAuthStateChanged(auth, user => {
@@ -169,7 +171,9 @@ async function addForm(btnName) {
 /**
  * Handles form submission based on the provided callback function (login or register).
  * @param {Function} callback - The function to call (loginWithEmail or createAccount).
- */function submitElement(callback) {
+ * 
+ */
+function submitElement(callback) {
   const submitBtn = document.getElementById('submit');
   if (!submitBtn) return;
 
@@ -183,6 +187,7 @@ async function addForm(btnName) {
 
     try {
       if (callback === createAccount) {
+        spinnerTrigger(true, container)
         const displayName = document.getElementById('displayName')?.value || '';
         const userBio = document.getElementById('userBio')?.value || '';
         console.log("Attempting to create account with:", email, password, displayName, userBio);
@@ -198,7 +203,7 @@ async function addForm(btnName) {
         user = await callback(email, password);
         userStore.setUser(user);
       }
-
+      spinnerTrigger(false, container)
       const userFriendlyName = user.displayName || user.email || 'User';
       successfulLogin(userFriendlyName); // Pass a friendly name for the alert
 
