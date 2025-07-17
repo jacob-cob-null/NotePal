@@ -1,11 +1,12 @@
 import { userStore } from "../../../login/user";
-import { addTodoItemFS } from "./firestore-taskSet-todoItem/todoItem-firestore";
+import { addTodoItemFS, deleteTodoItemFS, updateTodoItemFS } from "./firestore-taskSet-todoItem/todoItem-firestore";
 import { saveTodoObjectLocalStorage } from "./todo-object";
 
 //init user
 const user = userStore.getUser();
 
 export function todoObject(id, title) {
+    const user = userStore.getUser();
     const todoItems = [];
 
     function addTodoItem(todoTitle, dueDate, isComplete = false) {
@@ -22,20 +23,22 @@ export function todoObject(id, title) {
         return todo;
     }
 
-    function deleteTodoItem(id) {
-        const index = todoItems.findIndex(item => item.id === id);
+    function deleteTodoItem(taskId) {
+        const user = userStore.getUser();
+        const index = todoItems.findIndex(item => item.id === taskId);
         if (index !== -1) {
             const deleted = todoItems.splice(index, 1)[0];
+            deleteTodoItemFS(user.uid, id, taskId); // Fixed: correct parameter order
             return deleted;
         }
         return null;
     }
-
     function updateTodoItem(taskId) {
+        const user = userStore.getUser();
         const task = todoItems.find(item => item.id === taskId);
         if (task) {
             task.isComplete = !task.isComplete;
-            updateTodoItem(user.uid, id, taskId, task.isComplete)
+            updateTodoItemFS(user.uid, id, taskId, task.isComplete)
             saveTodoObjectLocalStorage(); //save locally
             return task;
         }

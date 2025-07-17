@@ -19,16 +19,19 @@ export async function addTodoItemFS(userId, taskSetId, todoItemId, todoItemTitle
         throw err
     }
 }
-
-
-//read todoItems to localstorage
-
-//load todoItems from firestore
-
 //delete todoItems
+export async function deleteTodoItemFS(userId, taskSetId, todoItemId) {
+    try {
+        await deleteDoc(doc(db, "users", userId, "taskSets", taskSetId, "tasks", todoItemId))
+        console.log(`Deleting: /users/${userId}/taskSets/${taskSetId}/tasks/${todoItemId}`);
+    } catch (err) {
+        msgAlert("Error deleting todo item " + err);
+        throw err
+    }
+}
 
 //toggle todoItems
-export async function updatetodoItem(userId, taskSetId, todoItemId, isComplete) {
+export async function updateTodoItemFS(userId, taskSetId, todoItemId, isComplete) {
     try {
         const todoItemRef = doc(db, "users", userId, "taskSets", taskSetId, "tasks", todoItemId)
         await updateDoc(todoItemRef, {
@@ -36,7 +39,7 @@ export async function updatetodoItem(userId, taskSetId, todoItemId, isComplete) 
         });
         console.log(`Todo item ${todoItemId} has been updated!`)
     } catch (err) {
-        msgAlert("Error creating todo item " + err);
+        msgAlert("Error updating todo item " + err);
         throw err
     }
 }
