@@ -1,18 +1,24 @@
+import { userStore } from "../../../login/user";
+import { addTodoItemFS } from "./firestore-taskSet-todoItem/todoItem-firestore";
 import { saveTodoObjectLocalStorage } from "./todo-object";
+
+//init user
+const user = userStore.getUser();
 
 export function todoObject(id, title) {
     const todoItems = [];
 
-    function addTodoItem(title, dueDate, isComplete = false) {
+    function addTodoItem(todoTitle, dueDate, isComplete = false) {
+        const todoId = "TodoItem" + crypto.randomUUID();
         const todo = {
-            id: crypto.randomUUID(),
-            title,
+            id: todoId,
+            title: todoTitle,
             dueDate,
             isComplete,
             parentId: id
         };
         todoItems.push(todo);
-
+        addTodoItemFS(user.uid, id, todoId, todoTitle, dueDate, isComplete)
         return todo;
     }
 
@@ -29,8 +35,11 @@ export function todoObject(id, title) {
         const task = todoItems.find(item => item.id === taskId);
         if (task) {
             task.isComplete = !task.isComplete;
+            updateTodoItem(user.uid, id, taskId, task.isComplete)
+            saveTodoObjectLocalStorage(); //save locally
+            return task;
         }
-        saveTodoObjectLocalStorage()
+        return null;
     }
     return {
         id,

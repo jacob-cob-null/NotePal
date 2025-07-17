@@ -76,8 +76,7 @@ export function createTodoSet(target, todoObj, user) {
 
     //return the full container so items can be rendered
     return todoContainer;
-}
-export function createTodoItem(target, task, todoObj) {
+} export function createTodoItem(target, task, todoObj) {
     const { id: taskId, title: taskTitle, dueDate, isComplete, parentId } = task;
     const { deleteTodoItem, updateTodoItem } = todoObj;
 
@@ -97,7 +96,7 @@ export function createTodoItem(target, task, todoObj) {
     todoDate.classList.add('todoDate');
     todoDate.textContent = dueDate;
 
-    // ✅ Apply line-through if task is complete (on render)
+    //add line when completed
     if (isComplete) {
         todoItemText.classList.add('line-through');
         todoDate.classList.add('line-through');
@@ -111,16 +110,22 @@ export function createTodoItem(target, task, todoObj) {
         saveTodoObjectLocalStorage();
     });
 
+    // Fixed click handler for toggling
     todoItem.addEventListener('click', () => {
-        updateTodoItem(taskId);
-        const task = todoObj.todoItems.find(t => t.id === taskId);
-        if (task && task.isComplete) {
+        const updatedTask = todoObj.updateTodoItem(taskId);
+        console.log('Task toggled:', updatedTask); // Fixed the incomplete console.log
+
+        if (updatedTask?.isComplete) {
+            // If the task is complete, add line-through
             todoItemText.classList.add('line-through');
             todoDate.classList.add('line-through');
         } else {
+            // If the task is incomplete, remove line-through
             todoItemText.classList.remove('line-through');
             todoDate.classList.remove('line-through');
         }
+
+        // Save to localStorage after toggling
         saveTodoObjectLocalStorage();
     });
 

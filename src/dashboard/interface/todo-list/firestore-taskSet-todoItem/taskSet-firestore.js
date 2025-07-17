@@ -35,7 +35,7 @@ export async function initTaskSetCollection(userId) {
 }
 
 //add task set
-export async function addTaskSetFS(taskSetId, userId, title) {
+export async function addTaskSetFS(taskSetId, userId, title,) {
     try {
         const taskSetRef = doc(db, "users", userId, "taskSets", taskSetId);
         await setDoc(taskSetRef, {
@@ -50,7 +50,6 @@ export async function addTaskSetFS(taskSetId, userId, title) {
         await setDoc(taskRef, {
             id: todoId,
             title: "Welcome Task",
-            description: "This is your first task",
             completed: false,
             dueDate: null,
             parentId: taskSetId
@@ -72,11 +71,11 @@ export async function getTaskSetFS(userId) {
         }
         const taskSetsFS = []
         docSnap.forEach((taskSets) => {
-            taskSetsFS.push(
-                {
-                    id: taskSets.id,
-                    title: taskSets.title
-                })
+            const data = taskSets.data();
+            taskSetsFS.push({
+                id: taskSets.id,
+                title: data.title
+            });
         })
         return taskSetsFS
     }
@@ -85,9 +84,6 @@ export async function getTaskSetFS(userId) {
         throw err
     }
 }
-
-
-//load taskset from firestore
 
 //delete taskset
 export async function delTaskSetFS(userId, taskSetId) {
