@@ -12,7 +12,7 @@ import { addTaskSetFS } from "./firestore-taskSet-todoItem/taskSet-firestore";
 
 
 //bootstrap for todo component
-export function initTodo() {
+export async function initTodo() {
     const user = userStore.getUser();
     if (!user || !user.uid) {
         console.warn("No user available for todo initialization");
@@ -20,7 +20,7 @@ export function initTodo() {
     }
 
     TodoHeader(user);
-    loadTodoObjectFromLocalStorage();
+    await loadTodoObjectFromLocalStorage(user.uid);
     renderTodo(mainWorkspace, todoObjectList, user); // ✅ Pass user
 }
 //button to create todo set

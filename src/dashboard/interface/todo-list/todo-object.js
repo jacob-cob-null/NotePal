@@ -34,38 +34,53 @@ export function saveTodoObjectLocalStorage() {
 
 // Load from localStorage
 export async function loadTodoObjectFromLocalStorage(userId = null) {
-    let sourceData = []
+    const LOCAL_KEY = 'todoObjectList';
+    const LAST_FETCHED_KEY = 'todoLastFetched';
+    const STALE_TIME = 10 * 60 * 1000; // 10 minutes
+
+    let sourceData = [];
 
     try {
-        if (userId) {
-            sourceData = await getTaskSetFS(userId)
-            console.log("Loaded firestore")
-        }
-        else {
-            const saved = JSON.parse(localStorage.getItem('todoObjectList')) || [];
-            todoObjectList.length = 0;
-            sourceData = saved
+        const cachedData = JSON.parse(localStorage.getItem(LOCAL_KEY)) || [];
+        const lastFetched = Number(localStorage.getItem(LAST_FETCHED_KEY));
+        const now = Date.now();
+        const isStale = !lastFetched || now - lastFetched > STALE_TIME;
+
+        if (userId && (cachedData.length === 0 || isStale)) {
+            // Fetch from Firestore only if cache is empty or stale
+            sourceData = await getTaskSetFS(userId);
+            console.log("Loaded from Firestore");
+
+            // Save to localStorage
+            localStorage.setItem(LOCAL_KEY, JSON.stringify(sourceData));
+            localStorage.setItem(LAST_FETCHED_KEY, String(now));
+        } else {
+            console.log("Loaded from localStorage");
+            sourceData = cachedData;
         }
 
+        // Clear and reconstruct todoObjectList
+        todoObjectList.length = 0;
 
         sourceData.forEach(savedObj => {
-            // FIX: Pass both id and title in the correct order to todoObject
             const reconstructed = todoObject(savedObj.id, savedObj.title);
 
             if (Array.isArray(savedObj.todoItems)) {
-
-                reconstructed.todoItems = savedObj.todoItems.map(task => ({
+                reconstructed.todoItems.length = 0;
+                reconstructed.todoItems.push(...savedObj.todoItems.map(task => ({
                     id: task.id,
                     title: task.title,
                     dueDate: task.dueDate,
                     isComplete: task.isComplete,
-                    parentId: savedObj.id // Ensure parentId is correct
-                }));
+                    parentId: savedObj.id
+                })));
             }
+
             todoObjectList.push(reconstructed);
         });
-        console.log('Todo objects loaded from localStorage');
+
+        console.log('Todo objects loaded successfully');
     } catch (error) {
-        console.error('Failed to load from localStorage:', error);
+        console.error('Failed to load todo objects:', error);
     }
 }

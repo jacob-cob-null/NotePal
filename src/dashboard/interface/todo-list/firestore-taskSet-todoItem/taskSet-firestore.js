@@ -63,27 +63,52 @@ export async function addTaskSetFS(taskSetId, userId, title,) {
 //read taskset to localstorage
 export async function getTaskSetFS(userId) {
     try {
-        const query = collection(db, "users", userId, "taskSets")
-        const docSnap = await getDocs(query);
-        if (docSnap.empty) {
-            console.log("Query Failed")
-            return
+        const taskSetsQuery = collection(db, "users", userId, "taskSets");
+        const taskSetsSnapshot = await getDocs(taskSetsQuery);
+
+        if (taskSetsSnapshot.empty) {
+            console.log("No task sets found");
+            return [];
         }
-        const taskSetsFS = []
-        docSnap.forEach((taskSets) => {
-            const data = taskSets.data();
-            taskSetsFS.push({
-                id: taskSets.id,
-                title: data.title
+
+        const taskSetsFS = [];
+
+        // Process each task set
+        for (const taskSetDoc of taskSetsSnapshot.docs) {
+            const taskSetData = taskSetDoc.data();
+
+            // Get todo items for this task set
+            const todoItemsQuery = collection(db, "users", userId, "taskSets", taskSetDoc.id, "tasks");
+            const todoItemsSnapshot = await getDocs(todoItemsQuery);
+
+            const todoItems = [];
+            todoItemsSnapshot.forEach((todoDoc) => {
+                const todoData = todoDoc.data();
+                todoItems.push({
+                    id: todoData.id,
+                    title: todoData.title,
+                    dueDate: todoData.dueDate,
+                    isComplete: todoData.status, // Note: Firestore uses 'status' but local uses 'isComplete'
+                    parentId: todoData.parentId
+                });
             });
-        })
-        return taskSetsFS
+
+            taskSetsFS.push({
+                id: taskSetDoc.id,
+                title: taskSetData.title,
+                todoItems: todoItems // Include the todo items
+            });
+        }
+
+        console.log("Task sets with todo items loaded:", taskSetsFS);
+        return taskSetsFS;
     }
     catch (err) {
-        msgAlert("Error retrieving task set " + err);
-        throw err
+        msgAlert("Error retrieving task sets " + err);
+        throw err;
     }
 }
+
 
 //delete taskset
 export async function delTaskSetFS(userId, taskSetId) {
