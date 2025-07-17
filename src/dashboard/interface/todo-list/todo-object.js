@@ -1,3 +1,5 @@
+
+import { getTaskSetFS } from './firestore-taskSet-todoItem/taskSet-firestore';
 import { todoObject } from './todo-crud';
 
 export const todoObjectList = [];
@@ -31,24 +33,27 @@ export function saveTodoObjectLocalStorage() {
 }
 
 // Load from localStorage
-export function loadTodoObjectFromLocalStorage() {
+export async function loadTodoObjectFromLocalStorage(userId = null) {
+    let sourceData = []
+
     try {
-        //get todo object list array
-        const saved = JSON.parse(localStorage.getItem('todoObjectList')) || [];
-        todoObjectList.length = 0; // Clear the existing list before populating
+        if (userId) {
+            sourceData = await getTaskSetFS(userId)
+            console.log("Loaded firestore")
+        }
+        else {
+            const saved = JSON.parse(localStorage.getItem('todoObjectList')) || [];
+            todoObjectList.length = 0;
+            sourceData = saved
+        }
 
-        saved.forEach(savedObj => {
+
+        sourceData.forEach(savedObj => {
             // FIX: Pass both id and title in the correct order to todoObject
-            const reconstructed = todoObject(savedObj.id, savedObj.title); // <--- CORRECTED LINE
+            const reconstructed = todoObject(savedObj.id, savedObj.title);
 
-            // The reconstructed.id = savedObj.id; line is now redundant but harmless if left.
-            // You can remove it since todoObject will set the id directly.
-
-            //Reconstruct todo items array with correct parentId and IDs
             if (Array.isArray(savedObj.todoItems)) {
-                // When you push tasks to reconstructed.todoItems, you're effectively
-                // bypassing the addTodoItem method of the reconstructed object.
-                // This is generally fine for loading, as you're just restoring state.
+
                 reconstructed.todoItems = savedObj.todoItems.map(task => ({
                     id: task.id,
                     title: task.title,

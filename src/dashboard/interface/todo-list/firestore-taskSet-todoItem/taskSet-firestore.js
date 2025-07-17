@@ -1,5 +1,5 @@
 import { db } from "../../../../Firebase/setup";
-import { setDoc, doc, deleteDoc } from "firebase/firestore";
+import { setDoc, doc, deleteDoc, getDoc, getDocs, collection } from "firebase/firestore";
 import { msgAlert } from "../../../events/alerts";
 
 //initialize task set collection and todo items subcollection
@@ -52,7 +52,8 @@ export async function addTaskSetFS(taskSetId, userId, title) {
             title: "Welcome Task",
             description: "This is your first task",
             completed: false,
-            dueDate: null
+            dueDate: null,
+            parentId: taskSetId
         });
 
     } catch (err) {
@@ -61,6 +62,30 @@ export async function addTaskSetFS(taskSetId, userId, title) {
     }
 }
 //read taskset to localstorage
+export async function getTaskSetFS(userId) {
+    try {
+        const query = collection(db, "users", userId, "taskSets")
+        const docSnap = await getDocs(query);
+        if (docSnap.empty) {
+            console.log("Query Failed")
+            return
+        }
+        const taskSetsFS = []
+        docSnap.forEach((taskSets) => {
+            taskSetsFS.push(
+                {
+                    id: taskSets.id,
+                    title: taskSets.title
+                })
+        })
+        return taskSetsFS
+    }
+    catch (err) {
+        msgAlert("Error retrieving task set " + err);
+        throw err
+    }
+}
+
 
 //load taskset from firestore
 
