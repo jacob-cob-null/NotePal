@@ -110,22 +110,20 @@ export function createTodoSet(target, todoObj, user) {
         saveTodoObjectLocalStorage();
     });
 
-    // Fixed click handler for toggling
     todoItem.addEventListener('click', () => {
         const updatedTask = todoObj.updateTodoItem(taskId);
-        console.log('Task toggled:', updatedTask); // Fixed the incomplete console.log
+        console.log('Task toggled:', updatedTask);
 
         if (updatedTask?.isComplete) {
-            // If the task is complete, add line-through
+
             todoItemText.classList.add('line-through');
             todoDate.classList.add('line-through');
         } else {
-            // If the task is incomplete, remove line-through
+
             todoItemText.classList.remove('line-through');
             todoDate.classList.remove('line-through');
         }
 
-        // Save to localStorage after toggling
         saveTodoObjectLocalStorage();
     });
 

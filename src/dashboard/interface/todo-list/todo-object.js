@@ -51,7 +51,6 @@ export async function loadTodoObjectFromLocalStorage(userId = null) {
             sourceData = await getTaskSetFS(userId);
             console.log("Loaded from Firestore");
 
-            // Save to localStorage
             localStorage.setItem(LOCAL_KEY, JSON.stringify(sourceData));
             localStorage.setItem(LAST_FETCHED_KEY, String(now));
         } else {
@@ -59,7 +58,6 @@ export async function loadTodoObjectFromLocalStorage(userId = null) {
             sourceData = cachedData;
         }
 
-        // Clear and reconstruct todoObjectList
         todoObjectList.length = 0;
 
         sourceData.forEach(savedObj => {

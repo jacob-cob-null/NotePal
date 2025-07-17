@@ -60,7 +60,7 @@ export async function addTaskSetFS(taskSetId, userId, title,) {
         throw err
     }
 }
-//read taskset to localstorage
+//read taskset and todoitems to localstorage
 export async function getTaskSetFS(userId) {
     try {
         const taskSetsQuery = collection(db, "users", userId, "taskSets");
@@ -88,7 +88,7 @@ export async function getTaskSetFS(userId) {
                     id: todoData.id,
                     title: todoData.title,
                     dueDate: todoData.dueDate,
-                    isComplete: todoData.status, // Note: Firestore uses 'status' but local uses 'isComplete'
+                    isComplete: todoData.status,
                     parentId: todoData.parentId
                 });
             });
@@ -96,7 +96,7 @@ export async function getTaskSetFS(userId) {
             taskSetsFS.push({
                 id: taskSetDoc.id,
                 title: taskSetData.title,
-                todoItems: todoItems // Include the todo items
+                todoItems: todoItems
             });
         }
 

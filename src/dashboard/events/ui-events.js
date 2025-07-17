@@ -8,7 +8,7 @@ import { loadEventsFromTodos } from "../interface/calendar/calendar-function";
 import { getAllTodoObjects } from "../interface/todo-list/todo-object";
 
 
-export function initEvents({ mainWindow, toggleIcon, noteGroup, burger, menuText, menu, line, folderBtns }) {
+export function initEvents({ mainWindow, toggleIcon, noteGroup, burger, menuText, menu, line, folderBtns, signout }) {
   setupToggleMenu({
     toggleIcon: toggleIcon,
     mainWindow: mainWindow,
@@ -17,11 +17,12 @@ export function initEvents({ mainWindow, toggleIcon, noteGroup, burger, menuText
     menu: menu,
     burger: burger,
     line: line,
-    folderBtns: folderBtns
+    folderBtns: folderBtns,
+    signout: signout
   });
 }
 
-function setupToggleMenu({ toggleIcon, mainWindow, noteGroup, menuText, menu, line, folderBtns, burger }) {
+function setupToggleMenu({ toggleIcon, mainWindow, noteGroup, menuText, menu, line, folderBtns, burger, signout }) {
   // Desktop toggle
   toggleIcon?.addEventListener('click', () => {
     toggleIcon?.classList.toggle('rotate-180');
@@ -31,7 +32,7 @@ function setupToggleMenu({ toggleIcon, mainWindow, noteGroup, menuText, menu, li
       mainWindow?.classList.toggle('collapsed');
       mainWindow?.classList.toggle('uncollapsed');
     }
-
+    signout?.classList.toggle('invisible')
     noteGroup?.classList.toggle('invisible');
     menu?.classList.toggle('invisible');
     folderBtns?.classList.toggle('invisible');

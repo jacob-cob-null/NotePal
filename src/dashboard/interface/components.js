@@ -1,4 +1,7 @@
+import { userStore } from '../../login/user';
 import '../../style.css';
+import { getAuth, signOut } from "firebase/auth";
+import { msgAlert } from '../events/alerts';
 
 //workspace heading
 export const workspace_title = document.getElementById('workspace_title')
@@ -12,6 +15,8 @@ export const noteGroup = document.getElementById('noteGroup');
 export const editFolderBtn = document.getElementById('editFolderBtn');
 export const delFolderBtn = document.getElementById('delFolderBtn');
 export const folderBtns = document.getElementById('folderBtns');
+//signout
+export const signout = document.getElementById('signOut')
 
 export function initMenuComponents() {
   const mainWindow = document.getElementById('mainWindow');
@@ -22,6 +27,18 @@ export function initMenuComponents() {
   const menu = document.getElementById('menu');
   const line = document.getElementById('line')
   const folderBtns = document.getElementById('folderBtns');
+  const signout = document.getElementById('signOut')
+  signout.onclick = function () {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      const user = userStore.clearUser();
+      window.location.href = '/src/login/login.html'
+      msgAlert("Signing out")
+
+    }).catch((error) => {
+      msgAlert(`Something went REALLY wrong... ${error}`)
+    });
+  }
   return {
     mainWindow,
     toggleIcon,
@@ -30,6 +47,7 @@ export function initMenuComponents() {
     menuText,
     menu,
     line,
-    folderBtns
+    folderBtns,
+    signout
   };
 }

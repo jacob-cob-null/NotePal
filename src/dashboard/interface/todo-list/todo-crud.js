@@ -27,8 +27,8 @@ export function todoObject(id, title) {
         const user = userStore.getUser();
         const index = todoItems.findIndex(item => item.id === taskId);
         if (index !== -1) {
-            const deleted = todoItems.splice(index, 1)[0];
-            deleteTodoItemFS(user.uid, id, taskId); // Fixed: correct parameter order
+            const deleted = todoItems.splice(index, 1)[0]; //delete locally
+            deleteTodoItemFS(user.uid, id, taskId); //save firestore
             return deleted;
         }
         return null;
@@ -38,7 +38,7 @@ export function todoObject(id, title) {
         const task = todoItems.find(item => item.id === taskId);
         if (task) {
             task.isComplete = !task.isComplete;
-            updateTodoItemFS(user.uid, id, taskId, task.isComplete)
+            updateTodoItemFS(user.uid, id, taskId, task.isComplete) //update firestore
             saveTodoObjectLocalStorage(); //save locally
             return task;
         }
