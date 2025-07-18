@@ -21,7 +21,7 @@ export async function initTodo() {
 
     TodoHeader(user);
     await loadTodoObjectFromLocalStorage(user.uid);
-    renderTodo(mainWorkspace, todoObjectList, user); // ✅ Pass user
+    renderTodo(mainWorkspace, todoObjectList, user);
 }
 //button to create todo set
 function TodoHeader(user) {
@@ -36,7 +36,6 @@ function TodoHeader(user) {
                 msgAlert('Please enter a valid task set title');
                 return;
             }
-            mainWorkspace.innerHTML = ''
             const taskSetId = "TaskSet" + crypto.randomUUID();
             const newTodoObj = todoObject(taskSetId, title); //creates obj
             addTodoObject(newTodoObj); //pushes obj

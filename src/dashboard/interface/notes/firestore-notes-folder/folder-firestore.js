@@ -1,5 +1,6 @@
 import { db } from "../../../../Firebase/setup";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, query, deleteDoc, updateDoc, collection, where, getDocs } from "firebase/firestore";
+import { msgAlert } from "../../../events/alerts";
 
 //create initial folder and note collection
 export async function initFoldersCollection(userId) {
@@ -60,7 +61,43 @@ export async function createFolderFS(userId, id, name, color) {
     }
 }
 //delete folder
+export async function delFolderFS(userId, folderName) {
+    try {
+        const folderRef = collection(db, "users", userId, "folders");
+        const q = query(folderRef, where("title", "==", folderName));
+        const snapshot = await getDocs(q);
 
+        if (!snapshot.empty) {
+            const folderDoc = snapshot.docs[0];
+            await deleteDoc(folderDoc.ref);
+            console.log(`Folder "${folderName}" has been deleted`);
+        } else {
+            console.log(`No folder found with title "${folderName}"`);
+        }
+    } catch (err) {
+        msgAlert(err);
+    }
+}
 //update folder
 
+export async function updateFolderFS(userId, folderTitle, newTitle, newColor) {
+    try {
+        const folderRef = collection(db, "users", userId, "folders");
+        const q = query(folderRef, where("title", "==", folderTitle));
+        const snapshot = await getDocs(q);
+
+        if (!snapshot.empty) {
+            const folderDoc = snapshot.docs[0];
+            await updateDoc(folderDoc.ref, {
+                title: newTitle,
+                color: newColor
+            });
+            console.log(`Folder "${folderTitle}" has been updated`);
+        } else {
+            console.log(`No folder found with title "${folderTitle}"`);
+        }
+    } catch (err) {
+        msgAlert(err);
+    }
+}
 //return all folders

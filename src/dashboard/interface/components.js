@@ -28,17 +28,19 @@ export function initMenuComponents() {
   const line = document.getElementById('line')
   const folderBtns = document.getElementById('folderBtns');
   const signout = document.getElementById('signOut')
+
+  //signs out user
   signout.onclick = function () {
     const auth = getAuth();
-    signOut(auth).then(() => {
+    signOut(auth).then(async () => {
       const user = userStore.clearUser();
       window.location.href = '/src/login/login.html'
-      msgAlert("Signing out")
-
+      await msgAlert("Signing out")
     }).catch((error) => {
       msgAlert(`Something went REALLY wrong... ${error}`)
     });
   }
+
   return {
     mainWindow,
     toggleIcon,

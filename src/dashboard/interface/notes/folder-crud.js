@@ -1,6 +1,8 @@
 import { noteGroup } from "../components";
 import { deleteConfirm, deleteFolderModal, editFolderModal } from "../../events/alerts";
 import { displayNotes } from "./notes.render";
+import { delFolderFS, updateFolderFS } from "./firestore-notes-folder/folder-firestore";
+import { userStore } from "../../../login/user";
 
 let noteGroupList = [];
 
@@ -54,7 +56,8 @@ export function addNoteGroupList(input) {
 }
 
 //attach listeners to folderEvents 
-export function folderEvents(edit, del) {
+export async function folderEvents(edit, del) {
+  const user = userStore.getUser()
   edit.addEventListener('click', async () => {
     const result = await editFolderModal(getFolderName(), noteGroupList);
     if (result) {
@@ -65,6 +68,7 @@ export function folderEvents(edit, del) {
     const folderToDelete = await deleteFolderModal(getFolderName());
     if (folderToDelete) {
       deleteConfirm(async () => {
+        await delFolderFS(user.uid, folderToDelete)
         await removeFolder(folderToDelete);
       }, 'folder');
     }
@@ -79,28 +83,28 @@ export function removeFolder(folderToDelete) {
 }
 
 //edit folder
-export function editFolder({ oldName, newName, newColor }) {
+export async function editFolder({ oldName, newName, newColor }) {
+  const user = userStore.getUser()
   const folder = noteGroupList.find(f => f.folderName === oldName);
-  if (!folder) return;
+  if (!folder) return; //if blank
 
   folder.folderName = newName;
   folder.color = newColor;
-
+  await updateFolderFS(user.uid, oldName, newName, newColor)
   folder.addEventListener('click', (newName) => {
     displayNotes(newName);
   })
-
   saveNoteGroupsToLocalStorage();
   refreshGroupUI();
 }
 export async function addFolder() {
-  const input = await newFolderModal(); // input likely contains { folderName, color }
+  const input = await newFolderModal();
   if (input) {
     const folderId = 'FOLDER-' + crypto.randomUUID();
-    // Add the id to the input object before adding it to the list
+
     const newFolderData = { id: folderId, folderName: input.folderName, color: input.color };
-    addNoteGroupList(newFolderData); // This will push the object with id, folderName, color
-    createFolder(newFolderData.id, newFolderData.folderName, newFolderData.color, noteGroup); // Also pass correct args here
+    addNoteGroupList(newFolderData);
+    createFolder(newFolderData.id, newFolderData.folderName, newFolderData.color, noteGroup);
     console.log(newFolderData);
     saveNoteGroupsToLocalStorage();
     return true;
