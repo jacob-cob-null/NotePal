@@ -1,11 +1,14 @@
 import '../../../style.css';
 import { addNotes, noteList, saveNotesToLocalStorage } from './notes-object';
 import { getCurrentDate } from '../../events/util';
+import { addNotesFS } from './firestore-notes-folder/notes-firestore';
+import { userStore } from '../../../login/user';
 
 //note object factory
-export function createNoteObject(title, folder, folderColor, content, owner = 'placeholder') {
+export async function createNoteObject(title, folder, folderColor, content, owner = 'placeholder') {
+    const user = userStore.getUser() //get current user
     const dateCreated = getCurrentDate();
-    const id = crypto.randomUUID(); // Generate unique ID
+    const id = "NOTE" + crypto.randomUUID(); // Generate unique ID
     const note = {
         id,
         title,
@@ -16,6 +19,7 @@ export function createNoteObject(title, folder, folderColor, content, owner = 'p
         owner
     };
     addNotes(note);
+    await addNotesFS(user.uid, id, title, folder, folderColor, content, owner, dateCreated)
     return note;
 }
 

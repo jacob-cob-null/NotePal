@@ -29,7 +29,7 @@ export async function initFoldersCollection(userId) {
         });
         console.log("Default note created")
     } catch (err) {
-
+        msgAlert(err);
     }
 }
 //create folder
@@ -57,7 +57,7 @@ export async function createFolderFS(userId, id, name, color) {
         });
         console.log("Default note created")
     } catch (err) {
-        console.log(err)
+        msgAlert(err);
     }
 }
 //delete folder
