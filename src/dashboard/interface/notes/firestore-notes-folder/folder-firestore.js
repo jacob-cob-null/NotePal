@@ -101,3 +101,25 @@ export async function updateFolderFS(userId, folderTitle, newTitle, newColor) {
     }
 }
 //return all folders
+export async function getAllFoldersFS(userId) {
+    let foldersCollection = [];
+    try {
+        const foldersRef = collection(db, "users", userId, "folders");
+        const snapshot = await getDocs(foldersRef);
+
+        snapshot.forEach((folder) => {
+            const folderData = folder.data();
+            foldersCollection.push({
+                color: folderData.color,
+                id: folder.id,
+                title: folderData.title
+            });
+        });
+
+        console.log("Returned all folders");
+        return foldersCollection;
+    } catch (err) {
+        msgAlert(err);
+        return []; // Always return a fallback array
+    }
+}

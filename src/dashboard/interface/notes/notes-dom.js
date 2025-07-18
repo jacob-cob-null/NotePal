@@ -78,7 +78,7 @@ export function createNoteForm(id = null, title = '', folder = '', folderColor =
     cancelBtn.type = 'button';
 
     const buttonGroup = document.createElement('section');
-    buttonGroup.classList.add('flex', 'gap-2', 'mt-auto', 'self-end');
+    buttonGroup.className = 'flex gap-2 mt-auto self-end';
 
     submitBtn.classList.add('button', 'bg-blue-200', 'dark-hover-active');
     cancelBtn.classList.add('button', 'dark-hover-active');
@@ -335,7 +335,7 @@ function viewNote(id) {
     cancelButton.textContent = 'Back';
 
     const btnGroup = document.createElement('section');
-    btnGroup.className = 'flex gap-2 mt-4 sm:grid sm:grid-cols-3';
+    btnGroup.className = 'flex gap-2 mt-4 items-end justify-end sm:grid sm:auto-cols-min sm:grid-flow-col';
 
     btnGroup.appendChild(cancelButton);
     btnGroup.appendChild(editButton);

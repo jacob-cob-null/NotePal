@@ -52,7 +52,7 @@ async function addFolder() {
         const folderId = "FOLDER-" + crypto.randomUUID()
         createFolder(folderId, input.folderName, input.color, noteGroup);
         addNoteGroupList(input);
-        await createFolderFS(user.uid, folderId, input.folderName, input.color)
+        await createFolderFS(user.uid, folderId, input.folderName, input.color) //firestore
         saveNoteGroupsToLocalStorage();
         return true;
     }

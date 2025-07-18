@@ -1,13 +1,13 @@
 import { noteGroup } from "../components";
 import { deleteConfirm, deleteFolderModal, editFolderModal } from "../../events/alerts";
 import { displayNotes } from "./notes.render";
-import { delFolderFS, updateFolderFS } from "./firestore-notes-folder/folder-firestore";
+import { delFolderFS, getAllFoldersFS, updateFolderFS } from "./firestore-notes-folder/folder-firestore";
 import { userStore } from "../../../login/user";
 
 let noteGroupList = [];
 
-export function initFolders() {
-  loadNoteGroupsFromLocalStorage();
+export async function initFolders(userId) {
+  await loadNoteGroupsFromLocalStorage(userId);
   readGroupList(noteGroup);
 }
 //refresh note groups
@@ -21,11 +21,27 @@ export function saveNoteGroupsToLocalStorage() {
   localStorage.setItem('noteGroupList', JSON.stringify(noteGroupList));
 }
 //load from localStorage
-export function loadNoteGroupsFromLocalStorage() {
-  const saved = localStorage.getItem('noteGroupList');
-  noteGroupList = saved ? JSON.parse(saved) : [];
-}
+export async function loadNoteGroupsFromLocalStorage(userId = null) {
+  if (userId) {
+    try {
+      const folderFS = await getAllFoldersFS(userId);
+      console.log('Folders from Firestore:', folderFS);
 
+      if (folderFS && folderFS.length > 0) {
+        // 🔥 convert Firestore `title` to local `folderName`
+        noteGroupList = folderFS.map(folder => ({
+          id: folder.id,
+          folderName: folder.title,
+          color: folder.color
+        }));
+        localStorage.setItem('noteGroupList', JSON.stringify(noteGroupList));
+        return noteGroupList;
+      }
+    } catch (error) {
+      console.error('Error loading from Firestore:', error);
+    }
+  }
+}
 //read group list
 export function readGroupList(targetAppend) {
   noteGroupList.forEach((folderData) => {
@@ -91,9 +107,7 @@ export async function editFolder({ oldName, newName, newColor }) {
   folder.folderName = newName;
   folder.color = newColor;
   await updateFolderFS(user.uid, oldName, newName, newColor)
-  folder.addEventListener('click', (newName) => {
-    displayNotes(newName);
-  })
+
   saveNoteGroupsToLocalStorage();
   refreshGroupUI();
 }

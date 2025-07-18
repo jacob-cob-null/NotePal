@@ -5,6 +5,7 @@ import { auth } from '../Firebase/setup'; // Firebase auth instance
 import { onAuthStateChanged } from 'firebase/auth';
 import { userStore } from './user';
 import { spinnerTrigger } from '../dashboard/events/util';
+import { loadNoteGroupsFromLocalStorage } from '../dashboard/interface/notes/folder-crud';
 const container = document.getElementById('container')
 // --- DOMContentLoaded listener and event setup ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -206,10 +207,11 @@ function submitElement(callback) {
       spinnerTrigger(false, container)
       const userFriendlyName = user.displayName || user.email || 'User';
       successfulLogin(userFriendlyName); // Pass a friendly name for the alert
-
+      await loadNoteGroupsFromLocalStorage(user.uid)
       // Redirect to dashboard after a short delay
       setTimeout(() => {
         window.location.href = '../dashboard/dashboard.html';
+
       }, 300);
 
     } catch (err) {
@@ -247,20 +249,10 @@ function updateAuthTip(isRegistering) {
 
 onAuthStateChanged(auth, user => {
   if (user) {
-    // If you need the full user object from Auth for userStore, call setUser here too
-    userStore.setUser(user); // This ensures 'user' in userStore has latest Auth data
 
-    // Then, to get the FULL profile with display name, bio, etc.
-    // You'll need to fetch it from Firestore using your getUserProfile function
-    // as discussed in the previous answer.
-    // Example: (Assuming getUserProfile is imported from Firebase/user-collection.js)
-    // getUserProfile(user.uid).then(profile => {
-    //   // Store this full profile somewhere accessible, or update UI directly
-    //   // This profile will contain displayName, userBio, etc.
-    // });
-
+    userStore.setUser(user);
   } else {
     // User signed out, clear the client-side store
-    userStore.clearUser(); // <-- Use the new clearUser function
+    userStore.clearUser();
   }
 });

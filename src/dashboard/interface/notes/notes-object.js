@@ -1,9 +1,9 @@
 export let noteList = []
 
 //add to notes array
-export function addNotes(note){
-    noteList.push(note);
-    saveNotesToLocalStorage();
+export function addNotes(note) {
+  noteList.push(note);
+  saveNotesToLocalStorage();
 }
 //save to local storage
 export function saveNotesToLocalStorage() {
