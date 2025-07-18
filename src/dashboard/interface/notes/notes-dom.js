@@ -8,6 +8,8 @@ import { createNoteObject } from "./notes-crud";
 import { displayNotes } from "./notes.render";
 import { noteList } from "./notes-object";
 import { mainWorkspace } from "../components";
+import { delNoteFS } from "./firestore-notes-folder/notes-firestore";
+import { userStore } from "../../../login/user";
 
 //create note form
 export function createNoteForm(id = null, title = '', folder = '', folderColor = '', content = '') {
@@ -183,6 +185,7 @@ function editNoteHandler(noteId) {
 
 //attach events to delete and update button
 function attachNoteEvents(note) {
+    const user = userStore.getUser() //get current user
     //make each note clickable
     note.addEventListener('click', (e) => {
         const noteId = e.currentTarget.dataset.id;
@@ -204,10 +207,10 @@ function attachNoteEvents(note) {
             if (foundNote) {
                 deleteConfirm(async () => {
                     await deleteDom(foundNote.id);
+                    await delNoteFS(user.uid, foundNote.folder, foundNote.id)
                 }, 'note');
             }
         })
-
     }
 
     // Edit button event

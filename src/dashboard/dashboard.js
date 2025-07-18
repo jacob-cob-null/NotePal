@@ -25,7 +25,7 @@ initFirestore()
 
 //load data
 loadTodoObjectFromLocalStorage(user.uid)
-loadNotesFromLocalStorage()
+loadNotesFromLocalStorage(user.uid)
 
 starterView()
 
