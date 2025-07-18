@@ -1,6 +1,7 @@
 import { db } from "../../../../Firebase/setup";
 import { setDoc, doc, query, deleteDoc, updateDoc, collection, where, getDocs } from "firebase/firestore";
 import { msgAlert } from "../../../events/alerts";
+import { getCurrentDate } from "../../../events/util";
 
 //create initial folder and note collection
 export async function initFoldersCollection(userId) {
@@ -22,7 +23,7 @@ export async function initFoldersCollection(userId) {
             id: noteId,
             title: "Default Note",
             content: "Default Content",
-            dateCreated: Date.now(),
+            dateCreated: getCurrentDate(),
             folder: "Default Folder",
             folderColor: "red",
             owner: userId

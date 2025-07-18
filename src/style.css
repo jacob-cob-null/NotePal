@@ -208,13 +208,13 @@
   }
 
   .collapsed-m {
-    grid-template-columns: 100vw 0px;
-    /* Full screen width for sidebar, no content */
+    grid-template-columns: 0 1fr;
+    /* Sidebar hidden, content full width */
   }
 
   .uncollapsed-m {
-    grid-template-columns: 0px 100vw;
-    /* No sidebar, full screen for content */
+    grid-template-columns: 100vw 0;
+    /* Sidebar fills screen, content hidden */
   }
 
   .dark-hover-active {
