@@ -4,6 +4,7 @@
 
 **NotePal** is a full-stack web application designed to enhance productivity through effective note-taking and task management. Built with modern technologies, NotePal offers a user-friendly interface and powerful features to help users organize their thoughts, tasks, and time efficiently.
 
+Visit NotePal here! https://notepal-d2ceb.web.app/src/login/login.html
 ---
 
 ## ✨ Features
