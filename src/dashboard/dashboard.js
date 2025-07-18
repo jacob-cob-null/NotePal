@@ -9,6 +9,7 @@ import { initUser } from '../login/user.js';
 import { initFirestore } from '../Firebase/initDocs.js';
 import { userStore } from '../login/user.js';
 import { initNotes, displayNotes } from './interface/notes/notes.render.js';
+import { msgAlert } from './events/alerts.js';
 
 //initialize user profile
 const user = userStore.getUser()
@@ -24,13 +25,15 @@ attachMenuEvents();
 initFirestore()
 
 //load data
-loadTodoObjectFromLocalStorage(user.uid)
-loadNotesFromLocalStorage(user.uid)
+
 
 starterView()
 
 //initial view    
 async function starterView() {
+    msgAlert("Loading content")
+    await loadTodoObjectFromLocalStorage(user.uid)
+    await loadNotesFromLocalStorage(user.uid)
     workspace_title.innerText = "Notes";
 
     mainWorkspace.innerHTML = '';

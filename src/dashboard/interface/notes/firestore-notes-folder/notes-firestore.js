@@ -31,28 +31,6 @@ export async function addNotesFS(userId, noteId, noteTitle, noteFolder, folderCo
         throw err
     }
 }
-
-//delete note
-export async function delNoteFS(userId, folderTitle, noteId) {
-    try {
-        const foldersRef = collection(db, "users", userId, "folders");
-        const q = query(foldersRef, where("title", "==", folderTitle));
-        const snapshot = await getDocs(q);
-
-        if (!snapshot.empty) {
-            const folderDoc = snapshot.docs[0];
-            const folderId = folderDoc.id;
-
-            await deleteDoc(doc(db, "users", userId, "folders", folderId, "notes", noteId));
-            console.log(`Note ${noteId} has been deleted`);
-        } else {
-            msgAlert("Folder not found");
-        }
-    } catch (err) {
-        msgAlert(err);
-        throw err;
-    }
-}
 //get all notes
 export async function getAllNotesFS(userId) {
     try {
@@ -74,6 +52,54 @@ export async function getAllNotesFS(userId) {
         }
 
         return allNotes;
+    } catch (err) {
+        msgAlert(err);
+        throw err;
+    }
+}
+//update
+export async function updateNoteFS(userId, noteId, noteTitle, noteFolder, folderColor, content) {
+    try {
+        const foldersRef = collection(db, "users", userId, "folders");
+        const q = query(foldersRef, where("title", "==", noteFolder));
+        const snapshot = await getDocs(q);
+
+        if (!snapshot.empty) {
+            const folderDoc = snapshot.docs[0];
+            const folderId = folderDoc.id;
+            const notesRef = doc(db, "users", userId, "folders", folderId, "notes", noteId)
+            await updateDoc(notesRef, {
+                id: noteId,
+                title: noteTitle,
+                folder: noteFolder,
+                folderColor: folderColor,
+                content: content,
+            })
+            console.log(`Note ${noteId} has been updated`)
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
+
+//delete note
+export async function delNoteFS(userId, folderTitle, noteId) {
+    try {
+        const foldersRef = collection(db, "users", userId, "folders");
+        const q = query(foldersRef, where("title", "==", folderTitle));
+        const snapshot = await getDocs(q);
+
+        if (!snapshot.empty) {
+            const folderDoc = snapshot.docs[0];
+            const folderId = folderDoc.id;
+
+            await deleteDoc(doc(db, "users", userId, "folders", folderId, "notes", noteId));
+            console.log(`Note ${noteId} has been deleted`);
+        } else {
+            msgAlert("Folder not found");
+        }
     } catch (err) {
         msgAlert(err);
         throw err;
