@@ -23,22 +23,30 @@
   text-align: center;
 }
 @media (max-width: 640px) {
-  /* Smaller toolbar text */
   #calendar .fc-toolbar-title {
-    font-size: 1.5rem; /* or 0.875rem for even smaller */
+    font-size: 1.5rem;
   }
-
-  /* Smaller day numbers */
   #calendar .fc-daygrid-day-number {
     font-size: 1rem;
   }
-
-  /* Smaller event text */
   #calendar .fc-event-title {
     font-size: 0.75rem;
   }
-
-  /* Smaller button text */
+  #calendar .fc-button {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+@media (max-width: 380px) {
+  #calendar .fc-toolbar-title {
+    font-size: 1.5rem;
+  }
+  #calendar .fc-daygrid-day-number {
+    font-size: 1rem;
+  }
+  #calendar .fc-event-title {
+    font-size: 0.75rem;
+  }
   #calendar .fc-button {
     font-size: 0.75rem;
     padding: 0.25rem 0.5rem;

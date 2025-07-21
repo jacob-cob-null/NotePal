@@ -23,7 +23,7 @@ export async function addTodoItemFS(userId, taskSetId, todoItemId, todoItemTitle
 export async function deleteTodoItemFS(userId, taskSetId, todoItemId) {
     try {
         await deleteDoc(doc(db, "users", userId, "taskSets", taskSetId, "tasks", todoItemId))
-        console.log(`Deleting: /users/${userId}/taskSets/${taskSetId}/tasks/${todoItemId}`);
+        console.log(`Deleting: todo ${todoItemId}`);
     } catch (err) {
         msgAlert("Error deleting todo item " + err);
         throw err

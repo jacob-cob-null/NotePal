@@ -82,7 +82,7 @@ async function addForm(btnName) {
   const heading = document.createElement('h1');
   heading.textContent = btnName === 'Sign In' ? 'Welcome Back!' : 'Register Here';
   heading.className =
-    'text-3xl sm:text-5xl font-bold font-head motion-translate-x-in-[0%] motion-translate-y-in-[50%] motion-blur-in-[10px] mb-6';
+    'text-2xl sm:text-5xl font-bold font-head motion-translate-x-in-[0%] motion-translate-y-in-[50%] motion-blur-in-[10px] mb-6';
   header.appendChild(heading);
 
   const formWrapper = document.createElement('div');
@@ -215,7 +215,6 @@ function submitElement(callback) {
       }, 300);
 
     } catch (err) {
-      // Handle authentication or profile creation errors
       failedLogin(err);
       console.error("Authentication/Profile Creation Error:", err.message);
     }
@@ -234,7 +233,7 @@ function updateAuthTip(isRegistering) {
   const toggleId = isLogin ? 'register' : 'signin';
   const message = isLogin ? 'New to NotePal?' : 'Already have an account?';
 
-  prompt.innerHTML = `${message} <div id="${toggleId}" class="text-orange-600 transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95">${actionText}</div>`;
+  prompt.innerHTML = `${message} <div id="${toggleId}" class="text-orange-600 font-head transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95">${actionText}</div>`;
   header.append(prompt);
 
   // Reattach event listener to new dynamic toggle link
@@ -252,7 +251,6 @@ onAuthStateChanged(auth, user => {
 
     userStore.setUser(user);
   } else {
-    // User signed out, clear the client-side store
     userStore.clearUser();
   }
 });

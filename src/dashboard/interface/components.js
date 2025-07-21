@@ -17,6 +17,7 @@ export const delFolderBtn = document.getElementById('delFolderBtn');
 export const folderBtns = document.getElementById('folderBtns');
 //signout
 export const signout = document.getElementById('signOut')
+export const signoutText = document.getElementById('signoutText')
 
 export function initMenuComponents() {
   const mainWindow = document.getElementById('mainWindow');
@@ -28,6 +29,7 @@ export function initMenuComponents() {
   const line = document.getElementById('line')
   const folderBtns = document.getElementById('folderBtns');
   const signout = document.getElementById('signOut')
+  const signoutText = document.getElementById('signoutText')
 
   //signs out user
   signout.onclick = function () {
@@ -37,7 +39,7 @@ export function initMenuComponents() {
       window.location.href = '/src/login/login.html'
       await msgAlert("Signing out")
     }).catch((error) => {
-      msgAlert(`Something went REALLY wrong... ${error}`)
+      msgAlert(`Something went wrong... ${error}`)
     });
   }
 
@@ -50,6 +52,7 @@ export function initMenuComponents() {
     menu,
     line,
     folderBtns,
-    signout
+    signout,
+    signoutText
   };
 }
