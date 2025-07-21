@@ -39,16 +39,16 @@
 }
 @media (max-width: 380px) {
   #calendar .fc-toolbar-title {
-    font-size: 1.5rem;
+    font-size: 0.8rem;
   }
   #calendar .fc-daygrid-day-number {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
   #calendar .fc-event-title {
-    font-size: 0.75rem;
+    font-size: 0.5rem;
   }
   #calendar .fc-button {
-    font-size: 0.75rem;
+    font-size: 0.5rem;
     padding: 0.25rem 0.5rem;
   }
 }

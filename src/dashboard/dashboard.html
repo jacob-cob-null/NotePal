@@ -11,13 +11,17 @@
   </head>
 
   <body class="min-h-screen w-screen overflow-hidden font-sans bg-gray-200">
-    <main class="grid grid-rows-[65px_1fr_45px] min-h-screen w-full">
+    <main
+      class="grid sm:grid-rows-[65px_1fr_45px] grid-rows-[50px_1fr_30px] min-h-screen w-full"
+    >
       <!-- Navigation Bar -->
       <nav
         class="bg-white shadow-xl z-10 flex items-center justify-around sm:justify-between px-0 sm:px-6"
       >
         <!--Menu-->
-        <section class="flex items-center gap-2 sm:hidden">
+        <section
+          class="flex items-center mt-2 sm:mt-0 justify-center gap-2 sm:hidden"
+        >
           <button id="burger" class="sm:hidden">
             <i class="bx bx-menu text-3xl" style="color: #000000"></i>
           </button>
@@ -135,15 +139,15 @@
           </div>
           <div
             id="mainWorkspace"
-            class="p-4 mt-4 mb-0 sm:mb-2 bg-gray-50 shadow-inner rounded-3xl h-full relative justify-center overflow-x-hidden sm:overflow-auto flex flex-col sm:flex-row sm:flex-wrap gap-y-6 gap-x-4"
-            style="max-height: calc(100vh - 65px - 45px - 6rem)"
+            class="p-4 mt-4 mb-0 sm:mb-2 m-1 bg-gray-50 shadow-inner rounded-3xl h-full relative justify-center overflow-x-hidden sm:overflow-auto flex flex-col sm:flex-row sm:flex-wrap gap-y-6 gap-x-4"
+            style="max-height: calc(100vh - 65px - 45px - 3rem)"
           ></div>
         </section>
       </section>
 
       <!-- Footer -->
       <footer
-        class="bg-gray-300 w-full p-3 text-center justify-center flex text-gray-700 font-head font-medium"
+        class="bg-gray-300 w-full text:[8px] sm:text-lg p-1 sm:p-3 text-center justify-center flex text-gray-700 font-head font-medium"
       >
         © 2025 NotePal. All rights reserved.
       </footer>

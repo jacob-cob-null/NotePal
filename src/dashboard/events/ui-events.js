@@ -185,7 +185,7 @@ function eventMenuItems(menuItems, sidebarElements) {
       // Hide elements only when actually collapsing on mobile
       noteGroup?.classList.add("invisible");
       folderBtns?.classList.add("invisible");
-      line?.classList.add("invisible");
+      line?.classList.add("visible");
       signoutText?.classList.add("invisible");
     }
   };

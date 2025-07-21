@@ -29,7 +29,7 @@ export function pomodoro() {
         const timerDisplay = document.createElement('h1');
         timerDisplay.id = 'timer';
         timerDisplay.textContent = '25:00';
-        timerDisplay.className = 'text-[120px] sm:text-[250px] leading-none font-head text-gray-700';
+        timerDisplay.className = 'text-[90px] sm:text-[250px] leading-none font-head text-gray-700';
 
         statusSection.append(statusBar, timerDisplay);
 
