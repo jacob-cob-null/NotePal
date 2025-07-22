@@ -1,8 +1,11 @@
+import { getCurrentDate } from "../../events/util.js";
 import { getCalendarInstance } from "./calendar-setup.js";
 
 export function loadEventsFromTodos(allTodoObjects = []) {
     const calendar = getCalendarInstance();
     if (!calendar) return;
+
+    const currentDate = getCurrentDate()
 
     // Clear existing events to prevent duplicates
     calendar.getEvents().forEach(event => event.remove());
@@ -17,7 +20,7 @@ export function loadEventsFromTodos(allTodoObjects = []) {
                 title: todo.title,
                 description: `${todo.title} | ${taskSet}`,
                 start: todo.dueDate,
-                color: todo.isComplete ? '#9ca3af' : ''
+                color: todo.isComplete ? '#9ca3af' : todo.dueDate < currentDate ? '#f87171' : ''
             });
         });
     });
