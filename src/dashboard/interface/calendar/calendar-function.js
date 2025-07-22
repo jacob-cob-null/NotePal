@@ -5,8 +5,7 @@ export function loadEventsFromTodos(allTodoObjects = []) {
     const calendar = getCalendarInstance();
     if (!calendar) return;
 
-    const currentDate = getCurrentDate()
-
+    const currentDate = getCurrentDate();
     // Clear existing events to prevent duplicates
     calendar.getEvents().forEach(event => event.remove());
 
@@ -20,8 +19,16 @@ export function loadEventsFromTodos(allTodoObjects = []) {
                 title: todo.title,
                 description: `${todo.title} | ${taskSet}`,
                 start: todo.dueDate,
-                color: todo.isComplete ? '#9ca3af' : todo.dueDate < currentDate ? '#f87171' : ''
+                color: getTodoColor(todo, currentDate)
             });
         });
     });
+}
+function getTodoColor(todo, currentDateStr) {
+    const current = new Date(currentDateStr);
+    const due = new Date(todo.dueDate);
+
+    if (todo.isComplete) return '#9ca3af';         // Gray
+    if (due < current) return '#f87171';           // Red
+    return '#3b82f6';                              // Blue
 }
