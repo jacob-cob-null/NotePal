@@ -1,4 +1,5 @@
 import { createEventModal, deleteEventModal } from "../../events/alerts"
+import { loadCustomEvents } from "./calendar-function"
 import { customEvent } from "./event-object"
 
 //add event button
@@ -29,11 +30,13 @@ async function newEvent() {
 
     //call event class
     customEvent.newEvent(event, startDate, endDate)
+    loadCustomEvents() //update visual to calendar
 }
 async function delEvent() {
     const { id, title } = await deleteEventModal(customEvent.getAllEvents())
     if (!id) return; // cancel or no selection
     customEvent.deleteEvent(id)
+    loadCustomEvents() //update visual to calendar
 }
 //delete
 

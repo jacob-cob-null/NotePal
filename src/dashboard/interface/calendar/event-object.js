@@ -1,4 +1,6 @@
 import { msgAlert } from "../../events/alerts"
+import { loadCustomEvents } from "./calendar-function"
+import { getCalendarInstance } from "./calendar-setup"
 
 //event factory
 export class customEvent {
@@ -24,7 +26,9 @@ export class customEvent {
     static getAllEvents() {
         return customEvent.currEvents.map(event => ({
             id: event.id,
-            title: event.title
+            title: event.title,
+            startDate: event.startDate,
+            endDate: event.endDate
         }));
     }
     static updateEvents(id, title, startDate, endDate) {
@@ -33,6 +37,7 @@ export class customEvent {
         event.startDate = startDate
         event.endDate = endDate
         //edit firestore
+        loadCustomEvents() //update visual to calendar
     }
     static deleteEvent(id) {
         const event = customEvent.currEvents.find(e => e.id === id);
@@ -40,9 +45,13 @@ export class customEvent {
             msgAlert(`Error: Event with ID "${id}" not found.`);
             return;
         }
+        const calendar = getCalendarInstance();
+        const calendarEvent = calendar.getEventById(id);
+        if (calendarEvent) calendarEvent.remove();
 
         customEvent.currEvents = customEvent.currEvents.filter(e => e.id !== id);
         msgAlert(`"${event.title}" has been deleted`);
+
     }
 
 
