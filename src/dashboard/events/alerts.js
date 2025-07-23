@@ -313,3 +313,20 @@ export async function createEventModal() {
 
     return formValues; // { task, dueDate } or undefined if cancelled
 }
+//delete event
+export async function deleteEventModal(tempArr) {
+    const options = Object.fromEntries(
+        tempArr.map(({ id, title }) => [id, title])
+    );
+
+    const { value: selectedId } = await Swal.fire({
+        title: "Delete Event",
+        input: "select",
+        inputOptions: options,
+        inputPlaceholder: "Select Event",
+        showCancelButton: true,
+    });
+
+    const selected = tempArr.find(e => e.id === selectedId);
+    return selected || {};
+}

@@ -1,4 +1,4 @@
-import { createEventModal } from "../../events/alerts"
+import { createEventModal, deleteEventModal } from "../../events/alerts"
 import { customEvent } from "./event-object"
 
 //add event button
@@ -15,22 +15,26 @@ export function calendarModal() {
 }
 //init calendar event actions
 export function initActions() {
-    const btn = document.getElementById('newEvent')
-    btn.addEventListener('click', newEvent)
+    const newBtn = document.getElementById('newEvent')
+    newBtn.addEventListener('click', newEvent)
+
+    const delBtn = document.getElementById('delEvent')
+    delBtn.addEventListener('click', delEvent)
 }
 
 //add
 async function newEvent() {
-    const {
-        title: event,
-        startDate: startDate,
-        endDate: endDate
-    } = await createEventModal()
     //retrive attribute
-    customEvent.newEvent(event, startDate, endDate)
-    //call event class
-}
+    const { title: event, startDate: startDate, endDate: endDate } = await createEventModal()
 
+    //call event class
+    customEvent.newEvent(event, startDate, endDate)
+}
+async function delEvent() {
+    const { id, title } = await deleteEventModal(customEvent.getAllEvents())
+    if (!id) return; // cancel or no selection
+    customEvent.deleteEvent(id)
+}
 //delete
 
 //edit

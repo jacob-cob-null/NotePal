@@ -22,7 +22,10 @@ export class customEvent {
         //add to firestore
     }
     static getAllEvents() {
-        return customEvent.currEvents
+        return customEvent.currEvents.map(event => ({
+            id: event.id,
+            title: event.title
+        }));
     }
     static updateEvents(id, title, startDate, endDate) {
         const event = customEvent.currEvents.find(e => e.id === id)
@@ -32,9 +35,15 @@ export class customEvent {
         //edit firestore
     }
     static deleteEvent(id) {
-        const event = customEvent.currEvents.find(e => e.id === id) //find event
-        customEvent.currEvents = customEvent.currEvents.filter(e => e.id !== id)
-        //delete to firestore
+        const event = customEvent.currEvents.find(e => e.id === id);
+        if (!event) {
+            msgAlert(`Error: Event with ID "${id}" not found.`);
+            return;
+        }
+
+        customEvent.currEvents = customEvent.currEvents.filter(e => e.id !== id);
+        msgAlert(`"${event.title}" has been deleted`);
     }
+
 
 }
