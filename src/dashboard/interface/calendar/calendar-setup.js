@@ -2,10 +2,11 @@ import { Calendar } from "fullcalendar/index.js";
 import { createCalendar } from "./calendar-render";
 import Tooltip from 'tooltip.js';
 import { createPopper } from '@popperjs/core'; // Tooltip.js will likely use this internally
+import { calendarModal } from "./calendar-customEvent";
 
 let calendarInstance = null;
 
-export function initCalendar(target) {
+export function initCalendar(target, header) {
 
     const wrapper = document.createElement("div");
     wrapper.id = "calendarWrapper";
@@ -34,8 +35,11 @@ export function initCalendar(target) {
     calendarInstance = calendar;
     console.log("🔥 Initializing calendar");
 
+    // action modal
+    const modal = calendarModal()
     wrapper.appendChild(calendarDiv);
     target.appendChild(wrapper);
+    header.append(modal)
 
 }
 

@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap");
 @import "tailwindcss";
-
 @plugin "tailwindcss-motion";
 
 .selected-color {
@@ -52,6 +51,9 @@
     padding: 0.25rem 0.5rem;
   }
 }
+h1 {
+  color: black;
+}
 
 @keyframes float {
   0% {
@@ -87,11 +89,11 @@
   }
 
   .header {
-    @apply font-head text-[1.25rem] sm:text-[2rem] text-gray-700;
+    @apply font-head text-[1.25rem] sm:text-[2rem] text-black;
   }
 
   .button {
-    @apply bg-white h-8 w-30 rounded-xl font-head active:brightness-94 hover:brightness-97 transition ease-in-out outline-gray-300 outline-1;
+    @apply bg-white h-8 w-30 rounded-xl font-head active:brightness-94 hover:brightness-97 transition ease-in-out outline-gray-300 outline-1 justify-center items-center text-center;
   }
 
   .note-container {

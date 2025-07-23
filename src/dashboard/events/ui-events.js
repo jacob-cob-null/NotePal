@@ -155,7 +155,7 @@ function eventMenuItems(menuItems, sidebarElements) {
       workspaceHeader.innerHTML = "";
       mainWorkspace.classList.remove("justify-center");
       mainWorkspace.innerHTML = "";
-      initCalendar(mainWorkspace);
+      initCalendar(mainWorkspace, workspaceHeader);
       loadEventsFromTodos(getAllTodoObjects());
       // Restore note group visibility
       if (window.innerWidth >= 640 && !mainWindow?.classList.contains("collapsed")) {
