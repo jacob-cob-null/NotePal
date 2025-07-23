@@ -14,6 +14,7 @@ import { initCalendar } from "../interface/calendar/calendar-setup";
 import { initPomodoro } from "../interface/pomodoro/pomodoro.render";
 import { loadEventsFromTodos } from "../interface/calendar/calendar-function";
 import { getAllTodoObjects } from "../interface/todo-list/todo-object";
+import { initActions } from "../interface/calendar/calendar-customEvent";
 
 // Shared collapse logic for both toggle & menu clicks
 function collapseSidebar({ mainWindow, noteGroup, menuText, menu, line, folderBtns, signout, signoutText }) {
@@ -156,6 +157,7 @@ function eventMenuItems(menuItems, sidebarElements) {
       mainWorkspace.classList.remove("justify-center");
       mainWorkspace.innerHTML = "";
       initCalendar(mainWorkspace, workspaceHeader);
+      initActions()
       loadEventsFromTodos(getAllTodoObjects());
       // Restore note group visibility
       if (window.innerWidth >= 640 && !mainWindow?.classList.contains("collapsed")) {

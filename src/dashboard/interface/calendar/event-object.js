@@ -1,8 +1,11 @@
+import { msgAlert } from "../../events/alerts"
+
 //event factory
-class customEvent {
+export class customEvent {
     static currEvents = []
     constructor(title, startDate, endDate) {
-        id = "Event-" + crypto.randomUUID()
+
+        this.id = "Event-" + crypto.randomUUID()
         this.title = title,
             this.startDate = startDate,
             this.endDate = endDate
@@ -14,7 +17,9 @@ class customEvent {
         return String(this.id)
     }
     static newEvent(title, startDate, endDate) {
+        msgAlert("New Event Created")
         return new customEvent(title, startDate, endDate)
+        //add to firestore
     }
     static getAllEvents() {
         return customEvent.currEvents

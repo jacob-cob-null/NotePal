@@ -259,3 +259,57 @@ export async function createTaskSet() {
     }
     return name;
 }
+//new custom event
+export async function createEventModal() {
+    const { value: formValues } = await Swal.fire({
+        title: 'Add New Event',
+        html: `
+        <form class="flex flex-col justify-center items-center">
+            <input id="swal-event" class="swal2-input w-120 mt-4" placeholder="Event">
+                <section class="flex justify-center items-center flex-col">
+                    <label for="swal-start-date" class="header text-xl">Start Date</label>
+                    <input id="swal-start-date" type="date" class="swal2-input w-120 h-20">
+                </section>
+
+                <section class="flex justify-center items-center flex-col">
+                    <label for="swal-end-date" class="header text-xl">End Date</label>
+                    <input id="swal-end-date" type="date" class="swal2-input w-120 h-20">
+                </section>
+        </form>
+    `,
+        focusConfirm: false,
+        showCancelButton: true,
+        preConfirm: () => {
+            const event = document.getElementById('swal-event').value.trim();
+            const startDate = document.getElementById('swal-start-date').value;
+            const endDate = document.getElementById('swal-end-date').value;
+
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            //if empty
+            if (!event || !startDate || !endDate) {
+                Swal.showValidationMessage('No fields should be empty');
+                return false;
+            }
+            //if not a date
+            if (isNaN(start) || isNaN(end)) {
+                Swal.showValidationMessage('Invalid date input');
+                return false;
+            }
+
+            if (start > end) {
+                Swal.showValidationMessage('Start date must be before end date');
+                return false;
+            }
+
+            return {
+                title: event,
+                startDate: startDate,
+                endDate: endDate
+            };
+        },
+    });
+
+    return formValues; // { task, dueDate } or undefined if cancelled
+}
