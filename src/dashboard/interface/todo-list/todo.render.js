@@ -64,11 +64,7 @@ export function renderTodo(target, todoObjArr, user) {
                     createTodoItem(itemContainer, task, taskSet);
                 });
             }
+
         });
-    } else {
-        const empty = document.createElement('h1');
-        empty.textContent = 'No pending tasks! Time to relax';
-        empty.classList.add('header', 'text-center')
-        target.appendChild(empty);
     }
 }
