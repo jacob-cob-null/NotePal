@@ -1,5 +1,5 @@
 import '../style.css';
-import { initMenuComponents, mainWorkspace, workspace_title } from './interface/components.js';
+import { initMenuComponents, mainWorkspace, workspace_title, profilePic } from './interface/components.js';
 import { initEvents } from './events/ui-events.js';
 import { attachMenuEvents } from './events/ui-events.js';
 import { initFolders, loadNoteGroupsFromLocalStorage } from './interface/notes/folder-crud.js';
@@ -13,39 +13,64 @@ import { msgAlert } from './events/alerts.js';
 import { customEvent } from './interface/calendar/event-object.js';
 import { initEventsFromFirestore } from './interface/calendar/calendar-firestore.js';
 
-//initialize user profile
-const user = userStore.getUser()
-initUser();
-//folders
-initFolders(user.uid);
-//menu
-const menuComponents = initMenuComponents();
-initEvents(menuComponents);
-attachMenuEvents();
 
-//load data from firestore
-initFirestore()
+async function init() {
+    await initUser();
+    const user = userStore.getUser();
 
-//load events
+    if (!user || !user.uid) {
+        return;
+    }
 
+    // Initialize other components
+    initFolders(user.uid);
 
+    // Menu
+    const menuComponents = initMenuComponents();
+    initEvents(menuComponents);
+    attachMenuEvents();
 
-starterView()
+    // Load data from firestore
+    initFirestore();
 
-//initial view    
-async function starterView() {
-    msgAlert("Loading content")
-    await loadTodoObjectFromLocalStorage(user.uid)
-    await loadNotesFromLocalStorage(user.uid)
-    customEvent.clearAll()
-    await initEventsFromFirestore(user.uid)
+    // Start the main view
+    await starterView(user);
+}
+
+// Initial view    
+async function starterView(user) {
+    console.log("🎬 starterView() started with user:", user);
+
+    msgAlert("Loading content");
+
+    await loadTodoObjectFromLocalStorage(user.uid);
+    await loadNotesFromLocalStorage(user.uid);
+    customEvent.clearAll();
+    await initEventsFromFirestore(user.uid);
+
     workspace_title.innerText = "Notes";
+
+    const profileImg = document.getElementById('profile');
+    console.log("🖼️ Profile image element:", {
+        element: !!profileImg,
+        currentSrc: profileImg?.src,
+        userPhotoURL: user.photoURL
+    });
+
+    if (profileImg && user.photoURL) {
+        if (!profileImg.src || profileImg.src.includes('gravatar')) {
+            console.log("🔄 Backup: Setting profile image in starterView:", user.photoURL);
+
+        } else {
+            console.log("✅ Profile image already set, skipping backup");
+        }
+    }
 
     mainWorkspace.innerHTML = '';
     if (mainWorkspace.classList.contains('justify-center')) {
-        mainWorkspace.classList.remove('justify-center')
-        //group these
+        mainWorkspace.classList.remove('justify-center');
         initNotes();
         displayNotes();
     }
 }
+init()

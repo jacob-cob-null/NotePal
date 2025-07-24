@@ -46,3 +46,9 @@ export function spinnerTrigger(isLoading, target) {
         }
     }
 }
+export function randColor() {
+    const r = Math.floor(150 + Math.random() * 105);
+    const g = Math.floor(150 + Math.random() * 105);
+    const b = Math.floor(150 + Math.random() * 105);
+    return `rgb(${r},${g},${b})`;
+}

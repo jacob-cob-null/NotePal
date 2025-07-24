@@ -38,7 +38,8 @@ export function loadCustomEvents() {
             id: event.id,
             title: event.title,
             start: event.startDate,
-            end: event.endDate
+            end: event.endDate,
+            color: '#22c55e'
         });
     });
 }

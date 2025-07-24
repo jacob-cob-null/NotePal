@@ -2,11 +2,22 @@ import { getUserProfile } from "../Firebase/user-collection";
 import { spinnerTrigger } from "../dashboard/events/util";
 
 export const userStore = (() => {
-    let user = null; // Private variable
+    let user = null;
 
     function setUser(userCredential) {
-        user = userCredential;
-        sessionStorage.setItem('user', JSON.stringify(userCredential)); //set user object to session storage
+        const { uid, displayName, email, photoURL } = userCredential;
+
+        const safeUser = {
+            uid,
+            displayName: displayName || '',
+            email: email || '',
+            photoURL: (photoURL && photoURL.trim() !== '')
+                ? photoURL
+                : getDefaultAvatar(displayName || email || 'User')
+        };
+
+        user = safeUser;
+        sessionStorage.setItem('user', JSON.stringify(safeUser));
     }
 
     function getUser() {
@@ -24,33 +35,77 @@ export const userStore = (() => {
         sessionStorage.removeItem('user');
     }
 
+    function getDefaultAvatar(name = 'User') {
+        const hash = Array.from(name).reduce((a, b) => {
+            a = ((a << 5) - a) + b.charCodeAt(0);
+            return a & a;
+        }, 0);
+        return `https://www.gravatar.com/avatar/${Math.abs(hash).toString(16)}?d=identicon&f=y`;
+    }
+
     return {
         setUser,
         getUser,
-        clearUser
+        clearUser,
+        getDefaultAvatar
     };
 })();
 
+function testImageLoad(url) {
+    return new Promise((resolve) => {
+        if (!url) return resolve(false);
+
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        setTimeout(() => resolve(false), 10000);
+        img.src = url;
+    });
+}
+
+async function setProfileImageSafely(profileImg, imageUrl, fallbackName) {
+    if (!profileImg) return;
+
+    if (!imageUrl) {
+        profileImg.src = userStore.getDefaultAvatar(fallbackName);
+        return;
+    }
+
+    const canLoad = await testImageLoad(imageUrl);
+
+    if (canLoad) {
+        profileImg.src = imageUrl;
+        profileImg.onerror = function () {
+            this.src = userStore.getDefaultAvatar(fallbackName);
+            this.onerror = null;
+        };
+    } else {
+        profileImg.src = userStore.getDefaultAvatar(fallbackName);
+    }
+}
 
 export async function initUser() {
     const storedUserInfo = userStore.getUser();
-    console.log("🧠 Loaded from userStore:", storedUserInfo);
+
     if (!storedUserInfo || !storedUserInfo.uid) {
-        console.log("No user info in userStore, redirecting to login.");
         setTimeout(() => {
             window.location.href = '../login/login.html';
         }, 1000);
         return;
     }
+
     const navbarNameElement = document.getElementById('username');
-    if (sessionStorage.getItem('userInitialized')) {
-        const userName = storedUserInfo.displayName || storedUserInfo.email || 'NotePal User';
-        if (navbarNameElement) {
-            navbarNameElement.textContent = `Welcome! ${userName}`;
-            navbarNameElement.classList.add('ml-2');
-        }
-        return;
+    const profileImg = document.getElementById('profile');
+
+    const userName = storedUserInfo.displayName || storedUserInfo.email || 'NotePal User';
+    if (navbarNameElement) {
+        navbarNameElement.textContent = `Welcome! ${userName}`;
+        navbarNameElement.classList.add('ml-2');
     }
+
+    await setProfileImageSafely(profileImg, storedUserInfo.photoURL, userName);
+
+    if (sessionStorage.getItem('userInitialized')) return;
 
     spinnerTrigger(true, mainWorkspace);
 
@@ -58,27 +113,31 @@ export async function initUser() {
         const fullUserProfile = await getUserProfile(storedUserInfo.uid);
 
         if (fullUserProfile) {
-            const userName = fullUserProfile.displayName || fullUserProfile.email || 'NotePal User';
+            const updatedUserName = fullUserProfile.displayName || fullUserProfile.email || 'NotePal User';
 
             if (navbarNameElement) {
-                navbarNameElement.textContent = `Welcome! ${userName}`;
-                navbarNameElement.classList.add('ml-2');
+                navbarNameElement.textContent = `Welcome! ${updatedUserName}`;
             }
+
             userStore.setUser({
                 uid: storedUserInfo.uid,
                 displayName: fullUserProfile.displayName,
-                email: fullUserProfile.email
+                email: fullUserProfile.email,
+                photoURL: fullUserProfile.photoURL
             });
-            sessionStorage.setItem('userInitialized', 'true'); //flag that user credentials have been loaded
+
+            sessionStorage.setItem('userInitialized', 'true');
+
+            const updatedUser = userStore.getUser();
+            await setProfileImageSafely(profileImg, updatedUser.photoURL, updatedUserName);
+
             spinnerTrigger(false, mainWorkspace);
         } else {
-            console.warn(`User ${storedUserInfo.uid} logged in, but no Firestore profile found. Redirecting to login.`);
             setTimeout(() => {
                 window.location.href = '../login/login.html';
             }, 5000);
         }
     } catch (error) {
-        console.error("Error fetching full user profile:", error);
         setTimeout(() => {
             window.location.href = '../login/login.html';
         }, 5000);

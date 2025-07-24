@@ -18,7 +18,8 @@ export const folderBtns = document.getElementById('folderBtns');
 //signout
 export const signout = document.getElementById('signOut')
 export const signoutText = document.getElementById('signoutText')
-
+//profile
+export const profilePic = document.getElementById('profile')
 export function initMenuComponents() {
   const mainWindow = document.getElementById('mainWindow');
   const toggleIcon = document.getElementById('toggleIcon');
