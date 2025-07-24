@@ -39,31 +39,9 @@ async function starterView() {
     mainWorkspace.innerHTML = '';
     if (mainWorkspace.classList.contains('justify-center')) {
         mainWorkspace.classList.remove('justify-center')
+        //group these
+        initNotes();
+        displayNotes();
     }
 
-    // Ensure note groups stay visible if sidebar is open on desktop
-    const noteGroup = document.getElementById("noteGroup");
-    const mainWindow = menuComponents.mainWindow;
-    const folderBtns = document.querySelector("#folderBtns");
-    const line = document.querySelector("hr");
-
-    if (window.innerWidth >= 640 && !mainWindow?.classList.contains("collapsed")) {
-        noteGroup?.classList.remove("invisible");
-        folderBtns?.classList.remove("invisible");
-        line?.classList.remove("invisible");
-    }
-
-    //group these
-    initNotes();
-    displayNotes();
-
-    // Restore visibility after rendering notes (in case DOM nodes were replaced)
-    const noteGroupNew = document.getElementById("noteGroup");
-    const folderBtnsNew = document.querySelector("#folderBtns");
-    const lineNew = document.querySelector("hr");
-    if (window.innerWidth >= 640 && !mainWindow?.classList.contains("collapsed")) {
-        noteGroupNew?.classList.remove("invisible");
-        folderBtnsNew?.classList.remove("invisible");
-        lineNew?.classList.remove("invisible");
-    }
 }

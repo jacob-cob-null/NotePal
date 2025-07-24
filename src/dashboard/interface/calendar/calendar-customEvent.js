@@ -30,13 +30,13 @@ async function newEvent() {
 
     //call event class
     customEvent.newEvent(event, startDate, endDate)
-    loadCustomEvents() //update visual to calendar
+    loadCustomEvents()
 }
 async function delEvent() {
     const { id, title } = await deleteEventModal(customEvent.getAllEvents())
     if (!id) return; // cancel or no selection
     customEvent.deleteEvent(id)
-    loadCustomEvents() //update visual to calendar
+    loadCustomEvents()
 }
 //delete
 

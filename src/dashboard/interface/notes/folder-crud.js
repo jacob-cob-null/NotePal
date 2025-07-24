@@ -8,7 +8,7 @@ let noteGroupList = [];
 
 export async function initFolders(userId) {
   await loadNoteGroupsFromLocalStorage(userId);
-  readGroupList(noteGroup);
+  await readGroupList(noteGroup);
 }
 //refresh note groups
 function refreshGroupUI() {
