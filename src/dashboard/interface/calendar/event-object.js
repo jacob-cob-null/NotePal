@@ -1,4 +1,6 @@
+import { userStore } from "../../../login/user";
 import { msgAlert } from "../../events/alerts"
+import { createEventFS, deleteEventFS, editEventFS } from "./calendar-firestore";
 import { loadCustomEvents } from "./calendar-function"
 import { getCalendarInstance } from "./calendar-setup"
 
@@ -6,13 +8,12 @@ import { getCalendarInstance } from "./calendar-setup"
 export class customEvent {
     static currEvents = []
 
-    constructor(title, startDate, endDate, id = null) {
-        this.id = id ? id : "Event-" + crypto.randomUUID();
+    constructor(title, startDate, endDate) {
+        this.id = "Event-" + crypto.randomUUID();
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
         customEvent.currEvents.push(this);
-        // Optionally: push to Firestore
     }
 
     getId() {
@@ -20,12 +21,15 @@ export class customEvent {
     }
 
     static newEvent(title, startDate, endDate) {
-        msgAlert("New Event Created");
+        const user = userStore.getUser();
         const ev = new customEvent(title, startDate, endDate);
+
+        createEventFS(user.uid, ev.id, title, startDate, endDate);
+        msgAlert("New Event Created");
+
         customEvent.saveAllToLocalStorage();
         return ev;
     }
-
     static getAllEvents() {
         return customEvent.currEvents.map(event => ({
             id: event.id,
@@ -51,11 +55,13 @@ export class customEvent {
     static loadAllFromLocalStorage() {
         const data = localStorage.getItem('customEvents');
         if (!data) return;
+
         try {
             const arr = JSON.parse(data);
             customEvent.currEvents = [];
+
             arr.forEach(ev => {
-                new customEvent(ev.title, ev.startDate, ev.endDate, ev.id);
+                customEvent.fromData(ev.id, ev.title, ev.startDate, ev.endDate);
             });
         } catch (e) {
             msgAlert('Failed to load custom events from local storage.');
@@ -68,6 +74,8 @@ export class customEvent {
     }
 
     static updateEvents(id, newTitle, newStart, newEnd) {
+        const user = userStore.getUser()
+
         const event = customEvent.findEvent(id);
         if (!event) {
             msgAlert(`Error: Event with ID "${id}" not found.`);
@@ -89,6 +97,7 @@ export class customEvent {
         event.startDate = validStart.toISOString().slice(0, 10);
         event.endDate = validEnd.toISOString().slice(0, 10);
 
+        editEventFS(user.uid, id, newTitle, validStart.toISOString().slice(0, 10), validEnd.toISOString().slice(0, 10))
         msgAlert(`Event "${newTitle}" has been updated`);
         customEvent.saveAllToLocalStorage();
 
@@ -125,6 +134,7 @@ export class customEvent {
     }
 
     static deleteEvent(id) {
+        const user = userStore.getUser()
         const event = customEvent.findEvent(id);
         if (!event) {
             msgAlert(`Error: Event with ID "${id}" not found.`);
@@ -135,9 +145,23 @@ export class customEvent {
         msgAlert(`"${event.title}" has been deleted`);
         customEvent.saveAllToLocalStorage();
 
+        deleteEventFS(user.uid, event.id)
         // Update calendar UI
         const calendar = getCalendarInstance();
         const calendarEvent = calendar.getEventById(id);
         if (calendarEvent) calendarEvent.remove();
+    }
+    static fromData(id, title, startDate, endDate) {
+        const event = Object.create(customEvent.prototype);
+        event.id = id;
+        event.title = title;
+        event.startDate = startDate;
+        event.endDate = endDate;
+        customEvent.currEvents.push(event);
+        return event;
+    }
+    static clearAll() {
+        customEvent.currEvents = [];
+        localStorage.removeItem('customEvents');
     }
 }

@@ -10,6 +10,8 @@ import { initFirestore } from '../Firebase/initDocs.js';
 import { userStore } from '../login/user.js';
 import { initNotes, displayNotes } from './interface/notes/notes.render.js';
 import { msgAlert } from './events/alerts.js';
+import { customEvent } from './interface/calendar/event-object.js';
+import { initEventsFromFirestore } from './interface/calendar/calendar-firestore.js';
 
 //initialize user profile
 const user = userStore.getUser()
@@ -24,7 +26,8 @@ attachMenuEvents();
 //load data from firestore
 initFirestore()
 
-//load data
+//load events
+
 
 
 starterView()
@@ -34,6 +37,8 @@ async function starterView() {
     msgAlert("Loading content")
     await loadTodoObjectFromLocalStorage(user.uid)
     await loadNotesFromLocalStorage(user.uid)
+    customEvent.clearAll()
+    await initEventsFromFirestore(user.uid)
     workspace_title.innerText = "Notes";
 
     mainWorkspace.innerHTML = '';

@@ -43,7 +43,6 @@ async function delEvent() {
     loadCustomEvents()
 }
 
-
 //edit
 async function editEvent() {
     const eventArr = customEvent.getEventArr();
@@ -52,5 +51,5 @@ async function editEvent() {
 
     const { id: selectedId, title: newTitle, start: newStart, end: newEnd } = result;
     customEvent.updateEvents(selectedId, newTitle, newStart, newEnd);
-    // No need to call loadCustomEvents here; updateEvents handles the UI update
+
 }
