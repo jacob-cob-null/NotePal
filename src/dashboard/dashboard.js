@@ -43,5 +43,4 @@ async function starterView() {
         initNotes();
         displayNotes();
     }
-
 }

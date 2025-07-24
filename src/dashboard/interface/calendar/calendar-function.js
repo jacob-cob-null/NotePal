@@ -28,16 +28,19 @@ export function loadEventsFromTodos(allTodoObjects = []) {
 }
 //custom event dates
 export function loadCustomEvents() {
-    const calendar = getCalendarInstance()
-    const events = customEvent.getAllEvents()
+    const calendar = getCalendarInstance();
+    const events = customEvent.getAllEvents();
+    // Only remove and re-add events with IDs matching custom events
     events.forEach(event => {
+        const existing = calendar.getEventById(event.id);
+        if (existing) existing.remove();
         calendar.addEvent({
             id: event.id,
             title: event.title,
             start: event.startDate,
             end: event.endDate
-        })
-    })
+        });
+    });
 }
 function getTodoColor(todo, currentDateStr) {
     const current = new Date(currentDateStr);

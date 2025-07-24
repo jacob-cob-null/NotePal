@@ -15,6 +15,7 @@ import { initPomodoro } from "../interface/pomodoro/pomodoro.render";
 import { loadEventsFromTodos } from "../interface/calendar/calendar-function";
 import { getAllTodoObjects } from "../interface/todo-list/todo-object";
 import { initActions } from "../interface/calendar/calendar-customEvent";
+import { customEvent } from "../interface/calendar/event-object";
 
 // Shared collapse logic for both toggle & menu clicks
 function collapseSidebar({ mainWindow, noteGroup, menuText, menu, line, folderBtns, signout, signoutText }) {
@@ -159,6 +160,7 @@ function eventMenuItems(menuItems, sidebarElements) {
       initCalendar(mainWorkspace, workspaceHeader);
       initActions()
       loadEventsFromTodos(getAllTodoObjects());
+      customEvent.reloadAndRenderAll()
       // Restore note group visibility
       if (window.innerWidth >= 640 && !mainWindow?.classList.contains("collapsed")) {
         noteGroup?.classList.remove("invisible");
@@ -197,9 +199,6 @@ function eventMenuItems(menuItems, sidebarElements) {
   menuItems.calendarMenu?.addEventListener("click", () => onClickMenuAction(menuActions.calendar));
   menuItems.pomodoroMenu?.addEventListener("click", () => onClickMenuAction(menuActions.pomodoro));
 }
-
-// ...existing code...
-
 
 //Attach all menu & folder events
 export function attachMenuEvents() {

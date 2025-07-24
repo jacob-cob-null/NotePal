@@ -1,3 +1,44 @@
+// Edit event with prefilled values
+export async function prefillEventEditModal(eventId, eventsArr) {
+    const event = eventsArr.find(e => e.id === eventId);
+    if (!event) return null;
+
+    const { value: formValues } = await Swal.fire({
+        title: 'Edit Event',
+        html: `
+            <form class="flex flex-col justify-center items-center">
+                <input id="swal-event-title" class="swal2-input w-120 mt-4" placeholder="Event Title" value="${event.title || ''}">
+                <section class="flex justify-center items-center flex-col">
+                    <label for="swal-start-date" class="header text-xl">Start Date</label>
+                    <input id="swal-start-date" type="date" class="swal2-input w-120 h-20" value="${event.startDate || ''}">
+                </section>
+                <section class="flex justify-center items-center flex-col">
+                    <label for="swal-end-date" class="header text-xl">End Date</label>
+                    <input id="swal-end-date" type="date" class="swal2-input w-120 h-20" value="${event.endDate || ''}">
+                </section>
+            </form>
+        `,
+        focusConfirm: false,
+        showCancelButton: true,
+        preConfirm: () => {
+            const title = document.getElementById('swal-event-title').value.trim();
+            const startDate = document.getElementById('swal-start-date').value;
+            const endDate = document.getElementById('swal-end-date').value;
+
+            if (!title || !startDate || !endDate) {
+                Swal.showValidationMessage('All fields are required');
+                return false;
+            }
+            if (new Date(startDate) > new Date(endDate)) {
+                Swal.showValidationMessage('Start date must be before end date');
+                return false;
+            }
+            return { title, startDate, endDate };
+        },
+    });
+
+    return formValues || null;
+}
 import Swal from 'sweetalert2'
 import { checkDuplicate } from '../interface/notes/folder-crud';
 
@@ -329,4 +370,57 @@ export async function deleteEventModal(tempArr) {
 
     const selected = tempArr.find(e => e.id === selectedId);
     return selected || {};
+}
+//edit event
+export async function editEventModal(eventsArr) {
+    //Find event
+    const options = Object.fromEntries(eventsArr.map(e => [e.id, e.title]));
+    const { value: selectedId } = await Swal.fire({
+        title: 'Select Event to Edit',
+        input: 'select',
+        inputOptions: options,
+        inputPlaceholder: 'Select event',
+        showCancelButton: true
+    });
+    if (!selectedId) return null;
+
+    //Prefill field
+    const event = eventsArr.find(e => e.id === selectedId);
+    if (!event) return null;
+
+    const { value: formValues } = await Swal.fire({
+        title: 'Edit Event',
+        html: `
+            <form class="flex flex-col justify-center items-center">
+                <input id="swal-event-title" class="swal2-input w-120 mt-4" placeholder="Event Title" value="${event.title || ''}">
+                <section class="flex justify-center items-center flex-col">
+                    <label for="swal-start-date" class="header text-xl">Start Date</label>
+                    <input id="swal-start-date" type="date" class="swal2-input w-120 h-20" value="${event.startDate || ''}">
+                </section>
+                <section class="flex justify-center items-center flex-col">
+                    <label for="swal-end-date" class="header text-xl">End Date</label>
+                    <input id="swal-end-date" type="date" class="swal2-input w-120 h-20" value="${event.endDate || ''}">
+                </section>
+            </form>
+        `,
+        focusConfirm: false,
+        showCancelButton: true,
+        preConfirm: () => {
+            const newTitle = document.getElementById('swal-event-title').value.trim();
+            const newStart = document.getElementById('swal-start-date').value;
+            const newEnd = document.getElementById('swal-end-date').value;
+
+            if (!newTitle || !newStart || !newEnd) {
+                Swal.showValidationMessage('All fields are required');
+                return false;
+            }
+            if (new Date(newStart) > new Date(newEnd)) {
+                Swal.showValidationMessage('Start date must be before end date');
+                return false;
+            }
+            return { id: selectedId, title: newTitle, start: newStart, end: newEnd };
+        },
+    });
+
+    return formValues || null;
 }

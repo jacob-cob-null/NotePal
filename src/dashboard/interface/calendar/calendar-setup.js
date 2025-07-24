@@ -1,7 +1,7 @@
 import { Calendar } from "fullcalendar/index.js";
 import { createCalendar } from "./calendar-render";
 import Tooltip from 'tooltip.js';
-import { createPopper } from '@popperjs/core'; // Tooltip.js will likely use this internally
+import { createPopper } from '@popperjs/core';
 import { calendarModal } from "./calendar-customEvent";
 
 let calendarInstance = null;

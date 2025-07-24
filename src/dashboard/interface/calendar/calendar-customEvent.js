@@ -1,4 +1,4 @@
-import { createEventModal, deleteEventModal } from "../../events/alerts"
+import { createEventModal, deleteEventModal, editEventModal } from "../../events/alerts"
 import { loadCustomEvents } from "./calendar-function"
 import { customEvent } from "./event-object"
 
@@ -21,6 +21,9 @@ export function initActions() {
 
     const delBtn = document.getElementById('delEvent')
     delBtn.addEventListener('click', delEvent)
+
+    const editBtn = document.getElementById('editEvent')
+    editBtn.addEventListener('click', editEvent)
 }
 
 //add
@@ -32,12 +35,22 @@ async function newEvent() {
     customEvent.newEvent(event, startDate, endDate)
     loadCustomEvents()
 }
+//delete
 async function delEvent() {
-    const { id, title } = await deleteEventModal(customEvent.getAllEvents())
+    const { id } = await deleteEventModal(customEvent.getAllEvents())
     if (!id) return; // cancel or no selection
     customEvent.deleteEvent(id)
     loadCustomEvents()
 }
-//delete
+
 
 //edit
+async function editEvent() {
+    const eventArr = customEvent.getEventArr();
+    const result = await editEventModal(eventArr);
+    if (!result) return;
+
+    const { id: selectedId, title: newTitle, start: newStart, end: newEnd } = result;
+    customEvent.updateEvents(selectedId, newTitle, newStart, newEnd);
+    // No need to call loadCustomEvents here; updateEvents handles the UI update
+}
