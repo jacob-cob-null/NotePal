@@ -1,11 +1,10 @@
-# ![NotePal Logo](https://your-logo-url.com/logo.png)
-
 # NotePal
 
 **NotePal** is a full-stack web application designed to enhance productivity through effective note-taking and task management. Built with modern technologies, NotePal offers a user-friendly interface and powerful features to help users organize their thoughts, tasks, and time efficiently.
 
 Visit NotePal here! https://notepal-d2ceb.web.app/src/login/login.html
 ---
+<img src="https://i.ibb.co/RpJkck3f/login-pc.png" alt="login-pc" border="0">
 
 ## ✨ Features
 
@@ -17,12 +16,13 @@ Visit NotePal here! https://notepal-d2ceb.web.app/src/login/login.html
 ### ✅ 2. To-Do List
 - Manage tasks across devices
 - Mark tasks as complete to monitor your progress.
-
+- Add deadlines to tasks
 
 ### 📅 3. Calendar Integration
 - Integrated calendar view for scheduling events and reminders.
 - sync deadlines from todo lists
-- 
+- Create custom events
+  
 ### ⏱️ 4. Pomodoro Timer
 - Boost productivity using the **Pomodoro technique**.
 - Work in 25-minute intervals followed by short breaks.
