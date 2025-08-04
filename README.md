@@ -12,22 +12,26 @@ Visit NotePal here! https://notepal-d2ceb.web.app/src/login/login.html
 - Create, edit, and delete notes using a simple and intuitive interface.
 - Supports **Markdown** syntax: headers, lists, links, images, and more.
 - Notes are saved in real-time with **Firebase**, ensuring seamless data synchronization.
+<img src="https://i.ibb.co/vCHN2PWk/note-dashboard-pc.png" alt="note-dashboard-pc" border="0" />
+<img src="https://i.ibb.co/s9L9pScb/notes-pc.png" alt="notes-pc" border="0" />
 
 ### ✅ 2. To-Do List
 - Manage tasks across devices
 - Mark tasks as complete to monitor your progress.
 - Add deadlines to tasks
+<img src="https://i.ibb.co/NDTzBs0/todo-pc.png" alt="todo-pc" border="0" />
 
 ### 📅 3. Calendar Integration
 - Integrated calendar view for scheduling events and reminders.
 - sync deadlines from todo lists
 - Create custom events
+<img src="https://i.ibb.co/x8GVxGj9/Custom-Event-pc.png" alt="Custom-Event-pc" border="0" />
   
 ### ⏱️ 4. Pomodoro Timer
 - Boost productivity using the **Pomodoro technique**.
 - Work in 25-minute intervals followed by short breaks.
 - Customizable timer rest settings to suit your workflow.
-
+<img src="https://i.ibb.co/0pcrwngm/pomodoro-pc.png" alt="pomodoro-pc" border="0" />
 ---
 
 ## 🛠️ Technologies Used
